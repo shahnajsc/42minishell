@@ -6,6 +6,7 @@
 // sys/wait: process wait(waitpid)
 // stdio: perror
 // errno: strerrno
+# include "pipe.h"
 # include "../libft/includes/libft.h"
 # include <stdlib.h>
 # include <unistd.h>
@@ -17,6 +18,9 @@
 # include <limits.h>
 # include <errno.h>
 # include <signal.h>
+# include <readline/readline.h>
+# include <readline/history.h>
+
 
 //FUNCTIONS
 
