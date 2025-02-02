@@ -6,7 +6,7 @@
 /*   By: shachowd <shachowd@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 13:02:57 by shachowd          #+#    #+#             */
-/*   Updated: 2025/01/31 17:41:22 by shachowd         ###   ########.fr       */
+/*   Updated: 2025/02/02 15:07:52 by shachowd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ void				ft_lstiter(t_list *lst, void (*f)(void *));
 t_list				*ft_lstmap(t_list *lst, void *(*f)(void *),
 						void (*del)(void *));
 int					ft_grid_rows(char **grid);
-void				free_grid(void **grid);
+void				ft_free_grid(void **grid);
 char				**ft_grid_dup(char **grid);
 
 //PRINTF

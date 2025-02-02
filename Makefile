@@ -13,12 +13,13 @@ RM 				= rm -f
 LIBFT	 		= ./libft/libft.a
 
 # Source files by directory
-MAN_DIR 		=
+MAN_DIR 		= srcs/envp/envp_duplicate.c	\
+				srcs/minishell/minishell_initiate.c	\
 
 
 # Source path
 
-MAN_SRCS		=	main.c $(MAN_DIR)
+MAN_SRCS		=	main_pipe.c $(MAN_DIR)
 
 # Marker files to track which version is built
 #mandatory : .mandatory
