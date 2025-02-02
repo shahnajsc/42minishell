@@ -6,8 +6,14 @@
 // sys/wait: process wait(waitpid)
 // stdio: perror
 // errno: strerrno
+
+// header files
 # include "pipe.h"
+# include "envp.h"
 # include "../libft/includes/libft.h"
+
+
+// Library
 # include <stdlib.h>
 # include <unistd.h>
 # include <stdio.h>
@@ -21,7 +27,16 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 
+# define PROMPT "minishell>>"
+
+typedef struct	s_mshell
+{
+	char	**envp;
+	char	*input;
+}	t_mshell;
+
 
 //FUNCTIONS
+void	minishell(t_mshell *mshell);
 
 #endif
