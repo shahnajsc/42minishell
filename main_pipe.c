@@ -1,4 +1,4 @@
-#include "../includes/minishell.h"
+#include "minishell.h"
 
 static int mshell_data_init(t_mshell *mshell, char **envp)
 {

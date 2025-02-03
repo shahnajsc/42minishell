@@ -6,11 +6,11 @@
 /*   By: shachowd <shachowd@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 19:38:28 by shachowd          #+#    #+#             */
-/*   Updated: 2025/01/31 17:39:07 by shachowd         ###   ########.fr       */
+/*   Updated: 2025/02/03 11:00:44 by shachowd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "minishell.h"
 
 static void	error_handle_execv(t_pipex *data, char *cmd)
 {
