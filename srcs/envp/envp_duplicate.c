@@ -1,4 +1,20 @@
-#include "./minishell.h"
+#include "minishell.h"
+
+// void	ft_free_grid(void **grid)
+// {
+// 	int	i;
+
+// 	if (!grid)
+// 		return ;
+// 	i = 0;
+// 	while (grid[i] != NULL)
+// 	{
+// 		free(grid[i]);
+// 		i++;
+// 	}
+// 	free(grid);
+// 	grid = NULL;
+// }
 
 char	**envp_duplicate(char **envp)
 {
