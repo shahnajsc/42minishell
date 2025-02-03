@@ -5,14 +5,14 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: shachowd <shachowd@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/12/04 14:12:58 by shachowd          #+#    #+#             */
-/*   Updated: 2024/12/04 14:29:20 by shachowd         ###   ########.fr       */
+/*   Created: 2025/02/03 11:08:42 by shachowd          #+#    #+#             */
+/*   Updated: 2025/02/03 11:13:28 by shachowd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	free_grid(void **grid)
+void	ft_free_grid(void **grid)
 {
 	int	i;
 
