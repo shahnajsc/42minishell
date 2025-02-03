@@ -1,18 +1,28 @@
 #include "./minishell.h"
+#include <readline/readline.h>
+#include <readline/history.h>
+#include <time.h>
 
-int	main(int argc, char **argv, char **envp)
+int	main(void)
 {
-	(void)argc;
-	(void)argv;
-	// if (argc != 1)
-	// {
-	// 	ft_putstr_fd("Error\n", 2);
-	// 	ft_putstr_fd("Correct command format: ./minishell\n", 2);
-	// 	exit(1);
-	// }
-	printf("\n");
-	// printf("value of ARGV[0]: %s\n", argv[0]);
-	printf("value of ENVP[0]: %s\n", envp[0]);
-	printf("\n");
-	return (0);
+
+	char *input;
+
+	while (1)
+	{
+		input = readline("minishell% ");
+		if (input == NULL)
+		{
+			printf("exit\n");
+			break;
+		}
+		if (*input)
+		{
+			add_history(input);
+			printf("You entered: %s\n", input);
+		}
+	}
+	// rl_clear_history();
+	free(input);
+	return (EXIT_SUCCESS);
 }
