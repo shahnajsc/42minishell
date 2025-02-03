@@ -6,7 +6,7 @@
 /*   By: shachowd <shachowd@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 13:02:57 by shachowd          #+#    #+#             */
-/*   Updated: 2024/12/20 11:28:22 by shachowd         ###   ########.fr       */
+/*   Updated: 2025/02/02 15:07:52 by shachowd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,9 @@
 #  define PTR_NULL "Unknown"
 # endif
 
-// # ifndef BUFFER_SIZE
-// #  define BUFFER_SIZE 2014
-// # endif
+# ifndef BUFFER_SIZE
+#  define BUFFER_SIZE 2014
+# endif
 
 # define HEX_LOWER "0123456789abcdef"
 # define HEX_UPPER "0123456789ABCDEF"
@@ -92,7 +92,7 @@ void				ft_lstiter(t_list *lst, void (*f)(void *));
 t_list				*ft_lstmap(t_list *lst, void *(*f)(void *),
 						void (*del)(void *));
 int					ft_grid_rows(char **grid);
-void				free_grid(void **grid);
+void				ft_free_grid(void **grid);
 char				**ft_grid_dup(char **grid);
 
 //PRINTF

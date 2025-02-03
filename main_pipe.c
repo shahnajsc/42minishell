@@ -25,3 +25,20 @@ int	main(int argc, char **argv, char **envp)
 		exit(EXIT_FAILURE);
 	minishell(&mshell);
 }
+
+// int	main(int argc, char **argv, char **envp)
+// {
+// 	t_pipex	data;
+// 	int		pipe_status;
+
+// 	pipe_status = 0;
+// 	if (argc < 5 || (ft_strncmp(argv[1], "here_doc", 8) == 0 && argc < 6))
+// 	{
+// 		ft_putstr_fd("Correct  arguments: infile cmd1..cmd(n) outfile\n", 2);
+// 		exit(1);
+// 	}
+// 	data_init(&data, argc, argv, envp);
+// 	pipe_status = pipex(&data);
+// 	clean_at_exit(&data);
+// 	exit(pipe_status);
+// }
