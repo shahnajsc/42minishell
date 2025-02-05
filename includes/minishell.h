@@ -35,6 +35,15 @@ typedef struct	s_mshell
 	char	*input;
 }	t_mshell;
 
+typedef enum {
+	CMD = 1,
+	ARG,
+	PIPE,
+	REDIRECT_OUT,
+	REDIRECT_IN,
+	APPEND_OUT,
+	HERE_DOC
+}  token_type;
 
 //FUNCTIONS
 void	minishell(t_mshell *mshell);
