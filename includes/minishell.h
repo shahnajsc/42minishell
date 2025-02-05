@@ -10,6 +10,7 @@
 // header files
 # include "pipe.h"
 # include "envp.h"
+# include "parse.h"
 # include "../libft/includes/libft.h"
 
 
@@ -20,7 +21,7 @@
 # include <string.h>
 # include <fcntl.h>
 # include <dirent.h>
-# include <sys/wait.h>
+//# include <sys/wait.h>
 # include <limits.h>
 # include <errno.h>
 # include <signal.h>
@@ -31,19 +32,10 @@
 
 typedef struct	s_mshell
 {
-	char	**envp;
-	char	*input;
+	char			**envp;
+	char			*input;
+	t_token_list	*token_list;
 }	t_mshell;
-
-typedef enum {
-	CMD = 1,
-	ARG,
-	PIPE,
-	REDIRECT_OUT,
-	REDIRECT_IN,
-	APPEND_OUT,
-	HERE_DOC
-}  token_type;
 
 //FUNCTIONS
 void	minishell(t_mshell *mshell);
