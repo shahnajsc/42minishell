@@ -1,27 +1,24 @@
 #include "minishell.h"
 
-static int mshell_data_init(t_mshell *mshell, char **envp)
+
+int main(int argc, char **argv, char **env)
 {
-	ft_memset(mshell, 0, sizeof(mshell));
-	mshell->envp = envp_duplicate(envp);
-	if (!mshell->envp)
-		return (1);
-	return (0);
-}
-
-
-
-int	main(int argc, char **argv, char **envp)
-{
-	t_mshell mshell;
-
-	if (argc != 1)
-	{
-		ft_putstr_fd("Error: Correct  argument: ./minishell\n", 2);
-		exit(EXIT_FAILURE);
-	}
+	(void)argc;
 	(void)argv;
-	if (mshell_data_init(&mshell, envp))
-		exit(EXIT_FAILURE);
-	minishell(&mshell);
+	char  *input;
+
+	while (1)
+	{
+		input = readline("minishell% ");
+		if (!input)
+			break;
+		if (ft_strcmp(input, "env") == 0)
+			ft_env(env);
+		if (ft_strcmp(input, "pwd") == 0)
+			ft_pwd();
+		add_history(input);
+		free(input);
+	}
+	rl_clear_history();
+	return (EXIT_SUCCESS);
 }
