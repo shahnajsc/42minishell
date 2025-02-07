@@ -7,10 +7,10 @@ typedef enum e_token_type{
 	CMD,
 	ARG,
 	PIPE,
-	REDIRECT_OUT,
-	REDIRECT_IN,
-	APPEND_OUT,
-	HERE_DOC
+	RD_IN,
+	RD_HEREDOC,
+	RD_OUT,
+	RD_APPEND,
 }  t_token_type;
 
 typedef struct s_token

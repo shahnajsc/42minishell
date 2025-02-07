@@ -4,7 +4,7 @@ static int	init_tokens(t_mshell*mshell)
 {
 	if (!mshell)
 		return (1);
-	mshell->token_list = (t_tokens_list *)ft_calloc(1, sizeof(t_tokens_list));
+	mshell->token_list = (t_token_list *)ft_calloc(1, sizeof(t_token_list));
 	if  (!mshell->token_list)
 		return (1);
 	mshell->token_list->total_token = 3;
