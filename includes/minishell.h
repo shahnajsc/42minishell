@@ -45,7 +45,16 @@ typedef enum {
 	HERE_DOC
 }  token_type;
 
+typedef struct s_env {
+	char		*key;
+	char		*value;
+} t_env;
+
 //FUNCTIONS
 void	minishell(t_mshell *mshell);
+int get_env(char **env);
+void	ft_env(char **env);
+int	ft_pwd(void);
+
 
 #endif
