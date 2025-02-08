@@ -46,17 +46,20 @@ typedef enum {
 }  token_type;
 
 typedef struct s_env {
+
 	char		*key;
 	char		*value;
-	// int 		size;
+
 } t_env;
 
 //FUNCTIONS
 void	minishell(t_mshell *mshell);
 int 	env_size(char **env);
 void	ft_env(char **envp, t_env *env);
-int	ft_pwd(void);
-// t_env	*init_env(char **envp);
+int		ft_pwd(void);
+char 	*ft_strndup(char *src, size_t n);
+void 	ft_export(t_env *env, char **envp, char *str);
+t_env	*init_env(char **envp, t_env *env);
 
 
 #endif
