@@ -45,11 +45,13 @@ void 	 free_env(t_env *env, int size)
 t_env	*init_struct(char **envp)
 {
 	t_env 		*env_list;
+	int 		size;
 
-	env_list = malloc(sizeof(t_env) * (env_size(envp) + 1));
+	size = env_size(envp);
+	env_list = malloc(sizeof(t_env) * (size + 1));
 	if (!env_list)
 		return (NULL);
-	ft_memset(env_list, 0, sizeof(env_list) * env_size(envp));
+	ft_memset(env_list, 0, sizeof(env_list) * (size + 1));
 	return (env_list);
 }
 
@@ -86,20 +88,22 @@ t_env	*init_env(char **envp, t_env *env)
 void	ft_env(char **envp, t_env *env)
 {
 	int i;
+	int size;
 
 	i = 0;
+	size = env_size(envp);
 	env = init_env(envp, env);
 	if (!env)
 	{
 		printf("Error: initialize environment\n");
 		return ;
 	}
-	while (i < env_size(envp))
+	while (i < size)
 	{
 		ft_putstr_fd(env[i].key, 1);
 		ft_putchar_fd('=', 1);
 		ft_putendl_fd(env[i].value, 1);
 		i++;
 	}
-	// free_env(env, env_size(envp));
+	// free_env(env, size);
 }
