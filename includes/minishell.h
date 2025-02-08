@@ -48,13 +48,15 @@ typedef enum {
 typedef struct s_env {
 	char		*key;
 	char		*value;
+	// int 		size;
 } t_env;
 
 //FUNCTIONS
 void	minishell(t_mshell *mshell);
-int get_env(char **env);
-void	ft_env(char **env);
+int 	env_size(char **env);
+void	ft_env(char **envp, t_env *env);
 int	ft_pwd(void);
+// t_env	*init_env(char **envp);
 
 
 #endif
