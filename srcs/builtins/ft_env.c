@@ -42,7 +42,7 @@ void 	 free_env(t_env *env, int size)
 	free(env);
 }
 
-t_env	*init_struct(char **envp)
+t_env	*init_env(char **envp)
 {
 	t_env 		*env_list;
 	int 		size;
@@ -51,39 +51,43 @@ t_env	*init_struct(char **envp)
 	env_list = malloc(sizeof(t_env) * (size + 1));
 	if (!env_list)
 		return (NULL);
-	ft_memset(env_list, 0, sizeof(env_list) * (size + 1));
+	ft_memset(env_list, 0, sizeof(t_env) * (size + 1));
 	return (env_list);
 }
 
-t_env	*init_env(char **envp, t_env *env)
+t_env	*duplicate_env(char **envp, t_env **env)
 {
-	char 		*sign;
-	int 		len;
-	int 		i;
+	char	*sign;
+	int		len;
+	int		i;
 
-	env  = init_struct(envp);
-	if (!env)
+	*env = init_struct(envp);
+	if (!*env)
 		return (NULL);
+	
 	i = 0;
 	while (i < env_size(envp))
 	{
 		sign = ft_strchr(envp[i], '=');
 		if (!sign)
-			return (NULL);
+			return (NULL);  // skip or return null ?
+		
 		len = sign - envp[i];
-		env[i].key = ft_strndup(envp[i], len);
-		env[i].value = ft_strdup(sign + 1);
-		if (!env[i].key || !env[i].value) 
+		(*env)[i].key = ft_strndup(envp[i], len);
+		(*env)[i].value = ft_strdup(sign + 1);
+		
+		if (!(*env)[i].key || !(*env)[i].value) 
 		{
-			free_env(env, env_size(envp));
+			free_env(*env, env_size(envp));
 			return (NULL);
 		}
 		i++;
 	}
-	env[i].key = NULL;
-	env[i].value = NULL;
-	return (env);
+	(*env)[i].key = NULL;
+	(*env)[i].value = NULL;
+	return (*env);
 }
+
 
 void	ft_env(char **envp, t_env *env)
 {
@@ -92,7 +96,7 @@ void	ft_env(char **envp, t_env *env)
 
 	i = 0;
 	size = env_size(envp);
-	env = init_env(envp, env);
+	// env = duplicate_env(envp, env);
 	if (!env)
 	{
 		printf("Error: initialize environment\n");
