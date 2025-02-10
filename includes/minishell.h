@@ -55,11 +55,13 @@ typedef struct s_env {
 //FUNCTIONS
 void	minishell(t_mshell *mshell);
 int 	env_size(char **env);
-void	ft_env(char **envp, t_env *env);
+void	ft_env(t_env *env);
 int		ft_pwd(void);
 char 	*ft_strndup(char *src, size_t n);
-void 	ft_export(t_env *env, char **envp, char *str);
-t_env	*init_env(char **envp, t_env *env);
-
+void 	export_var(t_env **env, char *str);
+t_env	*duplicate_env(char **envp, t_env **env);
+void 	 free_env(t_env *env, int size);
+void 	ft_export(t_env *env);
+void 	export_var(t_env **env, char *str);
 
 #endif
