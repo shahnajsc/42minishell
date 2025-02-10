@@ -18,11 +18,16 @@ int main(int argc, char **argv, char **envp)
 		if (!input)
 			break;
 		if (ft_strcmp(input, "env") == 0)
-			ft_env(envp, env);
+			ft_env(env);
 		else if (ft_strcmp(input, "pwd") == 0)
 			ft_pwd();
 		else if (ft_strcmp(cmd, "export") == 0)
-			ft_export(env, envp, split[1]);
+		{
+			if (split[1])
+				export_var(&env, split[1]);
+			else
+				ft_export(env);
+		}
 		add_history(input);
 		free(input);
 	}
