@@ -13,6 +13,7 @@ int main(int argc, char **argv, char **envp)
 	while (1)
 	{
 		input = readline("minishell@42% ");
+		// printf("%s\n", input);
 		char **split = ft_split(input, ' ');
 		char *cmd = split[0];
 		if (!input)
@@ -28,6 +29,8 @@ int main(int argc, char **argv, char **envp)
 			else
 				ft_export(env);
 		}
+		else if (ft_strcmp(cmd, "cd") == 0)
+			ft_cd(&env, split[1]);
 		add_history(input);
 		free(input);
 	}
@@ -35,3 +38,24 @@ int main(int argc, char **argv, char **envp)
 	free_env(env, env_size(envp));
 	return (EXIT_SUCCESS);
 }
+// int main(int argc, char **argv)
+// {
+// 	char	*input_str;
+
+// 	(void)argc;
+// 	(void)argv;
+// 	while (1) // need signal handle for exit
+// 	{
+// 		input_str = readline(PROMPT);
+// 		if (!input_str)
+// 		{
+// 			printf("no input\n");
+// 			break;
+// 		}
+// 		add_history(input_str);
+// 		free(input_str);
+// 	}
+// 	if (input_str)
+// 	rl_clear_history();
+// 	return (EXIT_SUCCESS);
+// }
