@@ -40,6 +40,7 @@ void 	 free_env(t_env *env, int size)
 		i++;
 	}
 	free(env);
+	env = NULL;
 }
 
 t_env	*init_env(char **envp)
@@ -58,7 +59,6 @@ t_env	*init_env(char **envp)
 t_env	*duplicate_env(char **envp, t_env **env)
 {
 	char	*sign;
-	int		len;
 	int		i;
 
 	*env = init_env(envp);
@@ -70,12 +70,12 @@ t_env	*duplicate_env(char **envp, t_env **env)
 	{
 		sign = ft_strchr(envp[i], '=');
 		if (!sign)
-			return (NULL);  // skip or return null ?
-		
-		len = sign - envp[i];
-		(*env)[i].key = ft_strndup(envp[i], len);
+		{
+			(*env)[i].key = ft_strdup(envp[i]);  // Store key
+    		(*env)[i].value = NULL;
+		}
+		(*env)[i].key = ft_strndup(envp[i], sign - envp[i]);
 		(*env)[i].value = ft_strdup(sign + 1);
-		
 		if (!(*env)[i].key || !(*env)[i].value) 
 		{
 			free_env(*env, env_size(envp));
@@ -94,7 +94,7 @@ void	ft_env(t_env *env)
 	int i;
 
 	i = 0;
-	// env = duplicate_env(envp, env);
+
 	if (!env)
 	{
 		printf("Error: initialize environment\n");
@@ -102,9 +102,16 @@ void	ft_env(t_env *env)
 	}
 	while (env[i].key != NULL)
 	{
-		ft_putstr_fd(env[i].key, 1);
-		ft_putchar_fd('=', 1);
-		ft_putendl_fd(env[i].value, 1);
+		if (env[i].value != NULL)
+		{
+			if (env[i].key && (env)[i].key[0] != '\0')
+			{
+				ft_putstr_fd(env[i].key, 1);
+				ft_putchar_fd('=', 1);
+			}
+			ft_putstr_fd(env[i].value, 1);
+			ft_putstr_fd("\n", 1);
+		}
 		i++;
 	}
 	// free_env(env, size);
