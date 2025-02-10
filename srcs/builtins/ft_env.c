@@ -61,7 +61,7 @@ t_env	*duplicate_env(char **envp, t_env **env)
 	int		len;
 	int		i;
 
-	*env = init_struct(envp);
+	*env = init_env(envp);
 	if (!*env)
 		return (NULL);
 	
@@ -89,20 +89,18 @@ t_env	*duplicate_env(char **envp, t_env **env)
 }
 
 
-void	ft_env(char **envp, t_env *env)
+void	ft_env(t_env *env)
 {
 	int i;
-	int size;
 
 	i = 0;
-	size = env_size(envp);
 	// env = duplicate_env(envp, env);
 	if (!env)
 	{
 		printf("Error: initialize environment\n");
 		return ;
 	}
-	while (i < size)
+	while (env[i].key != NULL)
 	{
 		ft_putstr_fd(env[i].key, 1);
 		ft_putchar_fd('=', 1);
