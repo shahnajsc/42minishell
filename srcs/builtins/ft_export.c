@@ -28,8 +28,14 @@ void   add_env_var(t_env **env, char *key, char *value)
 	j = 0;
 	while (j < i)
 	{
-		new_env[j].key = (*env)[j].key;
-		new_env[j].value = (*env)[j].value;
+		new_env[j].key = ft_strdup((*env)[j].key);
+		new_env[j].value = (*env)[j].value ? ft_strdup((*env)[j].value) : NULL;
+		if (!new_env[j].key || (!new_env[j].value && (*env)[j].value))
+		{	
+			free_env(new_env, j);
+			printf("Error: allocation faild\n");
+			return ;
+		}
 		j++;
 	}
 	new_env[i].key = ft_strdup(key);
@@ -38,12 +44,6 @@ void   add_env_var(t_env **env, char *key, char *value)
     new_env[i + 1].value = NULL;
 	free(*env);
 	*env = new_env;
-	//   j = 0;
-    // while ((*env)[j].key != NULL)
-    // {
-    //     printf("%s=%s\n", (*env)[j].key, (*env)[j].value);
-    //     j++;
-    // }
 }
 void 	export_var(t_env **env, char *str)
 {
@@ -51,6 +51,9 @@ void 	export_var(t_env **env, char *str)
 	char 	*value;
 	char 	*key;
 	char 	*sign;
+
+	if  (!str || !*str)
+		return ;
 
 	sign = ft_strchr(str, '=');
 	if (!sign)
