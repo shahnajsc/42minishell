@@ -15,6 +15,7 @@ LIBFT	 		= ./libft/libft.a
 # Source files by directory
 MAN_DIR 		= srcs/envp/envp_duplicate.c	\
 				srcs/minishell/minishell_initiate.c	\
+				srcs/parse/input_pre_validation.c 	\
 
 
 # Source path

@@ -13,6 +13,10 @@ void	minishell(t_mshell *mshell)
 			break;
 		}
 		add_history(input_str);
+		if (input_pre_validation(input_str))
+		{
+			continue ;
+		}
 		free(input_str);
 	}
 	if (input_str)

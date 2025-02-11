@@ -29,6 +29,9 @@ typedef struct s_tokens_list
 
 // FUNCTION.......
 
+//.......VALIDATION.....//////
+int		input_pre_validation(char *input_str);
+
 //...... PARSE .....////
 void	parse_input(t_mshell *mshell, char *input_str);
 
