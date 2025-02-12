@@ -21,6 +21,7 @@
 # include <fcntl.h>
 # include <dirent.h>
 # include <sys/wait.h>
+#include <sys/stat.h>
 # include <limits.h>
 # include <errno.h>
 # include <signal.h>
@@ -52,8 +53,11 @@ typedef struct s_env {
 
 } t_env;
 
+
+
+
 //FUNCTIONS
-void	minishell(t_mshell *mshell);
+// void	minishell(t_mshell *mshell);
 int 	env_size(char **env);
 void	ft_env(t_env *env);
 int		ft_pwd(void);
