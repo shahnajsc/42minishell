@@ -22,33 +22,48 @@ void 	update_env(t_env **env, const char *key, const char *set_value)
 			}
 			free((*env)[j].value);
 			(*env)[j].value = temp;
-			// free(temp);
 			return ;
 		}
 		j++;
 	}
 }
 
+void 	cd_error(const char *path, char *msg)
+{
+	ft_putstr_fd("bash: ", 2);
+	ft_putstr_fd("cd: ", 2);
+	ft_putstr_fd((char *)path, 2);
+	ft_putstr_fd(": ", 2);
+	ft_putendl_fd(msg, 2);
+}
+int 	check_permissions(const char *path)
+{
+	if (access(path, F_OK) != 0)
+		cd_error(path, "Permission denied");
+	else if (access(path, W_OK) != 0)
+		cd_error(path, "Permission denied");
+	else if (access(path, X_OK) != 0)
+		cd_error(path, "Permission denied");
+	else if (access(path, R_OK) != 0)
+		cd_error(path, "Permission denied");
+	return (0);
+}
 int 	check_directory(const char *path)
 {
 	struct stat	path_stat;
 
 	if (stat(path, &path_stat) != 0)
-	{
-		ft_putstr_fd("bash: ", 2);
-		ft_putstr_fd("cd: ", 2);
-		ft_putstr_fd((char *)path, 2);
-		ft_putstr_fd(": ", 2);
-		ft_putendl_fd("No such file or directory", 2);
-        return (0);
+	{	
+		cd_error(path, "No such file or directory");
+		return (0);
 	}
 	if (S_ISDIR(path_stat.st_mode))
-        return (1);
-	ft_putstr_fd("bash: ", 2);
-    ft_putstr_fd("cd: ", 2);
-    ft_putstr_fd((char *)path, 2);
-    ft_putstr_fd(": Not a directory", 2);
-    ft_putendl_fd("", 2);
+	{
+		if (!check_permissions(path))
+			return (0);
+		return (1);
+	}
+	cd_error(path, "Not a directory");
 	return (0);
 }
 
@@ -77,17 +92,17 @@ int change_directory(const char *path)
 {
     if (chdir(path) != 0)
     {
-        ft_putstr_fd("bash: cd: ", 2);
-        ft_putstr_fd((char *)path, 2);
-        ft_putstr_fd(": ", 2);
-        if (errno == ENOENT)   // Handle different errors based on errno
-            ft_putendl_fd("No such file or directory", 2);
-        else if (errno == EACCES)
-            ft_putendl_fd("Permission denied", 2);
-        else if (errno == ENOTDIR)
-            ft_putendl_fd("Not a directory", 2);
-        else
-            ft_putendl_fd(strerror(errno), 2); // Other errors
+        // ft_putstr_fd("bash: cd: ", 2);
+        // ft_putstr_fd((char *)path, 2);
+        // ft_putstr_fd(": ", 2);
+        // if (errno == ENOENT)   // Handle different errors based on errno
+        //     ft_putendl_fd("No such file or directory", 2);
+        // else if (errno == EACCES)
+        //     ft_putendl_fd("Permission denied", 2);
+        // else if (errno == ENOTDIR)
+        //     ft_putendl_fd("Not a directory", 2);
+        // else
+        //     ft_putendl_fd(strerror(errno), 2); // Other errors
         return (1);
     }
     return (0); 
