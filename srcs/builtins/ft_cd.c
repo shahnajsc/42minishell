@@ -30,7 +30,7 @@ void 	update_env(t_env **env, const char *key, const char *set_value)
 
 void 	cd_error(const char *path, char *msg)
 {
-	ft_putstr_fd("bash: ", 2);
+	ft_putstr_fd("minishell: ", 2);
 	ft_putstr_fd("cd: ", 2);
 	ft_putstr_fd((char *)path, 2);
 	ft_putstr_fd(": ", 2);
@@ -38,15 +38,22 @@ void 	cd_error(const char *path, char *msg)
 }
 int 	check_permissions(const char *path)
 {
-	if (access(path, F_OK) != 0)
+	if (access(path, W_OK) != 0)
+	{	
 		cd_error(path, "Permission denied");
-	else if (access(path, W_OK) != 0)
-		cd_error(path, "Permission denied");
+		return (0);
+	}
 	else if (access(path, X_OK) != 0)
+	{	
 		cd_error(path, "Permission denied");
+		return (0);
+	}
 	else if (access(path, R_OK) != 0)
+	{	
 		cd_error(path, "Permission denied");
-	return (0);
+		return (0);
+	}
+	return (1);
 }
 int 	check_directory(const char *path)
 {
@@ -57,14 +64,12 @@ int 	check_directory(const char *path)
 		cd_error(path, "No such file or directory");
 		return (0);
 	}
-	if (S_ISDIR(path_stat.st_mode))
+	if (!S_ISDIR(path_stat.st_mode))
 	{
-		if (!check_permissions(path))
-			return (0);
-		return (1);
+		cd_error(path, "Not a directory");
+		return (0);
 	}
-	cd_error(path, "Not a directory");
-	return (0);
+	return (check_permissions(path));
 }
 
 int 	home_directory(t_env **env, char **path)
@@ -72,13 +77,17 @@ int 	home_directory(t_env **env, char **path)
 	char 	*home;
 	int 	i;
 
+	home = NULL;
 	if (!*path)
 	{
 		i = 0;
 		while ((*env)[i].key != NULL)
 		{
 			if (ft_strcmp((*env)[i].key, "HOME") == 0)
+			{	
 				home = (*env)[i].value;
+				break;
+			}
 			i++;
 		}
 		if (!home)
@@ -92,17 +101,6 @@ int change_directory(const char *path)
 {
     if (chdir(path) != 0)
     {
-        // ft_putstr_fd("bash: cd: ", 2);
-        // ft_putstr_fd((char *)path, 2);
-        // ft_putstr_fd(": ", 2);
-        // if (errno == ENOENT)   // Handle different errors based on errno
-        //     ft_putendl_fd("No such file or directory", 2);
-        // else if (errno == EACCES)
-        //     ft_putendl_fd("Permission denied", 2);
-        // else if (errno == ENOTDIR)
-        //     ft_putendl_fd("Not a directory", 2);
-        // else
-        //     ft_putendl_fd(strerror(errno), 2); // Other errors
         return (1);
     }
     return (0); 
@@ -123,7 +121,7 @@ int ft_cd(t_env **env, char *path)
 		free(oldpwd);
 		return (1);
 	}
-	if (change_directory(path))
+	if (chdir(path) != 0)
 	{
 		free(oldpwd);
 		return (1);
