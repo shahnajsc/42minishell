@@ -68,5 +68,6 @@ t_env	*duplicate_env(char **envp, t_env **env);
 void 	 free_env(t_env *env, int size);
 void 	ft_export(t_env *env);
 void 	export_var(t_env **env, char *str);
+void 	update_env(t_env **env, const char *key, const char *set_value);
 
 #endif
