@@ -10,6 +10,7 @@ int	ft_pwd(void)
 		return (1);
 	}
 	printf("%s\n", cwd);
+	// update_env(env, key, cwd);
 	free(cwd);
 	return (0);
 }
