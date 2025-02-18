@@ -59,7 +59,7 @@ int 	check_directory(const char *path)
 {
 	struct stat	path_stat;
 
-	if (stat(path, &path_stat) != 0)
+	if (stat(path, &path_stat) == -1)
 	{	
 		cd_error(path, "No such file or directory");
 		return (0);
