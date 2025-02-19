@@ -39,7 +39,7 @@ void	rd_err_print(char *err_value)
 }
 // if >> or >>> error token '>' if more thn >>> error token '>>'
 
-int	syntax_pre_error(t_syntax_err syn_err, char *err_value)
+int	syntax_pre_error(t_mshell *mshell, t_syntax_err syn_err, char *err_value)
 {
 	if (syn_err == ERR_P)
 		pipe_err_print(err_value);
@@ -55,6 +55,6 @@ int	syntax_pre_error(t_syntax_err syn_err, char *err_value)
 			ft_putchar_fd(*err_value, STDERR_FILENO);
 			ft_putstr_fd("`\n", STDERR_FILENO );
 		}
-
-	return (2);
+	mshell->exit_code = 2;
+	return (1);
 }

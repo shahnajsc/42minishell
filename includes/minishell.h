@@ -35,6 +35,7 @@ typedef struct	s_mshell
 	char			**envp;
 	char			*input;
 	t_token_list	*token_list;
+	int				exit_code;
 }	t_mshell;
 
 //FUNCTIONS

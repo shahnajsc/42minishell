@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-static int	init_tokens(t_mshell*mshell)
+static int	init_tokens(t_mshell*mshell, char *input_str)
 {
 	if (!mshell)
 		return (1);
@@ -18,7 +18,7 @@ void	tokenize_input(t_mshell *mshell, char *input_str)
 {
 	if (!mshell || !input_str || !*input_str)
 		return (1);
-	if (init_tokens)
+	if (init_tokens(mshell, input_str))
 		return (parse_error("Failed: tokenize_init()", 1)); //check for actual  bash error code
 
 }

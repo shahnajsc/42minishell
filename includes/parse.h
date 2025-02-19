@@ -42,7 +42,7 @@ int		check_char_whitespaces(char c);
 int		check_str_whitespaces(char *input_str);
 char	*skip_quoted_part(char *input_str);
 char	*skip_unquoted_part(char *input_str);
-int		input_pre_validation(char *input_str);
+int		input_pre_validation(t_mshell *mshell, char *input_str);
 
 //...... PARSE .....////
 void	parse_input(t_mshell *mshell, char *input_str);
@@ -51,7 +51,10 @@ void	parse_input(t_mshell *mshell, char *input_str);
 void	tokenize_input(t_mshell *mshell, char *input_str);
 
 //..... ERROR .....//
-int		syntax_pre_error(t_syntax_err syn_err, char *err_value);
+int		syntax_pre_error(t_mshell *mshell, t_syntax_err syn_err, char *err_value);
 int		parse_error(char *err_msg, int err_ret);
+
+//......UTILS......////
+int		check_char_is_quote(char  c);
 
 #endif
