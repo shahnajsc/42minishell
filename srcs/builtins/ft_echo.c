@@ -5,7 +5,7 @@ void	ft_echo(t_env **env, char *str)
 {
 	int 	i;
 	int 	j;
-	char *key;
+	char 	*key;
 
 	if (!str)
 		return ;
@@ -37,3 +37,8 @@ void	ft_echo(t_env **env, char *str)
 // 	if (ft_strchr(*str, 'n'))
 // 		ft_putstr_fd(str, 1);
 // }
+//echo $home
+//echo /haamda/abc/
+
+//echo -n $abc
+//echo -n 
