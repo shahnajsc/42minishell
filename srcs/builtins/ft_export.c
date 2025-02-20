@@ -4,6 +4,8 @@ t_env 	*find_env_var(t_env *env, char *key)
 {
 	int		i;
 
+	if (!env || !key || !*key)
+		return (NULL);
 	i = 0;
 	while (env[i].key != NULL)
 	{
