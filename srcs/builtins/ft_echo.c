@@ -24,6 +24,8 @@ void	ft_echo(t_env **env, char *str)
 			}
 			j++;
 		}
+		ft_putchar_fd('\n', 1);
+		return ;
 	}
 	if (str != NULL)
 		ft_putstr_fd(str, 1);
