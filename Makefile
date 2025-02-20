@@ -14,14 +14,14 @@ LIBFT	 		= ./libft/libft.a
 
 # Source files by directory
 MAN_DIR 		= srcs/envp/envp_duplicate.c	\
-				srcs/minishell/minishell_initiate.c	\
-				srcs/parse/input_pre_validation.c	srcs/parse/utils_pre_validation.c	\
-				srcs/parse/parse_error_handle.c	\
+				# srcs/minishell/minishell_initiate.c	\
+				# srcs/parse/input_pre_validation.c	srcs/parse/utils_pre_validation.c	\
+				# srcs/parse/parse_error_handle.c	\
 
 
 # Source path
 
-MAN_SRCS		=	main.c srcs/builtins/ft_pwd.c srcs/builtins/ft_env.c srcs/builtins/ft_export.c srcs/builtins/ft_cd.c srcs/builtins/ft_echo.c $(MAN_DIR)
+MAN_SRCS		=	builtins_main.c srcs/builtins/ft_pwd.c srcs/builtins/ft_env.c srcs/builtins/ft_export.c srcs/builtins/ft_cd.c srcs/builtins/ft_echo.c srcs/builtins/ft_unset.c $(MAN_DIR)
 
 # Marker files to track which version is built
 #mandatory : .mandatory
