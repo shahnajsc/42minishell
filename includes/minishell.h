@@ -11,6 +11,7 @@
 # include "pipe.h"
 # include "envp.h"
 # include "parse.h"
+# include "builtins.h"
 # include "../libft/includes/libft.h"
 
 
@@ -25,6 +26,7 @@
 # include <limits.h>
 # include <errno.h>
 # include <signal.h>
+# include <sys/stat.h>
 # include <readline/readline.h>
 # include <readline/history.h>
 
@@ -39,6 +41,6 @@ typedef struct	s_mshell
 }	t_mshell;
 
 //FUNCTIONS
-void	minishell(t_mshell *mshell);
+
 
 #endif

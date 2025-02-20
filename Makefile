@@ -21,7 +21,7 @@ MAN_DIR 		= srcs/envp/envp_duplicate.c	\
 
 # Source path
 
-MAN_SRCS		=	main.c $(MAN_DIR)
+MAN_SRCS		=	main.c srcs/builtins/ft_pwd.c srcs/builtins/ft_env.c srcs/builtins/ft_export.c srcs/builtins/ft_cd.c srcs/builtins/ft_echo.c $(MAN_DIR)
 
 # Marker files to track which version is built
 #mandatory : .mandatory
