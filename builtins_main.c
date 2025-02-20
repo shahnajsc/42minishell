@@ -33,7 +33,8 @@ int main(int argc, char **argv, char **envp)
 			ft_cd(&env, split[1]);
 		else if (ft_strcmp(cmd, "echo") == 0)
 			ft_echo(&env, split[1]);
-		else if (ft_strcmp(cmd, "echo-n"))
+		else if (ft_strcmp(cmd, "unset") == 0)
+			ft_unset(&env, split[1]);
 		add_history(input);
 		free(input);
 	}
