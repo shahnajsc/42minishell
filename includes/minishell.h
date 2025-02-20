@@ -10,6 +10,7 @@
 // header files
 # include "pipe.h"
 # include "envp.h"
+# include "builtins.h"
 # include "../libft/includes/libft.h"
 
 
@@ -21,6 +22,7 @@
 # include <fcntl.h>
 # include <dirent.h>
 # include <sys/wait.h>
+#include <sys/stat.h>
 # include <limits.h>
 # include <errno.h>
 # include <signal.h>
@@ -45,7 +47,10 @@ typedef enum {
 	HERE_DOC
 }  token_type;
 
+
+
+
 //FUNCTIONS
-void	minishell(t_mshell *mshell);
+
 
 #endif
