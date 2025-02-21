@@ -20,7 +20,7 @@ void 	update_env(t_env **env, const char *key, const char *set_path)
 			if (!temp)
 			{
 				printf("allocation failed\n");
-				return (1);
+				return ;
 			}
 			free((*env)[j].value);
 			(*env)[j].value = temp;
@@ -82,7 +82,7 @@ int 	home_directory(t_env **env, char **path)
 
 int change_directory(const char *path)
 {
-    if (chdir(path) != 0)
+    if (chdir(path) == -1)
         return (1);
     return (0); 
 }
@@ -96,12 +96,48 @@ int change_directory(const char *path)
 	
 // 	mshell->exit_code = 1;
 // 	return (1);
-// }
 
-int ft_cd(t_env **env, char *path)
+t_shell_state 	*init_shell_state()
 {
-	char 	*oldpwd;
-	char 	*newpwd;
+	t_shell_state *state;
+
+	state = (t_shell_state *)malloc(sizeof(t_shell_state));
+	if (!state)
+	{
+		ft_putendl_fd("minishell: shell state", STDERR_FILENO);
+		return (NULL);
+	}
+	state->pwd = getcwd(NULL, 0);
+	state->old_pwd = NULL;
+	state->cd_executed = 0;
+	return (state);
+}
+
+void 	update_shell_state(t_shell_state *state, char *oldpwd, char *pwd)
+{
+	if (state->pwd)
+		free(state->pwd);
+	if (state->old_pwd)
+		free(state->old_pwd);
+	state->old_pwd = ft_strdup(oldpwd);
+	state->pwd = ft_strdup(pwd);
+	if (!state->pwd || !state->old_pwd)
+	{
+		free(state->pwd);
+		free(state->old_pwd);
+		state->pwd = getcwd(NULL, 0);
+		state->old_pwd = NULL;
+		ft_putstr_fd("minishell: shell state allocation", STDERR_FILENO);
+		// return ;
+	}
+	state->cd_executed = 1;
+}
+
+int ft_cd(t_env **env, t_shell_state *state, char *path)
+{
+	char 			*oldpwd;
+	char 			*pwd;
+	// t_shell_state	state;
 
 	if (home_directory(env, &path))
 		return (1);
@@ -115,18 +151,22 @@ int ft_cd(t_env **env, char *path)
 		return (1);
 		// return (builtin_err_print(mshell, "not a directory", path)); //after paring
 	}
-	if (chdir(path) != 0)
+	if (change_directory(path))
 	{
 		free(oldpwd);
 		return (1);
 	}
-	newpwd = getcwd(NULL, 0);
-	if (!newpwd)
+	pwd = getcwd(NULL, 0);
+	if (!pwd)
 		return (1);
-	
-	update_env(env, "OLDPWD", oldpwd);
-	update_env(env, "PWD", newpwd);
+	update_shell_state(state, oldpwd, pwd);
+	if (find_env_var(*env, "OLDPWD"))
+		update_env(env, "OLDPWD", oldpwd);
+	if (find_env_var(*env, "PWD"))
+		update_env(env, "PWD", pwd);
 	free(oldpwd);
-	free(newpwd);
+	free(pwd);
 	return (0);
 }
+
+
