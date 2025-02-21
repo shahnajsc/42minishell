@@ -9,11 +9,14 @@ void		echo_pwd_oldpwd(t_env **env, t_shell_state *state, char *key)
 	env_value = variable ? variable->value : NULL;
 	if (env_value)
 		ft_putstr_fd(env_value, STDOUT_FILENO);
-	else if (state->cd_executed)
+	else if (state->oldpwd_exec)
 	{
 		if (ft_strcmp(key, "OLDPWD") == 0 && state->old_pwd)
 			ft_putstr_fd(state->old_pwd, STDOUT_FILENO);
-		else if (ft_strcmp(key, "PWD") == 0 && state->pwd)
+	}
+	else if (state->pwd_exec)
+	{
+		if (ft_strcmp(key, "PWD") == 0 && state->pwd)
 			ft_putstr_fd(state->pwd, STDOUT_FILENO);
 	}
 	// ft_putstr_fd("\n", STDOUT_FILENO);
