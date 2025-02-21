@@ -49,6 +49,8 @@ int	syntax_pre_error(t_mshell *mshell, t_syntax_err syn_err, char *err_value)
 		quote_err_print(err_value);
 	else if (syn_err == ERR_WHITE_S)
 		ft_putstr_fd("\n", STDERR_FILENO ); // check
+	else if (syn_err == ERR_COMN)
+		ft_putstr_fd(err_value, STDERR_FILENO ); // check
 	else
 		{
 			ft_putstr_fd("syntax error near unexpected token '", STDERR_FILENO );

@@ -64,7 +64,7 @@ t_env	*duplicate_env(char **envp, t_env **env)
 	*env = init_env(envp);
 	if (!*env)
 		return (NULL);
-	
+
 	i = 0;
 	while (i < env_size(envp))
 	{
@@ -76,7 +76,7 @@ t_env	*duplicate_env(char **envp, t_env **env)
 		}
 		(*env)[i].key = ft_strndup(envp[i], sign - envp[i]);
 		(*env)[i].value = ft_strdup(sign + 1);
-		if (!(*env)[i].key || !(*env)[i].value) 
+		if (!(*env)[i].key || !(*env)[i].value)
 		{
 			free_env(*env, env_size(envp));
 			return (NULL);
@@ -116,3 +116,4 @@ void	ft_env(t_env *env)
 	}
 	// free_env(env, size);
 }
+

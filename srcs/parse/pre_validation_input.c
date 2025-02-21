@@ -69,7 +69,7 @@ int	check_invalid_pipe(t_mshell *mshell, char *input_str)
 		}
 	}
 	mshell->exit_code = 0;
-	return (0);
+	return (0); // why |> fdf is working???
 }
 
 int check_missing_quotes(t_mshell *mshell, char *input_str)
