@@ -31,7 +31,7 @@ void 	update_env(t_env **env, const char *key, const char *set_path)
 }
 
 
-int 	home_directory(t_env **env, const char **path)
+int 	home_directory(t_env **env, char **path)
 {
 	char 	*home;
 	t_env 	*variable;
@@ -40,35 +40,28 @@ int 	home_directory(t_env **env, const char **path)
 	if (!*path)
 	{
 		variable = find_env_var(*env, "HOME");
-		if (!variable)
-			return (1);
+		if (!variable || !variable->value)
+			return (1); // minishell: cd: HOME not set
 		home = variable->value;
-		if (!home)
-			return (1);  // minishell: cd: HOME not set
 		*path = home;
 	}
 	return (0);
 }
-int 	validate_directory(t_env **env, const char *path)
+int 	validate_directory(t_env **env, char **path)
 {
 	struct stat	path_stat;
 
 	// if (path[1])  too many arguments
-	if (home_directory(env, &path))
+	// printf("%s\n", path);
+	if (home_directory(env, path))
 		return (UNSET_HOME);
-	if (stat(path, &path_stat) == -1)
+	if (stat(*path, &path_stat) == -1)
 		return (NO_FILE);   // minishell: cd: hello: No such file or directory
 	if (!S_ISDIR(path_stat.st_mode))
 		return (NOT_DIR);  // minishell: cd: includes/minishell.h: Not a directory
-	if (access(path, W_OK) != 0 || access(path, X_OK) != 0 || access(path, R_OK) != 0)
+	if (access(*path, W_OK) != 0 || access(*path, X_OK) != 0 || access(*path, R_OK) != 0)
 		return (NO_PERM);
 	return (SUCSSES);
-}
-int change_directory(const char *path)
-{
-    if (chdir(path) == -1)
-        return (1);
-    return (0); 
 }
 
 t_shell_state 	*init_shell_state()
@@ -94,7 +87,7 @@ t_shell_state 	*init_shell_state()
 	return (state);
 }
 
-void update_shell_state(t_env **env, t_shell_state *state, char *oldpwd, char *pwd)
+void shell_state(t_env **env, t_shell_state *state, char *oldpwd, char *pwd)
 {
 	char *new_oldpwd;
 	char *new_pwd;
@@ -119,11 +112,19 @@ void update_shell_state(t_env **env, t_shell_state *state, char *oldpwd, char *p
 	state->pwd_exec = (find_env_var(*env, "PWD") == NULL);
 	state->oldpwd_exec = (find_env_var(*env, "OLDPWD") == NULL);
 }
-void 	ft_error(const char *path, t_error err)
+void	update_shell_state(t_env **env, t_shell_state *state, char *oldpwd, char *pwd)
+{
+	shell_state(env, state, oldpwd, pwd);
+	if (find_env_var(*env, "OLDPWD"))
+		update_env(env, "OLDPWD", oldpwd);
+	if (find_env_var(*env, "PWD"))
+		update_env(env, "PWD", pwd);
+}
+void 	ft_error(char *path, t_error err)
 {
 	ft_putstr_fd("minishell: ", 2);
 	ft_putstr_fd("cd: ", 2);
-	ft_putstr_fd((char *)path, 2);
+	ft_putstr_fd(path, 2);
 	ft_putstr_fd(": ", 2);
 	if (err == NO_FILE)
 		ft_putendl_fd("No such file or directory", 2);
@@ -143,15 +144,16 @@ int ft_cd(t_env **env, t_shell_state *state, char *path)
 	oldpwd = getcwd(NULL, 0);
 	if (!oldpwd)
 		return (1);
-	check = validate_directory(env, path);
+	check = validate_directory(env, &path);
 	if (check != SUCSSES)
 	{
 		ft_error(path, check);
 		free(oldpwd);
 		return (1);
 	}
-	if (change_directory(path))
+	if (chdir(path) == -1)
 	{
+		ft_putendl_fd("chdir failed", STDERR_FILENO);
 		free(oldpwd);
 		return (1);
 	}
@@ -159,10 +161,6 @@ int ft_cd(t_env **env, t_shell_state *state, char *path)
 	if (!pwd)
 		return (1);
 	update_shell_state(env, state, oldpwd, pwd);
-	if (find_env_var(*env, "OLDPWD"))
-		update_env(env, "OLDPWD", oldpwd);
-	if (find_env_var(*env, "PWD"))
-		update_env(env, "PWD", pwd);
 	free(oldpwd);
 	free(pwd);
 	return (0);
