@@ -30,72 +30,46 @@ void 	update_env(t_env **env, const char *key, const char *set_path)
 	}
 }
 
-void 	cd_error(const char *path, char *msg)
-{
-	ft_putstr_fd("minishell: ", 2);
-	ft_putstr_fd("cd: ", 2);
-	ft_putstr_fd((char *)path, 2);
-	ft_putstr_fd(": ", 2);
-	ft_putendl_fd(msg, 2);
-}
-int 	check_permissions(const char *path)
-{
-	if (access(path, W_OK) != 0 || access(path, X_OK) != 0 || access(path, R_OK) != 0)
-		return (1);  // minishell: cd: test/: Permission denied
-	return (0);
-}
-int 	check_directory(const char *path)
-{
-	struct stat	path_stat;
 
-	if (stat(path, &path_stat) == -1)
-		return (1);   // minishell: cd: hello: No such file or directory
-	if (!S_ISDIR(path_stat.st_mode))
-		return (1);  // minishell: cd: includes/minishell.h: Not a directory
-	return (check_permissions(path));
-}
-
-int 	home_directory(t_env **env, char **path)
+int 	home_directory(t_env **env, const char **path)
 {
 	char 	*home;
-	int 	i;
+	t_env 	*variable;
 
 	home = NULL;
 	if (!*path)
 	{
-		i = 0;
-		while ((*env)[i].key != NULL)
-		{
-			if (ft_strcmp((*env)[i].key, "HOME") == 0)
-			{	
-				home = (*env)[i].value;
-				break;
-			}
-			i++;
-		}
+		variable = find_env_var(*env, "HOME");
+		if (!variable)
+			return (1);
+		home = variable->value;
 		if (!home)
 			return (1);  // minishell: cd: HOME not set
 		*path = home;
 	}
 	return (0);
 }
+int 	validate_directory(t_env **env, const char *path)
+{
+	struct stat	path_stat;
 
+	// if (path[1])  too many arguments
+	if (home_directory(env, &path))
+		return (UNSET_HOME);
+	if (stat(path, &path_stat) == -1)
+		return (NO_FILE);   // minishell: cd: hello: No such file or directory
+	if (!S_ISDIR(path_stat.st_mode))
+		return (NOT_DIR);  // minishell: cd: includes/minishell.h: Not a directory
+	if (access(path, W_OK) != 0 || access(path, X_OK) != 0 || access(path, R_OK) != 0)
+		return (NO_PERM);
+	return (SUCSSES);
+}
 int change_directory(const char *path)
 {
     if (chdir(path) == -1)
         return (1);
     return (0); 
 }
-// int	builtin_err_print(t_mshell *mshell, char *err_msg, char *cmd)
-// {
-// 	ft_putstr_fd("minishell: ", 2);
-// 	if (err_msg)
-// 		ft_putstr_fd(err_msg, 2);
-// 	if (cmd)
-// 		ft_putstr_fd(cmd, 2);
-	
-// 	mshell->exit_code = 1;
-// 	return (1);
 
 t_shell_state 	*init_shell_state()
 {
@@ -145,24 +119,36 @@ void update_shell_state(t_env **env, t_shell_state *state, char *oldpwd, char *p
 	state->pwd_exec = (find_env_var(*env, "PWD") == NULL);
 	state->oldpwd_exec = (find_env_var(*env, "OLDPWD") == NULL);
 }
-
+void 	ft_error(const char *path, t_error err)
+{
+	ft_putstr_fd("minishell: ", 2);
+	ft_putstr_fd("cd: ", 2);
+	ft_putstr_fd((char *)path, 2);
+	ft_putstr_fd(": ", 2);
+	if (err == NO_FILE)
+		ft_putendl_fd("No such file or directory", 2);
+	if (err == NOT_DIR)
+		ft_putendl_fd("Not a directory", 2);
+	if (err == NO_PERM)
+		ft_putendl_fd("Permission denied", 2);
+	if (err == UNSET_HOME)
+		ft_putendl_fd("HOME not set", 2);
+}
 int ft_cd(t_env **env, t_shell_state *state, char *path)
 {
 	char 			*oldpwd;
 	char 			*pwd;
-	// t_shell_state	state;
+	t_error 		check;
 
-	if (home_directory(env, &path))
-		return (1);
 	oldpwd = getcwd(NULL, 0);
 	if (!oldpwd)
 		return (1);
-		
-	if (check_directory(path))
+	check = validate_directory(env, path);
+	if (check != SUCSSES)
 	{
+		ft_error(path, check);
 		free(oldpwd);
 		return (1);
-		// return (builtin_err_print(mshell, "not a directory", path)); //after paring
 	}
 	if (change_directory(path))
 	{
