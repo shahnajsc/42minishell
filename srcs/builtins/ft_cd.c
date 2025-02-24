@@ -33,18 +33,16 @@ void 	update_env(t_env **env, const char *key, const char *set_path)
 
 int 	home_directory(t_env **env, char **path)
 {
-	char 	*home;
 	t_env 	*variable;
 
-	home = NULL;
+	variable = find_env_var(*env, "HOME");
+	if (!variable || !variable->value)
+		return (1); // minishell: cd: HOME not set
+	if (*path && *path != variable->value)
+		free(*path);
+	*path = ft_strdup(variable->value);  // use strdup -- *path points to env var !!
 	if (!*path)
-	{
-		variable = find_env_var(*env, "HOME");
-		if (!variable || !variable->value)
-			return (1); // minishell: cd: HOME not set
-		home = variable->value;
-		*path = home;
-	}
+		return (1);
 	return (0);
 }
 int 	validate_directory(t_env **env, char **path)
@@ -52,7 +50,6 @@ int 	validate_directory(t_env **env, char **path)
 	struct stat	path_stat;
 
 	// if (path[1])  too many arguments
-	// printf("%s\n", path);
 	if (home_directory(env, path))
 		return (UNSET_HOME);
 	if (stat(*path, &path_stat) == -1)
