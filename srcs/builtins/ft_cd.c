@@ -120,33 +120,30 @@ t_shell_state 	*init_shell_state()
 	return (state);
 }
 
-void 	update_shell_state(t_env **env, t_shell_state *state, char *oldpwd, char *pwd)
+void update_shell_state(t_env **env, t_shell_state *state, char *oldpwd, char *pwd)
 {
-	if (state->pwd)
-		free(state->pwd);
-	if (state->old_pwd)
-		free(state->old_pwd);
-	state->old_pwd = ft_strdup(oldpwd);
-	state->pwd = ft_strdup(pwd);
-	if (!state->pwd || !state->old_pwd)
+	char *new_oldpwd;
+	char *new_pwd;
+
+	new_oldpwd = ft_strdup(oldpwd);
+	new_pwd = ft_strdup(pwd);
+	if (!new_oldpwd || !new_pwd)
 	{
-		free(state->pwd);
-		free(state->old_pwd);
+		ft_putendl_fd("minishell: shell state allocation failed", STDERR_FILENO);
+		free(new_oldpwd);
+		free(new_pwd);
 		state->pwd = getcwd(NULL, 0);
-		if (!state->pwd)
-		{
-			free(state->pwd);
-			ft_putendl_fd("minishell: getcwd failed", STDERR_FILENO);
-			return (NULL);
-		}
 		state->old_pwd = NULL;
-		ft_putstr_fd("minishell: shell state allocation", STDERR_FILENO);
-		// return ;
+		if (!state->pwd)
+			ft_putendl_fd("minishell: getcwd failed", STDERR_FILENO);
+		return;
 	}
-	if (find_env_var(*env, "PWD") == NULL)
-		state->pwd_exec = 1;
-	if (find_env_var(*env, "OLDPWD") == NULL)
-		state->oldpwd_exec = 1;
+	free(state->old_pwd);
+	free(state->pwd);
+	state->old_pwd = new_oldpwd;
+	state->pwd = new_pwd;
+	state->pwd_exec = (find_env_var(*env, "PWD") == NULL);
+	state->oldpwd_exec = (find_env_var(*env, "OLDPWD") == NULL);
 }
 
 int ft_cd(t_env **env, t_shell_state *state, char *path)
