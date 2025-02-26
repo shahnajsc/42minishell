@@ -21,3 +21,17 @@ int	count_pipes(char *input_str)
 	}
 	return (count);
 }
+
+t_token_type	get_token_type(char *cmd_str, int i)
+{
+	if (cmd_str[i] == '<' && cmd_str[i + 1] == '<')
+		return(RD_HEREDOC);
+	else if (cmd_str[i] == '<')
+		return (RD_IN);
+	else if (cmd_str[i] == '>' && cmd_str[i + 1] == '>')
+		return (RD_APPEND);
+	else if (cmd_str[i] == '>')
+		return (RD_OUT);
+	else
+		return (CMD);
+}

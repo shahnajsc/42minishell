@@ -74,7 +74,7 @@ char	**split_input_by_pipes(int cmd_count, char *input_str)
 	char	**cmds_temp;
 	if (!input_str || input_str[0] == '\0' || check_str_whitespaces(input_str))
 		return (NULL);
-	cmds_temp = (char **)malloc(sizeof(char *) * cmd_count);
+	cmds_temp = (char **)malloc(sizeof(char *) * (cmd_count + 1));
 	if (!cmds_temp)
 		return (NULL);
 	cmds_temp = splitted_cmd(input_str, cmds_temp, cmd_count, -1);

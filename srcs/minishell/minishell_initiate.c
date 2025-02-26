@@ -19,7 +19,7 @@ void	minishell(t_mshell *mshell)
 			// execute_mshell(mshell);
 			// clean_mshell(mshell);
 		}
-		free(input_str);
+		free(input_str); // else where input need to free??
 	}
 	rl_clear_history();
 	return ;
