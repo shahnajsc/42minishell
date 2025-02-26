@@ -27,9 +27,6 @@ int builtins_execv(t_mshell *mshell, char *input_str)
 	else if (ft_strcmp(args[0], "unset") == 0)
 		ft_unset(&mshell->env, args[1]);
 	add_history(input_str);
-	// args = ft_split(input, ' ');
-	free(input_str);
-
 	rl_clear_history();
 	// free_env(mshell->env, env_size(&mshell->env));
 	return (EXIT_SUCCESS);
