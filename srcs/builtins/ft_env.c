@@ -28,22 +28,8 @@ char *ft_strndup(char *src, size_t n)
     dest[i] = '\0';
     return (dest);
 }
-void 	 free_env(t_env *env, int size)
-{
-	int i;
 
-	i = 0;
-	while (i < size)
-	{
-		free(env[i].key);
-		free(env[i].value);
-		i++;
-	}
-	free(env);
-	env = NULL;
-}
-
-t_env	*init_env(char **envp)
+t_env	*init_environment(char **envp)
 {
 	t_env 		*env_list;
 	int 		size;
@@ -56,15 +42,14 @@ t_env	*init_env(char **envp)
 	return (env_list);
 }
 
-t_env	*duplicate_env(char **envp, t_env **env)
+t_env	*duplicate_env(t_env **env, char **envp)
 {
 	char	*sign;
 	int		i;
 
-	*env = init_env(envp);
+	*env = init_environment(envp);
 	if (!*env)
 		return (NULL);
-	
 	i = 0;
 	while (i < env_size(envp))
 	{
@@ -106,11 +91,10 @@ void	ft_env(t_env *env)
 		{
 			if (env[i].key && (env)[i].key[0] != '\0')
 			{
-				ft_putstr_fd(env[i].key, 1);
-				ft_putchar_fd('=', 1);
+				ft_putstr_fd(env[i].key, STDOUT_FILENO);
+				ft_putchar_fd('=', STDOUT_FILENO);
 			}
-			ft_putstr_fd(env[i].value, 1);
-			ft_putstr_fd("\n", 1);
+			ft_putendl_fd(env[i].value, STDOUT_FILENO);
 		}
 		i++;
 	}
