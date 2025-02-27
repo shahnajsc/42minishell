@@ -47,31 +47,44 @@ void   add_env_var(t_env **env, char *key, char *value)
 	free(*env);
 	*env = new_env;
 }
-void 	export_var(t_env **env, char *str)
+int 	is_invalid_identifier(char *identifier, char *arg)
 {
-	t_env 	*variable;
-	char 	*value;
-	char 	*key;
-	char 	*sign;
+	int 	i;
 
-	if  (!str || !*str)
-		return ;
-
-	sign = ft_strchr(str, '=');
-	if (!sign)
+	if (!identifier || (!ft_isalpha(identifier[0]) && identifier[0] != '_'))
 	{
-		if (!find_env_var(*env, str))
-			add_env_var(env, str, NULL);
-		return ;
+		ft_putstr_fd("minishell: export: `", STDERR_FILENO);
+		ft_putstr_fd(arg, STDERR_FILENO);
+		ft_putendl_fd("`: not a valid identifier", STDERR_FILENO);
+		return (1);
 	}
-	key = ft_strndup(str, sign - str);
+	i = 0;
+	while(identifier[++i] != '\0')
+	{
+		if (ft_isalnum(identifier[i]) || identifier[i] == '_')
+			return (0);
+	}
+	ft_putstr_fd("minishell: export: `", STDERR_FILENO);
+	ft_putstr_fd(arg, STDERR_FILENO);
+	ft_putendl_fd("`: not a valid identifier", STDERR_FILENO);
+	return (1);
+}
+void 	process_without_sign(t_env **env, char *arg)
+{
+	if (!find_env_var(*env, arg))
+		add_env_var(env, arg, NULL);
+}
+
+void 	process_with_sign(t_env **env, char *arg, char *sign)
+{
+	char 		*key;
+	char 		*value;
+	t_env 		*variable;
+
+	key = ft_strndup(arg, sign - arg);
 	value = ft_strdup(sign + 1);
 	if (!key || !value)
-	{
-		free(key);
-		free(value);
 		return ;
-	}
 	variable = find_env_var(*env, key);
 	if (variable)
 	{
@@ -81,8 +94,46 @@ void 	export_var(t_env **env, char *str)
 	else
 		add_env_var(env, key, value);
 	free(key);
+}	
+char  	*set_key(char *arg, char **sign)
+{
+	char 		*key;
+	int 		key_len;
+
+	key_len = *sign - arg;
+	key = ft_strndup(arg, key_len);
+	if (!key)
+		return (NULL);
+	return (key); 
 }
-void 	ft_export(t_env *env)
+int		set_env_variable(t_mshell *mshell, char **args, int i, int error_code)
+{
+	char 		*sign;
+	char 		*identifier;
+
+	while (args[++i] != NULL)
+	{
+		sign = ft_strchr(args[i], '=');
+		if (!sign)
+		{
+			if (is_invalid_identifier(args[i], args[i]))
+				error_code = 1;
+			else
+				process_without_sign(&mshell->env, args[i]);
+		}
+		else
+		{
+			identifier = set_key(args[i], &sign);
+			if (is_invalid_identifier(identifier, args[i]))
+				error_code = 1;
+			else
+				process_with_sign(&mshell->env, args[i], sign);				
+		}
+	}
+	mshell->exit_code = error_code;
+	return (error_code);
+}
+void 	print_export(t_env *env)
 {
 	int 	i;
 
@@ -102,3 +153,12 @@ void 	ft_export(t_env *env)
 	}
 }
 
+int 	ft_export(t_mshell *mshell, char **args)
+{
+	// check if the string is empty
+	if (!args[1])
+		print_export(mshell->env);
+	if (set_env_variable(mshell, args, 0, 0))
+		return (1);
+	return (0);
+}
