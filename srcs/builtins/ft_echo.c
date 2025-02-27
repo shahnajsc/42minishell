@@ -1,19 +1,5 @@
 #include "minishell.h"
 
-void		echo_pwd_oldpwd(t_mshell *mshell, char *key)
-{
-	t_env	*variable;
-	char	*env_value;
-
-	variable = find_env_var(mshell->env, key);
-	env_value = variable ? variable->value : NULL;
-	if (env_value)
-		ft_putstr_fd(env_value, STDOUT_FILENO);
-	if (mshell->b_state->oldpwd_exec && ft_strcmp(key, "OLDPWD") == 0 && mshell->b_state->old_pwd)
-			ft_putstr_fd(mshell->b_state->old_pwd, STDOUT_FILENO);
-	if (mshell->b_state->pwd_exec && ft_strcmp(key, "PWD") == 0 && mshell->b_state->pwd)
-			ft_putstr_fd(mshell->b_state->pwd, STDOUT_FILENO);
-}
 int	is_newline(char *c, int *nl)
 {
 	if (ft_strcmp(c, "-n") == 0)
