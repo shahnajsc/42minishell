@@ -14,12 +14,7 @@ int builtins_execv(t_mshell *mshell, char *input_str)
 	else if (ft_strcmp(args[0], "pwd") == 0)
 		ft_pwd();
 	else if (ft_strcmp(args[0], "export") == 0)
-	{
-		if (args[1])
-			export_var(mshell->env, args);
-		else
-			ft_export(mshell->env);
-	}
+		ft_export(mshell, args);
 	else if (ft_strcmp(args[0], "cd") == 0)
 		ft_cd(mshell, args);
 	else if (ft_strcmp(args[0], "echo") == 0)
@@ -31,3 +26,4 @@ int builtins_execv(t_mshell *mshell, char *input_str)
 	// free_env(mshell->env, env_size(&mshell->env));
 	return (EXIT_SUCCESS);
 }
+
