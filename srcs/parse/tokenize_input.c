@@ -21,17 +21,33 @@ static int	init_cmds(t_mshell*mshell, char *input_str)
 	}
 	while (cmds_temp[i])
 	{
+		mshell->cmds[i].token = NULL; // make token
+		mshell->cmds[i].redirects = NULL;
 		mshell->cmds[i].cmd_str = cmds_temp[i];
+		mshell->cmds[i].cmd_name = NULL;
+		mshell->cmds[i].splitted_cmd = NULL;
 		mshell->cmds[i].in_fd= -1;
 		mshell->cmds[i].out_fd= -1;
-		mshell->cmds[i].splitted_cmd = NULL;
-		mshell->cmds[i].token = NULL; // make token
 		i++;
 	}
 	free(cmds_temp);
 	printf("\n");
 	return (0);
 }
+
+// void update_i(int *i)
+// {
+// 	*i = *i + 2;
+// }
+
+// void print_i()
+// {
+// 	int i;
+
+// 	i = 0;
+// 	update_i(&i);
+// 	printf("i value[%d]\n", i);
+// }
 
 t_token	*create_tokens_list(t_mshell *mshell, int index)
 {
@@ -42,24 +58,22 @@ t_token	*create_tokens_list(t_mshell *mshell, int index)
 	int	i;
 
 	i = 0;
-	printf("inside token creation function\n");
-	cmd_str = mshell->cmds[index].cmd_str;
-	printf("cmd str[%d]:[%s]\n", index, cmd_str);
 	head_token = NULL;
-	while (cmd_str[i])
+	cmd_str = mshell->cmds[index].cmd_str;
+	while (cmd_str[i] != '\0')
 	{
-		printf(" loop inside token creation function\n");
 		tok_type = get_token_type(cmd_str, i);
-		printf("tok_type :%u\n", tok_type);
 		if (tok_type == CMD)
+		{
 			new_token = create_cmd_token(cmd_str, &i, tok_type);
+		}
 		else
 			new_token = create_other_token(&i, tok_type);
 		if (!new_token)
 			return (NULL); // free the whole token list
-		add_new_token(&head_token, new_token);
+		//add_new_token(&head_token, new_token);
 	}
-	return (head_token);
+	return (0);
 }
 
 static int	update_mshell(t_mshell*mshell, char *input_str)
@@ -95,14 +109,19 @@ int	tokenize_input(t_mshell *mshell, char *input_str)
 	//...................
 	while (index < mshell->count_cmds)
 	{
-		printf("inside main token function\n");
 		mshell->cmds[index].token = create_tokens_list(mshell, index);
 		if (!mshell->cmds[index].token)
 		{
 			printf("no token\n");
-			//return (1); // free already created token
+			//return (1);
 		}
-		printf("token id [%d]\n", index);
+		// mshell->cmds[index].redirects = create_redirects_list(mshell, index);
+		// if (!mshell->cmds[index].redirects)
+		// 	return (1);
+		// mshell->cmds[index].splitted_cmd = create_splitted_cmds(mshell, index); // also update cmd_name
+		// if (!mshell->cmds[index].splitted_cmd)
+		// 	return (1);
+		//printf("token id [%d]\n", index);
 		index++;
 	}
 	return (0);

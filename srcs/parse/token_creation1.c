@@ -14,20 +14,16 @@ char	*get_quoted_token_value(char *cmd_str, int *i)
 	int		value_size;
 	char	quote_type;
 
-	token_value = NULL;
 	quote_type = cmd_str[*i];
-	value_size = 1;
-	temp_i = *i; // i or *i??
-	temp_i++;
+	value_size = 0;
+	temp_i = (*i) + 1; // i or *i??
 	while (cmd_str[temp_i] && cmd_str[temp_i] != quote_type)
-	{
 		temp_i++;
-		value_size++;
-	}
 	if (cmd_str[temp_i] && cmd_str[temp_i] == quote_type)
-		value_size++;
+		temp_i++;
+	value_size = temp_i - (*i);
 	token_value = ft_strndup(&cmd_str[*i], value_size);
-	*i = (*i) + value_size;// update *i value
+	*i = temp_i;// update *i value
 	return (token_value);
 }
 
@@ -38,14 +34,11 @@ char *get_unquoted_token_value(char *cmd_str, int *i)
 	int		value_size;
 
 	token_value = NULL;
-	value_size = 0;
 	temp_i = *i; // i or *i??
 	while (cmd_str[temp_i] && !check_char_is_quote(cmd_str[temp_i])
-		&& !check_char_is_token(cmd_str[temp_i]) && check_char_whitespaces(cmd_str[temp_i]))
-	{
+		&& !check_char_is_token(cmd_str[temp_i])) // && !check_char_whitespaces(cmd_str[temp_i])
 		temp_i++;
-		value_size++;
-	}
+	value_size = temp_i - (*i);
 	token_value = ft_strndup(&cmd_str[*i], value_size);
 	*i = temp_i;// update *i value
 	return (token_value);
@@ -69,7 +62,7 @@ char *get_other_token_value(int *i, t_token_type t_type)
 	if (t_type == RD_IN || t_type == RD_OUT)
 		(*i)++;
 	else if (t_type == RD_HEREDOC || t_type == RD_APPEND)
-		(*i) += 2;
+		(*i) = *i + 2;
 	return (token_value);
 }
 
@@ -99,9 +92,29 @@ t_token *create_cmd_token(char *cmd_str, int *i, t_token_type t_type)
 		new_token->tok_value = get_quoted_token_value(cmd_str, i);
 	else
 		new_token->tok_value = get_unquoted_token_value(cmd_str, i);
+	printf("tok->value is not null.[%d] value[%s]\n", *i, new_token->tok_value);
 	if (!new_token->tok_value)
 		return (NULL);
 	new_token->tok_type = t_type;
 	new_token->next = NULL;
+	// printf("inside token id[%d]\n", *i);
+	// if (cmd_str[*i] != '\0')
+    //     (*i)++;
+	// printf("after token id[%d]\n", *i);
 	return (new_token);
 }
+	// {
+		// 	new_token = create_cmd_token(cmd_str, &i, tok_type);
+		// }
+		// else
+		// 	new_token = create_other_token(&i, tok_type);
+		// if (!new_token)
+		// 	return (NULL); // free the whole token list
+		// //add_new_token(&head_token, new_token);
+		// i++;
+
+		//if (tok_type == CMD)
+
+	//t_token	*head_token;
+	//t_token	*new_token;
+	//head_token = NULL;

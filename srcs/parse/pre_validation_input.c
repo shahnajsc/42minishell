@@ -106,7 +106,7 @@ int input_pre_validation(t_mshell *mshell, char *input_str)
 		return (1);
 	if (check_invalid_redirection(mshell, input_str))
 		return (1);
-	mshell->exit_code = 0;
+	mshell->exit_code = 0;// check is it needed???
 	return (0);
 }
 

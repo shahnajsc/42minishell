@@ -1,33 +1,50 @@
-#ifndef TOKEN_H
-# define TOKEN_H
+#ifndef PARSE_H
+# define PARSE_H
 
 typedef struct s_mshell t_mshell;
 
-typedef enum e_token_type{
-	CMD,
-	//ARG,
+typedef enum e_token_type
+{
+	FILENAME,
+	ARG,
 	//PIPE,
+	REDIRECT,
+	CMD,
+}  t_token_type;
+
+typedef enum e_rerirect_type
+{
 	RD_IN, //value :file name
 	RD_HEREDOC, // value: Delimeter
 	RD_OUT, // value file name
 	RD_APPEND, // value filename
-}  t_token_type;
+}  t_redirect_type;
 
 typedef struct s_token
 {
-	t_token_type tok_type;
-	char	*tok_value;
-	struct s_token *next;
+	t_token_type	tok_type;
+	char			*tok_value;
+	struct s_token	*next;
 }	t_token;
+
+typedef struct s_redirect
+{
+	t_redirect_type		rd_type;
+	char				*file;
+	int					fd;
+	char				*path;
+	struct s_redirect	*next;
+} t_redirect;
 
 typedef struct s_cmd
 {
-	t_token	*token;
-	char	*cmd_str;
-	char	**splitted_cmd;
-	char	*cmd_name;
-	int		in_fd;
-	int		out_fd;
+	t_token		*token;
+	t_redirect	*redirects;
+	char		*cmd_str;
+	char		*cmd_name;
+	char		**splitted_cmd;
+	int			in_fd;
+	int			out_fd;
 }	t_cmd;
 
 // typedef struct	s_mshell
