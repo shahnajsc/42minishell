@@ -3,7 +3,7 @@
 static int mshell_data_init(t_mshell *mshell, char **envp)
 {
 	ft_memset(mshell, 0, sizeof(mshell));
-	mshell->env = duplicate_env(&mshell->env, envp); //change your one
+	mshell->env = init_env(envp); //change your one
 	if (!mshell->env)
 		return (1);
 	mshell->b_state = init_built_state();
