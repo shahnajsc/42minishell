@@ -1,91 +1,11 @@
 #include "minishell.h"
 
-int env_size(char **env)
+static void 	print_env(t_env *env)
 {
-	int i;
+	int 	i;
 
-	i = 0;
-	while (env[i])
-		i++;
-	return (i);
-}
-
-
-char *ft_strndup(char *src, size_t n)
-{
-    size_t i;
-    char *dest;
-
-	i = 0;
-	dest = malloc(sizeof(size_t) * (n + 1));
-    if (!dest)
-        return (NULL);
-    while (i < n && src[i] != '\0')
-    {
-        dest[i] = src[i];
-        i++;
-    }
-    dest[i] = '\0';
-    return (dest);
-}
-
-t_env	*init_environment(char **envp)
-{
-	t_env 		*env_list;
-	int 		size;
-
-	size = env_size(envp);
-	env_list = malloc(sizeof(t_env) * (size + 1));
-	if (!env_list)
-		return (NULL);
-	ft_memset(env_list, 0, sizeof(t_env) * (size + 1));
-	return (env_list);
-}
-
-t_env	*duplicate_env(t_env **env, char **envp)
-{
-	char	*sign;
-	int		i;
-
-	*env = init_environment(envp);
-	if (!*env)
-		return (NULL);
-	i = 0;
-	while (i < env_size(envp))
-	{
-		sign = ft_strchr(envp[i], '=');
-		if (!sign)
-		{
-			(*env)[i].key = ft_strdup(envp[i]);  // Store key
-    		(*env)[i].value = NULL;
-		}
-		(*env)[i].key = ft_strndup(envp[i], sign - envp[i]);
-		(*env)[i].value = ft_strdup(sign + 1);
-		if (!(*env)[i].key || !(*env)[i].value) 
-		{
-			free_env(*env, env_size(envp));
-			return (NULL);
-		}
-		i++;
-	}
-	(*env)[i].key = NULL;
-	(*env)[i].value = NULL;
-	return (*env);
-}
-
-
-void	ft_env(t_env *env)
-{
-	int i;
-
-	i = 0;
-
-	if (!env)
-	{
-		printf("Error: initialize environment\n");
-		return ;
-	}
-	while (env[i].key != NULL)
+	i = -1;
+	while (env[++i].key != NULL)
 	{
 		if (env[i].value != NULL)
 		{
@@ -96,7 +16,22 @@ void	ft_env(t_env *env)
 			}
 			ft_putendl_fd(env[i].value, STDOUT_FILENO);
 		}
-		i++;
 	}
-	// free_env(env, size);
+}
+int		ft_env(t_mshell *mshell, char **args)
+{
+	int 	error_code;
+
+	error_code = 0;
+	if (args[1])
+	{
+		ft_putstr_fd("env: `", STDERR_FILENO);
+		ft_putstr_fd(args[1], STDERR_FILENO);
+		ft_putendl_fd("`: No such file or directory", STDERR_FILENO);
+		error_code = 127;
+	}
+	else
+		print_env(mshell->env);
+	mshell->exit_code = error_code;
+	return (error_code);
 }
