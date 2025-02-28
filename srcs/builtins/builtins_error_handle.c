@@ -24,6 +24,28 @@ int 	builtins_error(char **args, t_error err, char *msg, char *free_str)
 		free(free_str);
 	return (1);
 }
+int 	is_invalid_identifier(char *identifier, char *arg)
+{
+	int 	i;
+
+	if (!identifier || (!ft_isalpha(identifier[0]) && identifier[0] != '_'))
+	{
+		ft_putstr_fd("minishell: export: `", STDERR_FILENO);
+		ft_putstr_fd(arg, STDERR_FILENO);
+		ft_putendl_fd("`: not a valid identifier", STDERR_FILENO);
+		return (1);
+	}
+	i = 0;
+	while(identifier[++i] != '\0')
+	{
+		if (ft_isalnum(identifier[i]) || identifier[i] == '_')
+			return (0);
+	}
+	ft_putstr_fd("minishell: export: `", STDERR_FILENO);
+	ft_putstr_fd(arg, STDERR_FILENO);
+	ft_putendl_fd("`: not a valid identifier", STDERR_FILENO);
+	return (1);
+}
 void 	 free_env(t_env *env, int size)
 {
 	int i;
