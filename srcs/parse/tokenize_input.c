@@ -35,46 +35,40 @@ static int	init_cmds(t_mshell*mshell, char *input_str)
 	return (0);
 }
 
-// void update_i(int *i)
-// {
-// 	*i = *i + 2;
-// }
-
-// void print_i()
-// {
-// 	int i;
-
-// 	i = 0;
-// 	update_i(&i);
-// 	printf("i value[%d]\n", i);
-// }
-
-t_token	*create_tokens_list(t_mshell *mshell, int index)
+t_token	*create_tokens_list(char *cmd_str)
 {
 	t_token	*head_token;
 	t_token	*new_token;
-	char *cmd_str;
 	t_token_type tok_type;
 	int	i;
 
 	i = 0;
 	head_token = NULL;
-	cmd_str = mshell->cmds[index].cmd_str;
 	while (cmd_str[i] != '\0')
 	{
 		tok_type = get_token_type(cmd_str, i);
-		if (tok_type == CMD)
+		if (tok_type == CMD || tok_type == EMPTY)
 		{
-			new_token = create_cmd_token(cmd_str, &i, tok_type);
+			new_token = create_str_token(cmd_str, &i, tok_type);
 		}
 		else
-			new_token = create_other_token(&i, tok_type);
+			new_token = create_redirect_token(cmd_str, &i);
 		if (!new_token)
 			return (NULL); // free the whole token list
-		//add_new_token(&head_token, new_token);
+		add_new_token(&head_token, new_token);
 	}
-	return (0);
+	head_token = delete_empty_token(head_token);
+	head_token = assign_file_deli_tokens(head_token);
+	if (!head_token)
+		return (NULL);
+	return (head_token);
 }
+
+	// tokens_print(head_token);
+		// printf("After\n");
+	// tokens_print(head_token);
+		// printf("FILE\n");
+	// tokens_print(head_token);
 
 static int	update_mshell(t_mshell*mshell, char *input_str)
 {
@@ -89,32 +83,21 @@ static int	update_mshell(t_mshell*mshell, char *input_str)
 
 int	tokenize_input(t_mshell *mshell, char *input_str)
 {
-	int	index;
+	int	i;
 
-	index = 0;
+	i = 0;
 	if (!mshell || !input_str || !*input_str)
 		return (syntax_pre_error(mshell, ERR_COMN, "Tokenization failed: NULL input")); //check for actual  bash error code
 	if (update_mshell(mshell, input_str))
 		return (syntax_pre_error(mshell, ERR_COMN, "Tokenization failed: mshell  update")); //check for actual  bash error code
 	if (init_cmds(mshell, input_str))
 		return (syntax_pre_error(mshell, ERR_COMN, "Tokenization failed: Struct t_cmd init"));
-	//...................
-	int k = 0;
-	while (k < mshell->count_cmds)
+	while (i < mshell->count_cmds)
 	{
-		printf("id[%d] : value[%s]\n", k, mshell->cmds[k].cmd_str);
-		k++;
-	}
-	printf("\n");
-	//...................
-	while (index < mshell->count_cmds)
-	{
-		mshell->cmds[index].token = create_tokens_list(mshell, index);
-		if (!mshell->cmds[index].token)
-		{
-			printf("no token\n");
-			//return (1);
-		}
+		mshell->cmds[i].token = create_tokens_list(mshell->cmds[i].cmd_str);
+		if (!mshell->cmds[i].token)
+			return (1);
+		mshell->cmds[i].splitted_cmd = create_splitted_cmd(mshell->cmds[i].token);
 		// mshell->cmds[index].redirects = create_redirects_list(mshell, index);
 		// if (!mshell->cmds[index].redirects)
 		// 	return (1);
@@ -122,10 +105,25 @@ int	tokenize_input(t_mshell *mshell, char *input_str)
 		// if (!mshell->cmds[index].splitted_cmd)
 		// 	return (1);
 		//printf("token id [%d]\n", index);
-		index++;
+		i++;
 	}
 	return (0);
 }
+
+	//...................
+	// int k = 0;
+	// while (k < mshell->count_cmds)
+	// {
+	// 	printf("id[%d] : value[%s]\n", k, mshell->cmds[k].cmd_str);
+	// 	k++;
+	// }
+	// printf("\n");
+	//...................
+
+
+
+
+
 //................................
 	// printf("full str:[%s]\n", input_str);
 	// int k = 0;

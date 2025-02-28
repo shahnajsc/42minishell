@@ -1,5 +1,12 @@
 #include "minishell.h"
 
+int	check_char_is_redirect(char c)
+{
+	if (c == '<' || c == '>')
+		return (1);
+	return (0);
+}
+
 int	count_pipes(char *input_str)
 {
 	int	count;
@@ -24,20 +31,22 @@ int	count_pipes(char *input_str)
 
 t_token_type	get_token_type(char *cmd_str, int i)
 {
-	if (cmd_str[i] == '<' || cmd_str[i] == '>')
+	if (check_char_is_redirect(cmd_str[i]))
 		return(REDIRECT);
+	else if (cmd_str[i] == ' ')
+		return (EMPTY);
 	else
 		return (CMD);
 }
 
-t_redirect_type	get_redirect_type(char *cmd_str, int i)
-{
-	if (cmd_str[i] == '<' && cmd_str[i + 1] == '<')
-		return(RD_HEREDOC);
-	else if (cmd_str[i] == '<')
-		return (RD_IN);
-	else if (cmd_str[i] == '>' && cmd_str[i + 1] == '>')
-		return (RD_APPEND);
-	else
-		return (RD_OUT);
-}
+// t_redirect_type	get_redirect_type(char *cmd_str, int i)
+// {
+// 	if (cmd_str[i] == '<' && cmd_str[i + 1] == '<')
+// 		return(RD_HEREDOC);
+// 	else if (cmd_str[i] == '<')
+// 		return (RD_IN);
+// 	else if (cmd_str[i] == '>' && cmd_str[i + 1] == '>')
+// 		return (RD_APPEND);
+// 	else
+// 		return (RD_OUT);
+// }

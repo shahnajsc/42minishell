@@ -20,6 +20,7 @@ MAN_DIR 		= srcs/envp/envp_duplicate.c	\
 				srcs/parse/split_input_by_pipe.c	srcs/parse/tokenize_input.c\
 				srcs/parse/utils_tokenize.c		srcs/parse/utils_expansion.c\
 				srcs/parse/token_creation1.c		srcs/parse/token_creation2.c\
+				srcs/parse/test_parse.c \
 
 # Source path
 

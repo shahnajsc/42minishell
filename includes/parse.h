@@ -5,20 +5,20 @@ typedef struct s_mshell t_mshell;
 
 typedef enum e_token_type
 {
-	FILENAME,
-	ARG,
-	//PIPE,
-	REDIRECT,
+	EMPTY,
 	CMD,
+	//ARG,
+	REDIRECT,
+	FILE_DELI,
 }  t_token_type;
 
-typedef enum e_rerirect_type
-{
-	RD_IN, //value :file name
-	RD_HEREDOC, // value: Delimeter
-	RD_OUT, // value file name
-	RD_APPEND, // value filename
-}  t_redirect_type;
+// typedef enum e_rerirect_type
+// {
+// 	RD_IN, //value :file name
+// 	RD_HEREDOC, // value: Delimeter
+// 	RD_OUT, // value file name
+// 	RD_APPEND, // value filename
+// }  t_redirect_type;
 
 typedef struct s_token
 {
@@ -29,7 +29,7 @@ typedef struct s_token
 
 typedef struct s_redirect
 {
-	t_redirect_type		rd_type;
+	t_token_type		rd_type;
 	char				*file;
 	int					fd;
 	char				*path;
@@ -87,9 +87,11 @@ int		parse_input(t_mshell *mshell, char *input_str);
 //...... TOKEN .....///
 int		tokenize_input(t_mshell *mshell, char *input_str);
 //t_token	*create_tokens_list(t_mshell *mshell, int index);
-t_token *create_cmd_token(char *cmd_str, int *i, t_token_type t_type);
-t_token	*create_other_token(int *i, t_token_type t_type);
+t_token	*create_str_token(char *cmd_str, int *i, t_token_type t_type);
+t_token	*create_redirect_token(char *cmd_str, int *i);
 void	add_new_token(t_token **head_token, t_token *new_token);
+t_token	*delete_empty_token(t_token *head_token);
+t_token	*assign_file_deli_tokens(t_token *head_token);
 
 //..... ERROR .....//
 int		syntax_pre_error(t_mshell *mshell, t_syntax_err syn_err, char *err_value);
@@ -100,5 +102,10 @@ int		check_char_is_quote(char  c);
 int		count_pipes(char *input_str);
 char	**split_input_by_pipes(int cmd_count, char *input_str);
 t_token_type	get_token_type(char *cmd_str, int i);
+int		check_char_is_redirect(char c);
 
+//,,,,,,,,,,,,,,,,,//
+//,,,,,,,,,,,,,,,,,//
+//......TEST FUNCTIONS.......///
+void	tokens_print(t_token *token);
 #endif
