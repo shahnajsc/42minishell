@@ -22,7 +22,7 @@ void	ft_echo(t_mshell *mshell, char **args)
 		i++;
 	while (args[i] != NULL)
 	{
-		variable = find_env_var(mshell->env, args[i]);
+		variable = get_env_var(mshell->env, args[i]);
 		if (variable && variable->value)
 			ft_putstr_fd(variable->value, STDOUT_FILENO);
 		else

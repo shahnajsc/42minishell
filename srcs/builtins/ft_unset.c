@@ -11,7 +11,7 @@ void	ft_unset(t_env **env, char *key)
 	if (!env || !*env || !key)
 		return;
 
-	variable = find_env_var(*env, key);
+	variable = get_env_var(*env, key);
 	if (!variable)
 		return;
 

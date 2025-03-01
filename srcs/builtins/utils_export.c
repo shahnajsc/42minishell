@@ -36,7 +36,7 @@ void   add_env_var(t_env **env, char *key, char *value)
 
 void 	process_without_sign(t_env **env, char *arg)
 {
-	if (!find_env_var(*env, arg))
+	if (!get_env_var(*env, arg))
 		add_env_var(env, arg, NULL);
 }
 
@@ -50,7 +50,7 @@ void 	process_with_sign(t_env **env, char *arg, char *sign)
 	value = ft_strdup(sign + 1);
 	if (!key || !value)
 		return ;
-	variable = find_env_var(*env, key);
+	variable = get_env_var(*env, key);
 	if (variable)
 	{
 		free(variable->value);
