@@ -29,9 +29,7 @@ int 	ft_export(t_mshell *mshell, char **args)
 	if (!args[1])
 		print_export(mshell->env);
 	else
-	{	if (set_env_variable(mshell, args, 0))
-			error_code = 1;
-	}
+		set_env_variable(mshell, args, &error_code);
 	mshell->exit_code = error_code;
 	return (error_code);
 }
