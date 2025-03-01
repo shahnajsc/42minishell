@@ -22,14 +22,14 @@ static void 	print_export(t_env *env)
 
 int 	ft_export(t_mshell *mshell, char **args)
 {
-	int 	error_code;
+	int 	status_code;
 
-	error_code = 0;
+	status_code = 0;
 	// check if the string is empty
 	if (!args[1])
 		print_export(mshell->env);
 	else
-		set_env_variable(mshell, args, &error_code);
-	mshell->exit_code = error_code;
-	return (error_code);
+		set_env_variable(mshell, args, &status_code);
+	mshell->exit_code = status_code;
+	return (status_code);
 }
