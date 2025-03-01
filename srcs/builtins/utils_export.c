@@ -61,30 +61,32 @@ void 	process_with_sign(t_env **env, char *arg, char *sign)
 	free(key);
 }
 
-char  	*validate_key(char *arg, char **sign)
+char  	*validate_key(char *identifier, char **sign)
 {
 	char 		*key;
 	int 		key_len;
 
-	key_len = *sign - arg;
-	key = ft_strndup(arg, key_len);
+	key_len = *sign - identifier;
+	key = ft_strndup(identifier, key_len);
 	if (!key)
 		return (NULL);
 	return (key); 
 }
 
-int		set_env_variable(t_mshell *mshell, char **args, int i)
+void	set_env_variable(t_mshell *mshell, char **args, int *err_code)
 {
 	char 		*sign;
 	char 		*identifier;
+	int 		i; 
 
+	i = -1;
 	while (args[++i] != NULL)
 	{
 		sign = ft_strchr(args[i], '=');
 		if (!sign)
 		{
 			if (is_invalid_identifier(args[i], args[i]))
-				return(1);
+				*err_code = 1;
 			else
 				process_without_sign(&mshell->env, args[i]);
 		}
@@ -92,10 +94,9 @@ int		set_env_variable(t_mshell *mshell, char **args, int i)
 		{
 			identifier = validate_key(args[i], &sign);
 			if (is_invalid_identifier(identifier, args[i]))
-				return (1);
+				*err_code = 1;
 			else
 				process_with_sign(&mshell->env, args[i], sign);				
 		}
 	}
-	return (0);
 }
