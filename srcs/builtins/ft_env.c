@@ -20,18 +20,18 @@ static void 	print_env(t_env *env)
 }
 int		ft_env(t_mshell *mshell, char **args)
 {
-	int 	error_code;
+	int 	status_code;
 
-	error_code = 0;
-	if (args[1])
+	status_code = 0;
+	if (!args[1])
+		print_env(mshell->env);
+	else
 	{
 		ft_putstr_fd("env: `", STDERR_FILENO);
 		ft_putstr_fd(args[1], STDERR_FILENO);
 		ft_putendl_fd("`: No such file or directory", STDERR_FILENO);
-		error_code = 127;
+		status_code = 127;
 	}
-	else
-		print_env(mshell->env);
-	mshell->exit_code = error_code;
-	return (error_code);
+	mshell->exit_code = status_code;
+	return (status_code);
 }
