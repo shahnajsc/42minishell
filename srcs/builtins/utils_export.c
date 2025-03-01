@@ -79,7 +79,7 @@ void	set_env_variable(t_mshell *mshell, char **args, int *err_code)
 	char 		*identifier;
 	int 		i; 
 
-	i = -1;
+	i = 0;
 	while (args[++i] != NULL)
 	{
 		sign = ft_strchr(args[i], '=');
