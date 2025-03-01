@@ -14,7 +14,7 @@ static int 	home_directory(t_env **env, char **path)
 		return (1);
 	return (SUCSSES);
 }
-static int 	validate_directory(t_env **env, char **args)
+static int 	is_invalidate_directory(t_env **env, char **args)
 {
 	struct stat	file_stat;
 
@@ -36,16 +36,16 @@ int handle_cd(t_mshell *mshell, char **args)
 {
 	char 			*oldpwd;
 	char 			*pwd;
-	t_error 		check;
+	t_cd_error 		status_code;
 
 	if (args[1] && args[2])
 		return (builtins_error(args, TOO_MANY_ARGS, NULL, NULL));
 	oldpwd = getcwd(NULL, 0);
 	if (!oldpwd)
 		return (builtins_error(args, CMN_ERR, "getcwd failed for oldpwd", NULL));
-	check = validate_directory(&mshell->env, args);
-	if (check != SUCSSES)
-		return (builtins_error(args, check, NULL, oldpwd));
+	status_code = is_invalidate_directory(&mshell->env, args);
+	if (status_code != SUCSSES)
+		return (builtins_error(args, status_code, NULL, oldpwd));
 	if (chdir(args[1]) == -1)
 		return (builtins_error(NULL, CMN_ERR, "chdir failed", oldpwd));
 	pwd = getcwd(NULL, 0);
