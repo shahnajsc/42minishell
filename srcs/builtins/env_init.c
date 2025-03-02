@@ -52,7 +52,7 @@ int	duplicate_env(t_env **env, char **envp)
 	return (0);
 }
 
-int 	mshell_level(t_env **env)
+void 	mshell_level(t_env **env)
 {
 	t_env 		*shlvl;
 	char 		*new_lvl;
@@ -71,11 +71,10 @@ int 	mshell_level(t_env **env)
 			shlvl->value = new_lvl;
 		}
 		else
-			mshell_lvl_error(env, new_lvl);
-		//program should terminate
+			mshell_lvl_error(env, new_lvl);   //program should terminate	
 	}
-	return (0);
 }
+
 t_env	*init_env(char **envp)
 {
 	t_env 		*env_list;
@@ -94,10 +93,6 @@ t_env	*init_env(char **envp)
 		free(env_list);
 		return (NULL);
 	}
-	if (mshell_level(&env_list))
-	{
-		free(env_list);
-		return(NULL);
-	}
+	mshell_level(&env_list);
 	return (env_list);
 }
