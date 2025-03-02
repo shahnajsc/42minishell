@@ -3,18 +3,17 @@
 int cd_error(char **args, t_cd_error err)
 {
 	ft_putstr_fd("minishell: cd: ", STDERR_FILENO);
-	// if (args[1] && !args[2])    // needed?
 	ft_putstr_fd(args[1], STDERR_FILENO);
 	ft_putstr_fd(": ", STDERR_FILENO);
 	if (err == NO_FILE)
 		ft_putendl_fd("No such file or directory", STDERR_FILENO);
-	if (err == NOT_DIR)
+	else if (err == NOT_DIR)
 		ft_putendl_fd("Not a directory", STDERR_FILENO);
-	if (err == NO_PERM)
+	else if (err == NO_PERM)
 		ft_putendl_fd("Permission denied", STDERR_FILENO);
-	if (err == HOME_UNSET)
+	else if (err == HOME_UNSET)
 		ft_putendl_fd("HOME not set", STDERR_FILENO);
-	if (err == TOO_MANY_ARGS)
+	else if (err == TOO_MANY_ARGS)
 		ft_putendl_fd("too many arguments", STDERR_FILENO);
 	return (1);
 }
@@ -27,6 +26,7 @@ int 	builtins_error(char *err_msg, char *free_str)
 	ft_putchar_fd('\n', STDERR_FILENO);
 	return (1);
 }
+
 int 	is_invalid_identifier(char *identifier)
 {
 	int 	i;
@@ -52,6 +52,7 @@ int 	is_invalid_identifier(char *identifier)
 	}
 	return (0);
 }
+
 int	mshell_lvl_error(t_env **env, char *new_lvl)
 {
 	ft_putstr_fd("minishell: warning: mshell level (", STDERR_FILENO);
