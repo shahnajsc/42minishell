@@ -27,11 +27,10 @@ int		ft_env(t_mshell *mshell, char **args)
 		print_env(mshell->env);
 	else
 	{
-		ft_putstr_fd("env: `", STDERR_FILENO);
+		ft_putstr_fd("env: ‘", STDERR_FILENO);
 		ft_putstr_fd(args[1], STDERR_FILENO);
-		ft_putendl_fd("`: No such file or directory", STDERR_FILENO);
+		ft_putendl_fd("’: No such file or directory", STDERR_FILENO);
 		status_code = 127;
 	}
-	mshell->exit_code = status_code;
 	return (status_code);
 }
