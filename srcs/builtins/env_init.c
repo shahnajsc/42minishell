@@ -37,8 +37,8 @@ int	duplicate_env(t_env **env, char **envp)
 	char	*sign;
 	int		i;
 
-	i = -1;
-	while (++i < envp_size(envp))
+	i = 0;
+	while (envp[i] != NULL)
 	{
 		sign = ft_strchr(envp[i], '=');
 		if (!set_key_value(&((*env)[i]), envp[i], &sign))
@@ -46,6 +46,7 @@ int	duplicate_env(t_env **env, char **envp)
 			free_env(*env);
 			return(-1);
 		}
+		i++;
 	}
 	(*env)[i].key = NULL;
 	(*env)[i].value = NULL;
