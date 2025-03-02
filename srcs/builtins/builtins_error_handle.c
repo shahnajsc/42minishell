@@ -52,18 +52,26 @@ int 	is_invalid_identifier(char *identifier)
 	}
 	return (0);
 }
-void 	 free_env(t_env *env, int size)
+int	mshell_lvl_error(t_env **env, char *new_lvl)
+{
+	ft_putstr_fd("minishell: warning: mshell level (", STDERR_FILENO);
+	ft_putstr_fd(new_lvl, STDERR_FILENO);
+	ft_putendl_fd(") too high, resetting to 1", STDERR_FILENO);
+	free(new_lvl);
+	free_env(*env);
+	exit (EXIT_FAILURE); 
+}
+void 	free_env(t_env *env)
 {
 	int i;
 
 	i = 0;
-	while (i < size)
+	while (env[i].key != NULL)
 	{
 		free(env[i].key);
 		free(env[i].value);
 		i++;
 	}
 	free(env);
-	env = NULL;
 }
 
