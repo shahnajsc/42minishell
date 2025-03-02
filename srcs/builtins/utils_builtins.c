@@ -7,10 +7,10 @@ char *ft_strndup(char *src, size_t n)
 
 	if (!src)
 		return (NULL);
+	i = 0;
 	dest = malloc(sizeof(size_t) * (n + 1));
     if (!dest)
         return (NULL);
-	i = 0;
     while (i < n && src[i] != '\0')
     {
         dest[i] = src[i];
