@@ -27,7 +27,8 @@ void   add_env_var(t_env **old_env, char *key, char *value)
 {
 	t_env 	*new_env;
 	int 	i;
-	
+	if (!*old_env || !key || value)
+		return ;	
 	new_env = NULL;
 	new_env = allocate_new_env(*old_env);
 	if (!new_env)
