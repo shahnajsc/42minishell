@@ -27,27 +27,30 @@ int 	builtins_error(char *err_msg, char *free_str)
 	ft_putchar_fd('\n', STDERR_FILENO);
 	return (1);
 }
-int 	is_invalid_identifier(char *identifier, char *arg)
+int 	is_invalid_identifier(char *identifier)
 {
 	int 	i;
 
 	if (!identifier || (!ft_isalpha(identifier[0]) && identifier[0] != '_'))
 	{
 		ft_putstr_fd("minishell: export: `", STDERR_FILENO);
-		ft_putstr_fd(arg, STDERR_FILENO);
+		ft_putstr_fd(identifier, STDERR_FILENO);
 		ft_putendl_fd("`: not a valid identifier", STDERR_FILENO);
 		return (1);
 	}
-	i = 0;
-	while(identifier[++i] != '\0')
+	i = 1;
+	while (identifier[i] != '\0' && identifier[i] != '=')
 	{
-		if (ft_isalnum(identifier[i]) || identifier[i] == '_')
-			return (0);
+		if (!ft_isalnum(identifier[i]) && identifier[i] != '_')
+		{
+			ft_putstr_fd("minishell: export: `", STDERR_FILENO);
+			ft_putstr_fd(identifier, STDERR_FILENO);
+			ft_putendl_fd("`: not a valid identifier", STDERR_FILENO);
+			return (1);
+		}
+		i++;
 	}
-	ft_putstr_fd("minishell: export: `", STDERR_FILENO);
-	ft_putstr_fd(arg, STDERR_FILENO);
-	ft_putendl_fd("`: not a valid identifier", STDERR_FILENO);
-	return (1);
+	return (0);
 }
 void 	 free_env(t_env *env, int size)
 {
