@@ -30,6 +30,5 @@ int 	ft_export(t_mshell *mshell, char **args)
 		print_export(mshell->env);
 	else
 		set_env_variable(mshell, args, &status_code);
-	mshell->exit_code = status_code;
 	return (status_code);
 }
