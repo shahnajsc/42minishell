@@ -5,10 +5,12 @@ char *ft_strndup(char *src, size_t n)
     size_t i;
     char *dest;
 
-	i = 0;
+	if (!src)
+		return (NULL);
 	dest = malloc(sizeof(size_t) * (n + 1));
     if (!dest)
         return (NULL);
+	i = 0;
     while (i < n && src[i] != '\0')
     {
         dest[i] = src[i];
@@ -37,7 +39,7 @@ t_env  *allocate_new_env(t_env *old_env)
 	t_env 	*new_env;
 	int 	i;
 
-	if (old_env == NULL)
+	if (!old_env)
         return NULL;
 	i = env_size(old_env);
 	new_env = malloc(sizeof(t_env) * (i + 2));
