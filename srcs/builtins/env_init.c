@@ -32,7 +32,7 @@ static char *set_key_value(t_env *env, char *envp, char **sign)
 	return (envp);
 }
 
-int	duplicate_env(t_env **env, char **envp)
+int	env_duplicate(t_env **env, char **envp)
 {
 	char	*sign;
 	int		i;
@@ -61,19 +61,19 @@ void 	mshell_level(t_env **env)
 
 	shlvl = get_env_var(*env, "SHLVL");
 	if (!shlvl || !shlvl->value)
+	{	
 		add_env_var(env, "SHLVL", "1");
-	else 
-	{
-		nbr = ft_atoi(shlvl->value);
-		new_lvl = ft_itoa(nbr + 1);
-		if (nbr < 999)
-		{
-			free(shlvl->value);
-			shlvl->value = new_lvl;
-		}
-		else
-			mshell_lvl_error(env, new_lvl);   //program should terminate	
+		return ;
 	}
+	nbr = ft_atoi(shlvl->value);  // need to change ft_atoi
+	new_lvl = ft_itoa(nbr + 1);
+	if (nbr < 999)
+	{
+		free(shlvl->value);
+		shlvl->value = new_lvl;
+	}
+	else
+		mshell_lvl_error(env, new_lvl);   //program should terminate	
 }
 
 t_env	*init_env(char **envp)
@@ -89,7 +89,7 @@ t_env	*init_env(char **envp)
 		return(NULL);
 	}
 	ft_memset(env_list, 0, sizeof(t_env) * (size + 1));
-	if (duplicate_env(&env_list, envp) != 0)
+	if (env_duplicate(&env_list, envp) != 0)
 	{
 		free(env_list);
 		return (NULL);
