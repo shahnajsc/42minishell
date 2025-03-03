@@ -59,8 +59,14 @@ t_token *assign_file_deli_tokens(t_token *head_token)
 	current_token = head_token;
 	while (current_token)
 	{
-		if (current_token->tok_type == REDIRECT && current_token->next->tok_type == CMD)
-			current_token->next->tok_type = FILE_DELI;
+		if (current_token->tok_type == REDIRECT
+			&& ft_strcmp(current_token->tok_value, "<<")
+			&& current_token->next->tok_type == CMD)
+			current_token->next->tok_type = DELIMETER;
+		else if (current_token->tok_type == REDIRECT
+			&& !ft_strcmp(current_token->tok_value, "<<")
+			&& current_token->next->tok_type == CMD)
+			current_token->next->tok_type = FILENAME;
 		// else
 		// 	return (NULL); // print error??
 		current_token = current_token->next;

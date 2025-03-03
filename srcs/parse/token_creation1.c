@@ -98,26 +98,7 @@ t_token *create_str_token(char *cmd_str, int *i, t_token_type t_type)
 		return (NULL);
 	new_token->tok_type = t_type;
 	new_token->next = NULL;
-	// printf("inside token id[%d]\n", *i);
-	// if (cmd_str[*i] != '\0')
-    //     (*i)++;
-	// printf("after token id[%d]\n", *i);
 	return (new_token);
 }
-	// {
-		// 	new_token = create_cmd_token(cmd_str, &i, tok_type);
-		// }
-		// else
-		// 	new_token = create_other_token(&i, tok_type);
-		// if (!new_token)
-		// 	return (NULL); // free the whole token list
-		// //add_new_token(&head_token, new_token);
-		// i++;
-
-		//if (tok_type == CMD)
-
-	//t_token	*head_token;
-	//t_token	*new_token;
-	//head_token = NULL;
 
 

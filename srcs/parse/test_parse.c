@@ -11,3 +11,16 @@ void	tokens_print(t_token *token)
 	}
 	printf("\n");
 }
+
+void	print_splitted_cmds(char **cmds)
+{
+	int	i;
+
+	i = 0;
+	while (cmds[i])
+	{
+		printf("id[%d][%s]\n", i, cmds[i]);
+		i++;
+	}
+	printf("\n");
+}

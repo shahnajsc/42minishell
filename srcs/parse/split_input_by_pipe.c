@@ -44,7 +44,7 @@ static char *get_end_point(char *input_str)
 	return (input_str);
 }
 
-static char	**splitted_cmd(char *input_str, char **cmds_temp, int cmd_count, int i)
+static char	**splitted_by_pipe(char *input_str, char **cmds_temp, int cmd_count, int i)
 {
 	char	*start;
 	char	*end;
@@ -77,7 +77,7 @@ char	**split_input_by_pipes(int cmd_count, char *input_str)
 	cmds_temp = (char **)malloc(sizeof(char *) * (cmd_count + 1));
 	if (!cmds_temp)
 		return (NULL);
-	cmds_temp = splitted_cmd(input_str, cmds_temp, cmd_count, -1);
+	cmds_temp = splitted_by_pipe(input_str, cmds_temp, cmd_count, -1);
 	if (!cmds_temp)
 	{
 		printf("no splitted cmds sp function\n");

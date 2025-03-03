@@ -9,7 +9,8 @@ typedef enum e_token_type
 	CMD,
 	//ARG,
 	REDIRECT,
-	FILE_DELI,
+	FILENAME,
+	DELIMETER,
 }  t_token_type;
 
 // typedef enum e_rerirect_type
@@ -83,6 +84,7 @@ int		input_pre_validation(t_mshell *mshell, char *input_str);
 
 //...... PARSE .....////
 int		parse_input(t_mshell *mshell, char *input_str);
+char	**splitted_cmd(t_mshell *mshell, int i);
 
 //...... TOKEN .....///
 int		tokenize_input(t_mshell *mshell, char *input_str);
@@ -108,4 +110,5 @@ int		check_char_is_redirect(char c);
 //,,,,,,,,,,,,,,,,,//
 //......TEST FUNCTIONS.......///
 void	tokens_print(t_token *token);
+void	print_splitted_cmds(char **cmds);
 #endif
