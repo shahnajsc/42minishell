@@ -58,3 +58,18 @@ int 	env_size(t_env *env)
 	return (i);
 }
 
+int 	is_invalid_digit(char *arg)
+{
+	int 	i;
+
+	i = 0;
+	if (arg[i] == '-' || arg[i] == '+') 
+        i++;
+	while (arg[i] != '\0')
+	{
+		if (!ft_isdigit(arg[i]))
+			return (1);
+		i++;
+	}
+	return (0);
+}
