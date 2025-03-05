@@ -30,17 +30,19 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 
-# define PROMPT "minishell>>"
+# define PROMPT "minishell>> "
 
 typedef struct	s_mshell
 {
-	char			**envp;
+	t_env			*env;
+	t_built_state   *b_state;
 	char			*input;
 	t_token_list	*token_list;
 	int				exit_code;
 }	t_mshell;
 
 //FUNCTIONS
+void	minishell(t_mshell *mshell);
 
 
 #endif
