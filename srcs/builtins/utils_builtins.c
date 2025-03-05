@@ -42,10 +42,9 @@ t_env  *allocate_new_env(t_env *old_env)
 	if (!old_env)
         return NULL;
 	i = env_size(old_env);
-	new_env = malloc(sizeof(t_env) * (i + 2));
+	new_env = ft_calloc(sizeof(t_env), (i + 2));
 	if (!new_env)
 		return (NULL);
-	ft_memset(new_env, 0, sizeof(t_env) * (i + 1));
 	return (new_env);
 }
 int 	env_size(t_env *env)
