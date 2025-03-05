@@ -35,7 +35,7 @@ static int	init_cmds(t_mshell*mshell, char *input_str)
 	return (0);
 }
 
-t_token	*create_tokens_list(char *cmd_str)
+t_token	*create_tokens_list(t_mshell *mshell, char *cmd_str)
 {
 	t_token	*head_token;
 	t_token	*new_token;
@@ -59,7 +59,7 @@ t_token	*create_tokens_list(char *cmd_str)
 	}
 	head_token = delete_empty_token(head_token);
 	head_token = assign_file_deli_tokens(head_token);
-	head_token = expand_token_values(head_token);
+	head_token = expand_token_values(mshell, head_token);
 	if (!head_token)
 		return (NULL);
 	return (head_token);
@@ -95,7 +95,7 @@ int	tokenize_input(t_mshell *mshell, char *input_str)
 		return (syntax_pre_error(mshell, ERR_COMN, "Tokenization failed: Struct t_cmd init"));
 	while (i < mshell->count_cmds)
 	{
-		mshell->cmds[i].token = create_tokens_list(mshell->cmds[i].cmd_str);
+		mshell->cmds[i].token = create_tokens_list(mshell, mshell->cmds[i].cmd_str);
 		if (!mshell->cmds[i].token)
 		{
 			printf("no tokens \n");
