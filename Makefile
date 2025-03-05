@@ -25,7 +25,7 @@ MAN_BUILT  		= srcs/builtins/ft_pwd.c \
 				srcs/builtins/builtins.c srcs/builtins/utils_cd.c \
 				srcs/builtins/env_init.c  srcs/builtins/utils_export.c \
 				srcs/builtins/utils_builtins.c \
-				srcs/minishell/minishell_initiate.c \
+				srcs/minishell/minishell_initiate.c srcs/builtins/ft_exit.c \
 
 # Source path
 
