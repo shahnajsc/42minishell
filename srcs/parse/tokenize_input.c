@@ -60,6 +60,7 @@ t_token	*create_tokens_list(t_mshell *mshell, char *cmd_str)
 	head_token = delete_empty_token(head_token);
 	head_token = assign_file_deli_tokens(head_token);
 	head_token = expand_token_values(mshell, head_token);
+	printf("mshell[%d]\n", mshell->count_cmds);
 	if (!head_token)
 		return (NULL);
 	return (head_token);
