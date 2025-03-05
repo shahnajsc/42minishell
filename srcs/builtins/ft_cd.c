@@ -41,15 +41,15 @@ int handle_cd(t_mshell *mshell, char **args, char **oldpwd, char **pwd)
 		return (cd_error(args, TOO_MANY_ARGS));
 	*oldpwd = getcwd(NULL, 0);
 	if (!*oldpwd)
-		return (builtins_error("getcwd failed for oldpwd", NULL));
+		return (builtins_error(args[0], "getcwd failed for oldpwd", NULL));
 	status_code = is_invalid_directory(&mshell->env, args);
 	if (status_code)
 		return (cd_error(args, status_code));
 	if (chdir(args[1]) == -1)
-		return (builtins_error("chdir failed", *oldpwd));
+		return (builtins_error(args[0],"chdir failed", *oldpwd));
 	*pwd = getcwd(NULL, 0);
 	if (!*pwd)
-		return (builtins_error("getcwd failed for pwd", NULL));;
+		return (builtins_error(args[0],"getcwd failed for pwd", NULL));
 	return (update_env_state(mshell, oldpwd, pwd));
 }
 int 	ft_cd(t_mshell *mshell, char **args)

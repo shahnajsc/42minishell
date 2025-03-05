@@ -1,12 +1,53 @@
 #include "minishell.h"
 
+// void 	ft_unset(t_env **env, char *key)
+// {
+// 	t_env  		*variable;
+// 	t_env 		*new_env;
+// 	int 		i;
+// 	int 		index;
+
+// 	if (!env || !*env || !key)
+// 		return ;
+// 	i = 0;
+// 	index = 0;
+// 	variable = get_env_var(*env, key);
+// 	if (!variable)
+// 		return ;
+// 	i = env_size(*env);
+// 	new_env = allocate_new_env(env);
+// 	if (!new_env)
+// 		return ;
+// 	while ((*env)[i].key != NULL)
+// 	{
+// 		if (&(*env)[i] != variable)
+// 		{
+// 			new_env[index].key = ft_strdup((*env)[i].key);
+// 			if ((*env)[i].value)
+// 				new_env[index].value = ft_strdup((*env)[i].value);
+// 			else
+// 				new_env[index].value = NULL;
+// 			if (!new_env[index].key || (!new_env[index].value && (*env)[i].value))
+//             {
+//                 free_env(new_env);
+//                 return;
+//             }
+// 			index++;
+// 		}
+// 		i++;
+// 	}
+// 	new_env[index].key = NULL;
+//     new_env[index].value = NULL;
+//     free_env(*env);
+//     *env = new_env;
+// }
+
+
 void	ft_unset(t_env **env, char *key)
 {
 	t_env	*variable;
-	// int		size;
 	int		i;
 	int j = 0;
-	// printf("%s\n", key);
 
 	if (!env || !*env || !key)
 		return;
@@ -42,9 +83,3 @@ void	ft_unset(t_env **env, char *key)
 	}
 }
 
-
-// 	if (variable)
-// 	{
-// 		free()
-// 	}
-// }

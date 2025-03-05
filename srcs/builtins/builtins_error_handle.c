@@ -17,13 +17,14 @@ int cd_error(char **args, t_cd_error err)
 		ft_putendl_fd("too many arguments", STDERR_FILENO);
 	return (1);
 }
-int 	builtins_error(char *err_msg, char *free_str)
+int 	builtins_error(char *arg, char *err_msg, char *free_str)
 {
+	ft_putstr_fd("minishell: ", STDERR_FILENO);
+	if (arg)
+		ft_putstr_fd(arg, STDERR_FILENO);
+	ft_putendl_fd(err_msg, STDERR_FILENO);
 	if (free_str)
 		free(free_str);
-	ft_putstr_fd("minishell: ", STDERR_FILENO);
-	ft_putstr_fd(err_msg, STDERR_FILENO);
-	ft_putchar_fd('\n', STDERR_FILENO);
 	return (1);
 }
 

@@ -16,7 +16,7 @@ int copy_env(t_env *old_env, t_env *new_env)
 		{
 			free_env(new_env);
 			free(new_env[i].value);
-			return(builtins_error("Allocation failed for new env", new_env[i].key));
+			return(builtins_error(NULL, "Allocation failed for new env", new_env[i].key));
 		}
         i++;
     }

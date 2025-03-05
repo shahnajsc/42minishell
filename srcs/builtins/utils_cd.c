@@ -37,7 +37,7 @@ static int shell_state(t_mshell *mshell, char *oldpwd, char *pwd)
 		mshell->b_state->pwd = getcwd(NULL, 0);
 		mshell->b_state->old_pwd = NULL;
 		if (!mshell->b_state->pwd)
-			return(builtins_error("getcwd failed for state->pwd", NULL));
+			return(builtins_error(NULL, "getcwd failed for state->pwd", NULL));
 	}
 	free(mshell->b_state->old_pwd);
 	free(mshell->b_state->pwd);
