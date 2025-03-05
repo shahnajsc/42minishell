@@ -12,15 +12,13 @@ void	minishell(t_mshell *mshell)
 			printf("no input\n");
 			break;
 		}
+		if (*input_str)
+			builtins_execv(mshell, input_str);
+		//parse_input(mshell, input_str);
+		// execute_mshell(mshell);
 		add_history(input_str);
-		if (input_pre_validation(mshell, input_str))
-		{
-			continue ;
-		}
 		free(input_str);
 	}
-	if (input_str)
-		mshell->input = input_str;
 	rl_clear_history();
 	return ;
 }

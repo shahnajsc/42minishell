@@ -18,10 +18,18 @@ MAN_DIR 		= srcs/envp/envp_duplicate.c	\
 				srcs/parse/input_pre_validation.c	srcs/parse/utils_pre_validation.c	\
 				srcs/parse/parse_error_handle.c	\
 
+MAN_BUILT  		= srcs/builtins/ft_pwd.c \
+				srcs/builtins/ft_env.c 	srcs/builtins/ft_export.c \
+				srcs/builtins/ft_cd.c 	srcs/builtins/ft_echo.c \
+				srcs/builtins/ft_unset.c srcs/builtins/builtins_error_handle.c \
+				srcs/builtins/builtins.c srcs/builtins/utils_cd.c \
+				srcs/builtins/env_init.c  srcs/builtins/utils_export.c \
+				srcs/builtins/utils_builtins.c \
+				srcs/minishell/minishell_initiate.c srcs/builtins/ft_exit.c \
 
 # Source path
 
-MAN_SRCS		=	main.c srcs/builtins/ft_pwd.c srcs/builtins/ft_env.c srcs/builtins/ft_export.c srcs/builtins/ft_cd.c srcs/builtins/ft_echo.c $(MAN_DIR)
+MAN_SRCS		= builtins_main.c $(MAN_BUILT)
 
 # Marker files to track which version is built
 #mandatory : .mandatory
