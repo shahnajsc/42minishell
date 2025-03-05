@@ -65,12 +65,13 @@ void 	mshell_level(t_env **env)
 		add_env_var(env, "SHLVL", "1");
 		return ;
 	}
-	nbr = ft_atoi(shlvl->value);  // need to change ft_atoi
+	nbr = ft_atoi(shlvl->value);
 	new_lvl = ft_itoa(nbr + 1);
 	if (nbr < 999)
 	{
 		free(shlvl->value);
 		shlvl->value = new_lvl;
+		free(new_lvl);
 	}
 	else
 		mshell_lvl_error(env, new_lvl);   //program should terminate	
@@ -82,13 +83,12 @@ t_env	*init_env(char **envp)
 	int 		size;
 
 	size = envp_size(envp);
-	env_list = malloc(sizeof(t_env) * (size + 1));
+	env_list = ft_calloc(sizeof(t_env), (size + 1));
 	if (!env_list)
 	{
 		ft_putendl_fd("minishell: Allocation faild for env", STDERR_FILENO);
 		return(NULL);
 	}
-	ft_memset(env_list, 0, sizeof(t_env) * (size + 1));
 	if (env_duplicate(&env_list, envp) != 0)
 	{
 		free(env_list);
