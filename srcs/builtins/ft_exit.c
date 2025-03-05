@@ -69,7 +69,7 @@ int  ft_exit(t_mshell *mshell, char **args)
 	printf("%d\n", exit_status);
 	if (exit_status != 1)
 		exit_mshell(mshell, &exit_status);
-	return (0);
+	return (exit_status);
 }
 /*
 
