@@ -50,6 +50,32 @@ t_token *delete_empty_token(t_token *head_token)
 	return (head_token);
 }
 
+// t_token *delete_empty_token(t_token *head_token)
+// {
+// 	t_token *current = head_token, *prev = NULL, *temp;
+
+// 	while (current)
+// 	{
+// 		if (current->tok_type == EMPTY)
+// 		{
+// 			temp = current;
+// 			if (!prev)
+// 				head_token = current->next;
+// 			else
+// 				prev->next = current->next;
+// 			current = current->next;
+// 			free(temp->tok_value);
+// 			free(temp);
+// 		}
+// 		else
+// 		{
+// 			prev = current;
+// 			current = current->next;
+// 		}
+// 	}
+// 	return (head_token);
+// }
+
 t_token *assign_file_deli_tokens(t_token *head_token)
 {
 	t_token *current_token;

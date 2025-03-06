@@ -33,7 +33,7 @@ t_token_type	get_token_type(char *cmd_str, int i)
 {
 	if (check_char_is_redirect(cmd_str[i]))
 		return(REDIRECT);
-	else if (cmd_str[i] == ' ')
+	else if (check_char_whitespaces(cmd_str[i]))
 		return (EMPTY);
 	else
 		return (CMD);

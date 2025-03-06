@@ -1,97 +1,98 @@
 #include "minishell.h"
 
-char	*get_token_envkey(char *token_value, int i)
+char	*get_var_expanded(char *token, char *env_value, char *env_key, int *i)
 {
-	char	*env_key;
-	int		key_end;
-	int		key_start;
-	if (!token_value)
-		return (NULL);
-	key_start = i;
-	key_end = 0;
-	while (token_value[i +  key_end] && !ft_strchr("$?\"'/", token_value[i + key_end]))
-	{
-		key_end++;
-	}
-	if ((key_start + key_end) > key_start)
-		env_key = ft_substr(token_value, key_start, key_end);
-	else
-		env_key = ft_strdup("");
-	return (env_key);
-}
-char *get_env_key_value(t_mshell *mshell, char *env_key)
-{
-	int	i;
-	char *env_key_value;
+	int		new_len;
+	char	*new_token;
+	int		env_len;
 
-	if (!env_key)
+	env_len = ft_strlen(env_value);
+	new_len = ft_strlen(token) + env_len - ft_strlen(env_key);
+	new_token = ft_calloc(new_len + 1,  sizeof(char));
+	if (!new_token)
 		return (NULL);
-	i = 0;
-	env_key_value = NULL;
-	while (mshell->env[i].key)
-	{
-		if (ft_strcmp(mshell->env[i].key, env_key) == 0)
-		{
-			env_key_value = ft_strdup(mshell->env[i].value);
-			break ;
-		}
-		i++;
-	}
-	if (!env_key_value)
-		env_key_value = ft_strdup("");
-	return (env_key_value);
+	ft_strlcpy(new_token, token, *i + 1);
+	if (env_value)
+		ft_strlcpy(new_token + *i, env_value, *i + env_len  + 1);
+	ft_strlcpy(new_token + *i + env_len, token + *i + ft_strlen(env_key) + 1, new_len + 1);
+	*i += env_len;
+	return (new_token);
 }
-
 
 char	*get_expanded_token(t_mshell *mshell, char *token_value,  int *i)
 {
 	char	*env_key;
 	char	*env_key_value;
 	char	*expanded_token;
-	//int		token_new_len;
-	// char	*value_remain;
 
-	expanded_token = ft_substr(token_value, 0, *i);
-	(*i)++;
-	printf("i value before key[%d]\n", *i);
 	env_key = get_token_envkey(token_value, *i);
-	printf("i value after key[%d]\n", *i);
+	if (!env_key)
+		return (NULL);
 	env_key_value = get_env_key_value(mshell, env_key);
-	//token_new_len = (ft_strlen(token_value) + ft_strlen(env_key))
-	expanded_token = ft_strjoin(expanded_token, env_key_value);
-	*i = ft_strlen(expanded_token);
-	printf("i value after strjoin[%d]\n", *i);
-	return (expanded_token); //wrong value
+	if (!env_key_value)
+		return (free(env_key), NULL);
+	expanded_token = get_var_expanded(token_value, env_key_value, env_key, i);
+	free(env_key);
+	free(env_key_value);
+	free(token_value);
+	if (!expanded_token)
+		return (NULL);
+	return (expanded_token);
 }
-//printf("env_key[%s]\n", env_key);
-//printf("env_key_value[%s]\n", env_key_value);
 
 char	*expand_text_token(t_mshell *mshell, char *token_value)
 {
 	int	i;
+	char *exit_code;
 
 	if (!token_value)
 		return (NULL);
 	i = 0;
+	exit_code = ft_itoa(mshell->exit_code);
+	if (!exit_code)
+		return (NULL);
 	if (token_value[i] == '\'')
 		return (token_value);
 	while (token_value[i])
 	{
-		while (token_value[i] && token_value[i] != '$')
+		// if (token_value[i] == '$' && token_value[i +  1] && token_value[i + 1] == '$')
+		// 	what??
+		if (token_value[i] == '$' && token_value[i +  1] && !ft_strchr("$/", token_value[i + 1]))
+		{
+			if (check_char_whitespaces(token_value[i+1])||token_value[i + 1]== '?')
+				token_value = get_var_expanded(token_value, exit_code, "?", &i);
+			else
+				token_value = get_expanded_token(mshell, token_value, &i);
+		}
+		else
 			i++;
-		if (token_value[i] == '$' && token_value[i +  1])
-			token_value = get_expanded_token(mshell, token_value, &i);
 	}
-	printf("exp token[%s]\n", token_value);
-	if (!token_value)
-		return (token_value);
 	return (token_value);
+}
+
+char *remove_quote(char *tok_value)
+{
+	int	i;
+	int len;
+	char *new_value;
+
+	i = 0;
+	len = ft_strlen(tok_value);
+	new_value = ft_calloc(len -1, sizeof(char));
+	if (!new_value)
+		return (NULL);
+	while (i < len - 2)
+	{
+		new_value[i] = tok_value[i + 1];
+		i++;
+	}
+	new_value[i] = '\0';
+	return (new_value);
 }
 
 t_token *expand_token_values(t_mshell *mshell, t_token *head_token)
 {
 	t_token *current_token;
-	// char 	*value;
 
 	if (!head_token)
 		return ( NULL);
@@ -100,11 +101,13 @@ t_token *expand_token_values(t_mshell *mshell, t_token *head_token)
 	{
 		if (current_token->tok_type == CMD || current_token->tok_type == FILENAME)
 			current_token->tok_value = expand_text_token(mshell, current_token->tok_value);
-		// else if (current_token->tok_type == DELIMETER)
-		// 	current_token->tok_value = expand_delimeter_token(current_token->tok_value);
-		// if (check_char_is_quote(current_token->tok_value[0]))
-		// 	current_token->tok_value = remove_quote(mshell, current_token->tok_value);
+		if (check_char_is_quote(current_token->tok_value[0]))
+			current_token->tok_value = remove_quote(current_token->tok_value);
+		if (!current_token->tok_value)
+			return (NULL);
 		current_token = current_token->next;
 	}
 	return (head_token);
 }
+
+//cases to check: $, $$ , $/, $1, $123 , echo $$HOME

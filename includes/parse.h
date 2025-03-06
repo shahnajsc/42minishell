@@ -106,10 +106,13 @@ int		count_pipes(char *input_str);
 char	**split_input_by_pipes(int cmd_count, char *input_str);
 t_token_type	get_token_type(char *cmd_str, int i);
 int		check_char_is_redirect(char c);
+char	*get_token_envkey(char *token_value, int i);
+char	*get_env_key_value(t_mshell *mshell, char *env_key);
 
 //,,,,,,,,,,,,,,,,,//
 //,,,,,,,,,,,,,,,,,//
 //......TEST FUNCTIONS.......///
 void	tokens_print(t_token *token);
 void	print_splitted_cmds(char **cmds);
+void print_command_list(t_mshell *mshell);
 #endif

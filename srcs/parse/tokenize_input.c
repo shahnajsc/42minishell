@@ -1,12 +1,5 @@
 #include "minishell.h"
 
-// static t_token	init_token(t_mshell *mshell, t_cmd *cmd_ptr)
-// {
-// 	mshell->cmds->token = (t_token *)ft_calloc(2, sizeof(t_token));
-// 	if (!mshell->cmds->token)
-// 		return (NULL);
-// }
-
 static int	init_cmds(t_mshell*mshell, char *input_str)
 {
 	char	**cmds_temp;
@@ -60,17 +53,10 @@ t_token	*create_tokens_list(t_mshell *mshell, char *cmd_str)
 	head_token = delete_empty_token(head_token);
 	head_token = assign_file_deli_tokens(head_token);
 	head_token = expand_token_values(mshell, head_token);
-	printf("mshell[%d]\n", mshell->count_cmds);
 	if (!head_token)
 		return (NULL);
 	return (head_token);
 }
-
-	// tokens_print(head_token);
-		// printf("After\n");
-	// tokens_print(head_token);
-		// printf("FILE\n");
-	// tokens_print(head_token);
 
 static int	update_mshell(t_mshell*mshell, char *input_str)
 {
@@ -98,28 +84,15 @@ int	tokenize_input(t_mshell *mshell, char *input_str)
 	{
 		mshell->cmds[i].token = create_tokens_list(mshell, mshell->cmds[i].cmd_str);
 		if (!mshell->cmds[i].token)
-		{
-			printf("no tokens \n");
 			return (1);
-		}
-		tokens_print(mshell->cmds[i].token);
 		mshell->cmds[i].splitted_cmd = splitted_cmd(mshell, i);
 		if (!mshell->cmds[i].splitted_cmd)
-		{
-			printf("no cmds \n");
-			//return (1);
-		}
-		printf("cmd name: %s\n", mshell->cmds[i].cmd_name);
-		print_splitted_cmds(mshell->cmds[i].splitted_cmd);
+			return (1);
 		// mshell->cmds[index].redirects = create_redirects_list(mshell, index);
 		// if (!mshell->cmds[index].redirects)
-		// 	return (1);
-		// mshell->cmds[index].splitted_cmd = create_splitted_cmds(mshell, index); // also update cmd_name
-		// if (!mshell->cmds[index].splitted_cmd)
-		// 	return (1);
-		//printf("token id [%d]\n", index);
 		i++;
 	}
+	print_command_list(mshell);
 	return (0);
 }
 
