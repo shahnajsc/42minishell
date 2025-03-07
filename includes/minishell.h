@@ -35,14 +35,15 @@
 typedef struct	s_mshell
 {
 	t_env			*env;
-	t_built_state   *b_state;
-	char			*input;
-	t_token_list	*token_list;
+	//char			*input;
+  t_built_state   *b_state;
+	int				count_cmds;
+	t_cmd			*cmds;
 	int				exit_code;
 }	t_mshell;
 
+
 //FUNCTIONS
 void	minishell(t_mshell *mshell);
-
 
 #endif

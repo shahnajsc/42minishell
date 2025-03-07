@@ -1,10 +1,12 @@
 #include "minishell.h"
 
-void	parse_input(t_mshell *mshell, char *input_str)
+int	parse_input(t_mshell *mshell, char *input_str)
 {
 	if (!input_str)
-		return ;
+		return (1);
 	if (input_pre_validation(mshell, input_str))
-		return ;
-	tokenize_input(mshell, input_str);
+		return (1);
+	if (tokenize_input(mshell, input_str))
+		return (1);
+	return (0);
 }

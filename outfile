@@ -1,0 +1,3 @@
+NAME 			= minishell
+	$(CC) $(CFLAGS) $(RLFLAGS) $(INCLUDES) $(MAN_SRCS) $(LIBFT) -o $(NAME)
+	$(RM) $(NAME) .mandatory

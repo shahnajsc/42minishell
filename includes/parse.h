@@ -1,30 +1,68 @@
-#ifndef TOKEN_H
-# define TOKEN_H
+#ifndef PARSE_H
+# define PARSE_H
 
 typedef struct s_mshell t_mshell;
 
-typedef enum e_token_type{
+typedef enum e_token_type
+{
+	EMPTY,
 	CMD,
-	ARG,
-	PIPE,
-	RD_IN,
-	RD_HEREDOC,
-	RD_OUT,
-	RD_APPEND,
+	//ARG,
+	REDIRECT,
+	FILENAME,
+	DELIMETER,
 }  t_token_type;
+
+// typedef enum e_rerirect_type
+// {
+// 	RD_IN, //value :file name
+// 	RD_HEREDOC, // value: Delimeter
+// 	RD_OUT, // value file name
+// 	RD_APPEND, // value filename
+// }  t_redirect_type;
 
 typedef struct s_token
 {
-	t_token_type tok_type;
-	char	*cmd;
-	char	**sp`lited_cmd;
+	t_token_type	tok_type;
+	char			*tok_value;
+	struct s_token	*next;
 }	t_token;
 
-typedef struct s_tokens_list
+typedef struct s_redirect
 {
-	t_token	*token;
-	size_t	total_token;
-}	t_token_list;
+	t_token_type		rd_type;
+	char				*file;
+	int					fd;
+	char				*path;
+	struct s_redirect	*next;
+} t_redirect;
+
+typedef struct s_cmd
+{
+	t_token		*token;
+	t_redirect	*redirects;
+	char		*cmd_str;
+	char		*cmd_name;
+	char		**splitted_cmd;
+	int			in_fd;
+	int			out_fd;
+}	t_cmd;
+
+// typedef struct	s_mshell
+// {
+// 	char			**envp;
+// 	//char			*input;
+// 	int				count_cmds;
+// 	t_cmd			*cmds;
+// 	int				exit_code;
+// }	t_mshell;
+
+typedef enum e_mshell_err
+{
+	ERR_SYN,
+	ERR_BUILTIN,
+	ERR_EXEV,
+}	t_mshell_err;
 
 typedef enum e_syntax_err
 {
@@ -45,16 +83,36 @@ char	*skip_unquoted_part(char *input_str);
 int		input_pre_validation(t_mshell *mshell, char *input_str);
 
 //...... PARSE .....////
-void	parse_input(t_mshell *mshell, char *input_str);
+int		parse_input(t_mshell *mshell, char *input_str);
+char	**splitted_cmd(t_mshell *mshell, int i);
 
 //...... TOKEN .....///
-void	tokenize_input(t_mshell *mshell, char *input_str);
+int		tokenize_input(t_mshell *mshell, char *input_str);
+//t_token	*create_tokens_list(t_mshell *mshell, int index);
+t_token	*create_str_token(char *cmd_str, int *i, t_token_type t_type);
+t_token	*create_redirect_token(char *cmd_str, int *i);
+void	add_new_token(t_token **head_token, t_token *new_token);
+t_token	*delete_empty_token(t_token *head_token);
+t_token	*assign_file_deli_tokens(t_token *head_token);
+t_token	*expand_token_values(t_mshell *mshell, t_token *head_token);
 
 //..... ERROR .....//
 int		syntax_pre_error(t_mshell *mshell, t_syntax_err syn_err, char *err_value);
-int		parse_error(char *err_msg, int err_ret);
+//int		parse_error(char *err_msg, int err_ret);
 
 //......UTILS......////
 int		check_char_is_quote(char  c);
+int		count_pipes(char *input_str);
+char	**split_input_by_pipes(int cmd_count, char *input_str);
+t_token_type	get_token_type(char *cmd_str, int i);
+int		check_char_is_redirect(char c);
+char	*get_token_envkey(char *token_value, int i);
+char	*get_env_key_value(t_mshell *mshell, char *env_key);
 
+//,,,,,,,,,,,,,,,,,//
+//,,,,,,,,,,,,,,,,,//
+//......TEST FUNCTIONS.......///
+void	tokens_print(t_token *token);
+void	print_splitted_cmds(char **cmds);
+void print_command_list(t_mshell *mshell);
 #endif

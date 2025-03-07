@@ -82,4 +82,3 @@ void	ft_unset(t_env **env, char *key)
 		i++;
 	}
 }
-
