@@ -3,7 +3,7 @@ NAME 			= minishell
 
 # Compiler and flags
 CC 				= cc
-CFLAGS 			= -Wall -Wextra -Werror
+CFLAGS 			= -Wall -Wextra -Werror -g
 RLFLAGS			= -lreadline -L ~/.brew/opt/readline/lib -I ~/.brew/opt/readline/include
 #LDFLAGS 		= -fsanitize=address  -fsanitize=address -g
 INCLUDES 		= -I./includes -I./libft/includes
