@@ -18,6 +18,8 @@ static int 	is_invalid_directory(t_env **env, char **args)
 {
 	struct stat	file_stat;
 
+	if (args[1] && args[2])
+		return (MANY_ARGS);
 	if (!args[1] || ft_strcmp(args[1], "~") == 0)
 	{
 		if (get_home_directory(env, &args[1]))
@@ -32,36 +34,27 @@ static int 	is_invalid_directory(t_env **env, char **args)
 	return (SUCSSES);
 }
 
-int handle_cd(t_mshell *mshell, char **args, char **oldpwd, char **pwd)
+int handle_cd(t_mshell *mshell, char **args)
 {
-	t_cd_error 		status_code;
+	t_cd_error 		error_code;
+	char 			*new_pwd;
 
-	status_code = 0;
-	if (args[2])
-		return (cd_error(args, TOO_MANY_ARGS));
-	*oldpwd = getcwd(NULL, 0);
-	if (!*oldpwd)
-		return (builtins_error(args[0], "getcwd failed for oldpwd", NULL));
-	status_code = is_invalid_directory(&mshell->env, args);
-	if (status_code)
-		return (cd_error(args, status_code));
+	error_code = is_invalid_directory(&mshell->env, args);
+	if (error_code != SUCSSES)
+		return (cd_error(args, error_code));
 	if (chdir(args[1]) == -1)
-		return (builtins_error(args[0],"chdir failed", *oldpwd));
-	*pwd = getcwd(NULL, 0);
-	if (!*pwd)
-		return (builtins_error(args[0],"getcwd failed for pwd", NULL));
-	return (update_env_state(mshell, oldpwd, pwd));
+		return (FAILURE);
+	new_pwd = getcwd(NULL, 0);
+	if (!new_pwd)
+		return (cd_error(args, GETCWD));
+	if (update_env_state(mshell, new_pwd) != SUCSSES)
+		return (FAILURE);
+	return (SUCSSES);
 }
 int 	ft_cd(t_mshell *mshell, char **args)
 {
 	int			status_code;
-	char 		*oldpwd;
-	char 		*pwd;
 
-	pwd = NULL;
-	oldpwd = NULL;
-	status_code = handle_cd(mshell, args, &oldpwd, &pwd);
-	free(oldpwd);
-	free(pwd);
+	status_code = handle_cd(mshell, args);
 	return (status_code);
 }
