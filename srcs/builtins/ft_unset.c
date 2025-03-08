@@ -29,7 +29,7 @@ int count_keys(char **keys)
 {
     int count;
 
-	count = 0;
+	count = 1;
     while (keys[count] != NULL)
         count++;
     return (count);
