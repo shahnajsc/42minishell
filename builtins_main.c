@@ -12,8 +12,6 @@ static int mshell_data_init(t_mshell *mshell, char **envp)
 	return (0);
 }
 
-
-
 int	main(int argc, char **argv, char **envp)
 {
 	t_mshell mshell;
