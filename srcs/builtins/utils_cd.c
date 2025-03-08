@@ -23,7 +23,7 @@ t_built_state 	*init_built_state()
 	return (state);
 }
 
-static int shell_state(t_mshell *mshell, char *oldpwd, char *pwd)
+ int shell_state(t_mshell *mshell, char *oldpwd, char *pwd)
 {
 	char *new_oldpwd;
 	char *new_pwd;
@@ -48,7 +48,7 @@ static int shell_state(t_mshell *mshell, char *oldpwd, char *pwd)
 	return (SUCSSES);
 }
 
-static void	update_cd_env(t_env **env, const char *key, const char *set_path)
+void	update_cd_env(t_env **env, const char *key, const char *set_path)
 {
 	t_env	*variable;
 	char	*temp;
@@ -65,13 +65,21 @@ static void	update_cd_env(t_env **env, const char *key, const char *set_path)
 	free(variable->value);
 	variable->value = temp;
 }
-int	update_env_state(t_mshell *mshell, char **oldpwd, char **pwd)
+int	update_env_state(t_mshell *mshell, char *current_pwd)
 {
-	if (shell_state(mshell, *oldpwd, *pwd))
+	t_env 	*current_env_pwd;
+	t_env 	*prev_pwd;
+
+	prev_pwd = get_env_var(mshell->env, "OLDPWD");
+	if (!prev_pwd || !prev_pwd->value)
 		return (1);
-	if (get_env_var(mshell->env, "OLDPWD"))
-		update_cd_env(&mshell->env, "OLDPWD", *oldpwd);
-	if (get_env_var(mshell->env, "PWD"))
-		update_cd_env(&mshell->env, "PWD", *pwd);
+	current_env_pwd = get_env_var(mshell->env, "PWD");
+	if (!current_env_pwd || !current_env_pwd->value)
+		return (1);
+	update_cd_env(&mshell->env, "OLDPWD", current_env_pwd->value);
+	update_cd_env(&mshell->env, "PWD", current_pwd);
+	if (shell_state(mshell, prev_pwd->value, current_pwd))
+		return (1);
 	return (0);
 }
+
