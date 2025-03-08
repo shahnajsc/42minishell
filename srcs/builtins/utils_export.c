@@ -15,7 +15,6 @@ int copy_env(t_env *old_env, t_env *new_env)
         if (!new_env[i].key || (!new_env[i].value && old_env[i].value))
 		{
 			free_env(new_env);
-			free(new_env[i].value);
 			return(builtins_error(NULL, "Allocation failed for new env", new_env[i].key));
 		}
         i++;
@@ -27,9 +26,9 @@ void   add_env_var(t_env **old_env, char *key, char *value)
 {
 	t_env 	*new_env;
 	int 	i;
-	if (!*old_env || !key || value)
+
+	if (!old_env || !key)
 		return ;	
-	new_env = NULL;
 	new_env = allocate_new_env(*old_env);
 	if (!new_env)
 		return ;
