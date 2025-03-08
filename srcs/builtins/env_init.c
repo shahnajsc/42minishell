@@ -70,7 +70,7 @@ void 	mshell_level(t_env **env)
 	if (nbr < 999)
 	{
 		free(shlvl->value);
-		shlvl->value = new_lvl;
+		shlvl->value = ft_strdup(new_lvl);
 		free(new_lvl);
 	}
 	else
