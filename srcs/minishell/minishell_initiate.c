@@ -6,6 +6,7 @@ void	minishell(t_mshell *mshell)
 
 	while (1) // need signal handle for exit
 	{
+		setup_ignore_sigquit();
 		input_str = readline(PROMPT);
 		if (!input_str)
 		{
