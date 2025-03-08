@@ -34,7 +34,7 @@ static int 	is_invalid_directory(t_env **env, char **args)
 	return (SUCSSES);
 }
 
-int handle_cd(t_mshell *mshell, char **args)
+static int handle_cd(t_mshell *mshell, char **args)
 {
 	t_cd_error 		error_code;
 	char 			*new_pwd;
