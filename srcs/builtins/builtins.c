@@ -21,7 +21,7 @@ int builtins_execv(t_mshell *mshell, char *input_str)
 	else if (ft_strcmp(args[0], "exit") == 0)
 		ft_exit(mshell, args);
 	else if (ft_strcmp(args[0], "unset") == 0)
-		ft_unset(mshell, args, 0, 0);
+		ft_unset(mshell, args, 1, 0);
 	add_history(input_str);
 	rl_clear_history();
 	return (EXIT_SUCCESS);
