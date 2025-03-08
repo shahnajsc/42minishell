@@ -17,7 +17,7 @@ typedef struct s_token
 {
 	t_token_type tok_type;
 	char	*cmd;
-	char	**sp`lited_cmd;
+	// char	**sp`lited_cmd;
 }	t_token;
 
 typedef struct s_tokens_list
