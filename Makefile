@@ -3,7 +3,7 @@ NAME 			= minishell
 
 # Compiler and flags
 CC 				= cc
-CFLAGS 			= -Wall -Wextra -Werror
+CFLAGS 			= -Wall -Wextra -Werror -g
 RLFLAGS			= -lreadline -L ~/.brew/opt/readline/lib -I ~/.brew/opt/readline/include
 #LDFLAGS 		= -fsanitize=address  -fsanitize=address -g
 INCLUDES 		= -I./includes -I./libft/includes
@@ -36,6 +36,7 @@ MAN_BUILT  		= srcs/builtins/ft_pwd.c \
 				srcs/builtins/env_init.c  srcs/builtins/utils_export.c \
 				srcs/builtins/utils_builtins.c \
 				srcs/minishell/minishell_initiate.c srcs/builtins/ft_exit.c \
+				srcs/signals/signals.c \
 
 # Source path
 

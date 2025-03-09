@@ -26,7 +26,7 @@ typedef struct s_token
 	t_token_type	tok_type;
 	char			*tok_value;
 	struct s_token	*next;
-}	t_token;
+}	
 
 typedef struct s_redirect
 {
