@@ -7,7 +7,6 @@ typedef enum e_token_type
 {
 	EMPTY,
 	CMD,
-	//ARG,
 	REDIRECT,
 	FILENAME,
 	DELIMETER,

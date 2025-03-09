@@ -139,6 +139,63 @@ t_token *remove_token_quotes(t_token *head_token)
 	return (head_token);
 }
 
+t_token	* merge_tokens(t_token *main_token)
+{
+	char *temp_main_value;
+	t_token	*temp_main_token;
+	t_token	*temp;
+
+	if (!main_token)
+		return (NULL);
+	temp_main_token = main_token;
+	while (temp_main_token->next && (temp_main_token->next->tok_type != EMPTY && temp_main_token->tok_type != REDIRECT))
+	{
+		temp_main_token->tok_value = ft_strjoin(temp_main_token->tok_value, temp_main_token->next->tok_value);
+		temp = temp_main_token->next;
+		temp_main_value = temp_main_token->tok_value;
+		temp_main_token->next = temp->next;
+		free(temp_main_value);
+		free(temp->tok_value);
+		free(temp);
+		temp_main_token = temp_main_token->next;
+	}
+	// if (!to_merge)
+	// 	return (main_token);
+	// temp_main_value = main_token->tok_value;
+	// //temp_merge_token = to_merge;
+	// main_token->tok_value = ft_strjoin(main_token->tok_value, to_merge->tok_value);
+	// if (!main_token->tok_value)
+	// 	return (NULL);
+	// if (to_merge->next)
+	// 	main_token->next = to_merge->next;
+	// else
+	// 	main_token->next = NULL;
+	// free(temp_main_value);
+	// free(to_merge->tok_value);
+	// free(to_merge);
+	return (main_token);
+}
+
+t_token	*merge_consequtive_token(t_token *head_token)
+{
+	t_token *current_token;
+
+	if (!head_token)
+		return (NULL);
+	current_token = head_token;
+	while (current_token)
+	{
+		if (current_token->tok_type != EMPTY && current_token->tok_type != REDIRECT)
+		{
+			if (current_token->next && (current_token->next->tok_type != EMPTY && current_token->tok_type != REDIRECT))
+				current_token = merge_tokens(current_token);
+			if (!current_token)
+				return (NULL);
+		}
+		current_token = current_token->next;
+	}
+	return (head_token);
+}
 
 t_token	*create_tokens_list(t_mshell *mshell, char *cmd_str)
 {
@@ -165,9 +222,10 @@ t_token	*create_tokens_list(t_mshell *mshell, char *cmd_str)
 	head_token = assign_file_deli_tokens(head_token);
 	head_token = expand_token_values(mshell, head_token);
 	head_token = remove_token_quotes(head_token);
-	//head_token = merge_consequtive_token(mshell, head_token);
+	//head_token = merge_consequtive_token(head_token);
 	//head_token = delete_empty_token(head_token);
 	if (!head_token)
 		return (NULL);
 	return (head_token);
 }
+//printf("segfault token\n");
