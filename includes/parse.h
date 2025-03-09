@@ -95,6 +95,7 @@ void	add_new_token(t_token **head_token, t_token *new_token);
 t_token	*delete_empty_token(t_token *head_token);
 t_token	*assign_file_deli_tokens(t_token *head_token);
 t_token	*expand_token_values(t_mshell *mshell, t_token *head_token);
+t_token	*create_tokens_list(t_mshell *mshell, char *cmd_str);
 
 //..... ERROR .....//
 int		syntax_pre_error(t_mshell *mshell, t_syntax_err syn_err, char *err_value);
@@ -108,7 +109,7 @@ t_token_type	get_token_type(char *cmd_str, int i);
 int		check_char_is_redirect(char c);
 char	*get_token_envkey(char *token_value, int i);
 char	*get_env_key_value(t_mshell *mshell, char *env_key);
-
+char 	*ft_strndup(char *src, size_t n);
 //,,,,,,,,,,,,,,,,,//
 //,,,,,,,,,,,,,,,,,//
 //......TEST FUNCTIONS.......///

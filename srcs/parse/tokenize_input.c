@@ -28,36 +28,6 @@ static int	init_cmds(t_mshell*mshell, char *input_str)
 	return (0);
 }
 
-t_token	*create_tokens_list(t_mshell *mshell, char *cmd_str)
-{
-	t_token	*head_token;
-	t_token	*new_token;
-	t_token_type tok_type;
-	int	i;
-
-	i = 0;
-	head_token = NULL;
-	while (cmd_str[i] != '\0')
-	{
-		tok_type = get_token_type(cmd_str, i);
-		if (tok_type == CMD || tok_type == EMPTY)
-		{
-			new_token = create_str_token(cmd_str, &i, tok_type);
-		}
-		else
-			new_token = create_redirect_token(cmd_str, &i);
-		if (!new_token)
-			return (NULL); // free the whole token list
-		add_new_token(&head_token, new_token);
-	}
-	head_token = delete_empty_token(head_token);
-	head_token = assign_file_deli_tokens(head_token);
-	head_token = expand_token_values(mshell, head_token);
-	if (!head_token)
-		return (NULL);
-	return (head_token);
-}
-
 static int	update_mshell(t_mshell*mshell, char *input_str)
 {
 	if (!mshell)

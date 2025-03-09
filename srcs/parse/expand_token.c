@@ -70,26 +70,6 @@ char	*expand_text_token(t_mshell *mshell, char *token_value)
 	return (token_value);
 }
 
-char *remove_quote(char *tok_value)
-{
-	int	i;
-	int len;
-	char *new_value;
-
-	i = 0;
-	len = ft_strlen(tok_value);
-	new_value = ft_calloc(len -1, sizeof(char));
-	if (!new_value)
-		return (NULL);
-	while (i < len - 2)
-	{
-		new_value[i] = tok_value[i + 1];
-		i++;
-	}
-	new_value[i] = '\0';
-	return (new_value);
-}
-
 t_token *expand_token_values(t_mshell *mshell, t_token *head_token)
 {
 	t_token *current_token;
@@ -101,8 +81,6 @@ t_token *expand_token_values(t_mshell *mshell, t_token *head_token)
 	{
 		if (current_token->tok_type == CMD || current_token->tok_type == FILENAME)
 			current_token->tok_value = expand_text_token(mshell, current_token->tok_value);
-		if (check_char_is_quote(current_token->tok_value[0]))
-			current_token->tok_value = remove_quote(current_token->tok_value);
 		if (!current_token->tok_value)
 			return (NULL);
 		current_token = current_token->next;

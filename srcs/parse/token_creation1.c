@@ -101,4 +101,73 @@ t_token *create_str_token(char *cmd_str, int *i, t_token_type t_type)
 	return (new_token);
 }
 
+char *remove_quote(char *tok_value)
+{
+	int	i;
+	int len;
+	char *new_value;
 
+	i = 0;
+	len = ft_strlen(tok_value);
+	new_value = ft_calloc(len -1, sizeof(char));
+	if (!new_value)
+		return (NULL);
+	while (i < len - 2)
+	{
+		new_value[i] = tok_value[i + 1];
+		i++;
+	}
+	new_value[i] = '\0';
+	return (new_value);
+}
+
+t_token *remove_token_quotes(t_token *head_token)
+{
+	t_token *current_token;
+
+	if (!head_token)
+		return (NULL);
+	current_token = head_token;
+	while (current_token)
+	{
+		if (check_char_is_quote(current_token->tok_value[0]))
+			current_token->tok_value = remove_quote(current_token->tok_value);
+		if (!current_token->tok_value)
+			return (NULL);
+		current_token = current_token->next;
+	}
+	return (head_token);
+}
+
+
+t_token	*create_tokens_list(t_mshell *mshell, char *cmd_str)
+{
+	t_token	*head_token;
+	t_token	*new_token;
+	t_token_type tok_type;
+	int	i;
+
+	i = 0;
+	head_token = NULL;
+	while (cmd_str[i] != '\0')
+	{
+		tok_type = get_token_type(cmd_str, i);
+		if (tok_type == CMD || tok_type == EMPTY)
+		{
+			new_token = create_str_token(cmd_str, &i, tok_type);
+		}
+		else
+			new_token = create_redirect_token(cmd_str, &i);
+		if (!new_token)
+			return (NULL); // free the whole token list
+		add_new_token(&head_token, new_token);
+	}
+	head_token = assign_file_deli_tokens(head_token);
+	head_token = expand_token_values(mshell, head_token);
+	head_token = remove_token_quotes(head_token);
+	//head_token = merge_consequtive_token(mshell, head_token);
+	//head_token = delete_empty_token(head_token);
+	if (!head_token)
+		return (NULL);
+	return (head_token);
+}
