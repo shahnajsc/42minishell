@@ -6,7 +6,7 @@
 /*   By: shachowd <shachowd@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 09:02:38 by shachowd          #+#    #+#             */
-/*   Updated: 2024/05/16 16:24:29 by shachowd         ###   ########.fr       */
+/*   Updated: 2025/02/27 11:47:02 by shachowd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,11 +99,11 @@ char	**ft_split(char const *s, char c)
   	 	and returns an array of strings.
 	-It splits the given string 's' using the delimeter
    	 	character 'c'.
- 	-Given array must end with a 'NULL pointer'. 
+ 	-Given array must end with a 'NULL pointer'.
 	-External function malloc and free.
 	-Return Null if memory allocation fails.
 	-*It split main string into sub-string using delimeter
-	-*first count the total substring 
+	-*first count the total substring
 	-*Thn conut the length if substring
 	-*Thn copy the substring using finction ft_substr(string, start, length)
 	-*It also free the substring memory if it fails.
