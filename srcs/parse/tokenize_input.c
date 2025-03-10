@@ -3,7 +3,7 @@
 static int	init_cmds(t_mshell*mshell, char *input_str)
 {
 	char	**cmds_temp;
-	int	i;
+	int		i;
 
 	i = 0;
 	cmds_temp = split_input_by_pipes(mshell->count_cmds, input_str);
@@ -19,8 +19,8 @@ static int	init_cmds(t_mshell*mshell, char *input_str)
 		mshell->cmds[i].cmd_str = cmds_temp[i];
 		mshell->cmds[i].cmd_name = NULL;
 		mshell->cmds[i].splitted_cmd = NULL;
-		mshell->cmds[i].in_fd= -1;
-		mshell->cmds[i].out_fd= -1;
+		mshell->cmds[i].in_fd = -1;
+		mshell->cmds[i].out_fd = -1;
 		i++;
 	}
 	free(cmds_temp);
@@ -34,7 +34,7 @@ static int	update_mshell(t_mshell*mshell, char *input_str)
 		return (1);
 	mshell->count_cmds = count_pipes(input_str) + 1;
 	mshell->cmds = (t_cmd *)ft_calloc(mshell->count_cmds, sizeof(t_cmd));
-	if  (!mshell->cmds)
+	if (!mshell->cmds)
 		return (1);
 	return (0);
 }
@@ -75,10 +75,6 @@ int	tokenize_input(t_mshell *mshell, char *input_str)
 	// }
 	// printf("\n");
 	//...................
-
-
-
-
 
 //................................
 	// printf("full str:[%s]\n", input_str);

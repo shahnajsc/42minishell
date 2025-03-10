@@ -32,7 +32,7 @@ int	count_pipes(char *input_str)
 t_token_type	get_token_type(char *cmd_str, int i)
 {
 	if (check_char_is_redirect(cmd_str[i]))
-		return(REDIRECT);
+		return (REDIRECT);
 	else if (check_char_whitespaces(cmd_str[i]))
 		return (EMPTY);
 	else
@@ -51,22 +51,22 @@ t_token_type	get_token_type(char *cmd_str, int i)
 // 		return (RD_OUT);
 // }
 
-char *ft_strndup(char *src, size_t n)
+char	*ft_strndup(char *src, size_t n)
 {
-    size_t i;
-    char *dest;
+	size_t	i;
+	char	*dest;
 
 	if (!src)
 		return (NULL);
 	i = 0;
 	dest = malloc(sizeof(size_t) * (n + 1));
-    if (!dest)
-        return (NULL);
-    while (i < n && src[i] != '\0')
-    {
-        dest[i] = src[i];
-        i++;
-    }
-    dest[i] = '\0';
-    return (dest);
+	if (!dest)
+		return (NULL);
+	while (i < n && src[i] != '\0')
+	{
+		dest[i] = src[i];
+		i++;
+	}
+	dest[i] = '\0';
+	return (dest);
 }

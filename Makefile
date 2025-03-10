@@ -22,9 +22,10 @@ MAN_DIR 		= srcs/envp/envp_duplicate.c	\
 				srcs/parse/error_handle_parse.c	srcs/parse/parse_input.c\
 				srcs/parse/split_input_by_pipe.c	srcs/parse/tokenize_input.c\
 				srcs/parse/utils_tokenize.c		srcs/parse/utils_expand.c\
-				srcs/parse/token_creation1.c		srcs/parse/token_creation2.c\
+				srcs/parse/token_creation.c		srcs/parse/utils_token_creation.c\
 				srcs/parse/test_parse.c		srcs/parse/splitted_cmd.c	\
-				srcs/parse/expand_token.c	\
+				srcs/parse/token_post_process.c		srcs/parse/token_expand.c	\
+				srcs/parse/token_quote_remove.c		srcs/parse/token_merge.c	\
 
 # Source path
 

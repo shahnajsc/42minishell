@@ -1,0 +1,131 @@
+#include "minishell.h"
+
+char	*get_quoted_token_value(char *cmd_str, int *i)
+{
+	char	*token_value;
+	int		temp_i;
+	int		value_size;
+	char	quote_type;
+
+	quote_type = cmd_str[*i];
+	value_size = 0;
+	temp_i = (*i) + 1; // i or *i??
+	while (cmd_str[temp_i] && cmd_str[temp_i] != quote_type)
+		temp_i++;
+	if (cmd_str[temp_i] && cmd_str[temp_i] == quote_type)
+		temp_i++;
+	value_size = temp_i - (*i);
+	token_value = ft_strndup(&cmd_str[*i], value_size);
+	*i = temp_i;// update *i value
+	return (token_value);
+}
+
+char	*get_unquoted_token_value(char *cmd_str, int *i)
+{
+	char	*token_value;
+	int		temp_i;
+	int		value_size;
+
+	token_value = NULL;
+	temp_i = *i; // i or *i??
+	if (check_char_whitespaces(cmd_str[temp_i]))
+	{
+		while (cmd_str[temp_i] && !check_char_is_quote(cmd_str[temp_i])
+			&& !check_char_is_redirect(cmd_str[temp_i])
+			&& check_char_whitespaces(cmd_str[temp_i]))
+			temp_i++;
+	}
+	else
+	{
+		while (cmd_str[temp_i] && !check_char_is_quote(cmd_str[temp_i])
+			&& !check_char_is_redirect(cmd_str[temp_i])
+			&& !check_char_whitespaces(cmd_str[temp_i]))
+			temp_i++;
+	}
+	value_size = temp_i - (*i);
+	token_value = ft_strndup(&cmd_str[*i], value_size);
+	*i = temp_i;// update *i value
+	return (token_value);
+}
+
+t_token	*create_redirect_token(char *cmd_str, int *i)
+{
+	t_token	*new_token;
+
+	new_token = (t_token *)ft_calloc(1, sizeof(t_token));
+	if (!new_token)
+		return (NULL); //what to return?
+	new_token->tok_value = get_redir_token_value(cmd_str, i);
+	if (!new_token->tok_value)
+		return (NULL);
+	new_token->tok_type = REDIRECT;
+	new_token->next = NULL;
+	return (new_token);
+}
+
+t_token	*create_str_token(char *cmd_str, int *i, t_token_type t_type)
+{
+	t_token	*new_token;
+
+	new_token = (t_token *)ft_calloc(1, sizeof(t_token));
+	if (!new_token)
+		return (NULL); //what to return?
+	if (check_char_is_quote(cmd_str[*i]))
+		new_token->tok_value = get_quoted_token_value(cmd_str, i);
+	else
+		new_token->tok_value = get_unquoted_token_value(cmd_str, i);
+	if (!new_token->tok_value)
+		return (NULL);
+	new_token->tok_type = t_type;
+	new_token->next = NULL;
+	return (new_token);
+}
+
+t_token	*create_tokens_list(t_mshell *mshell, char *cmd_str)
+{
+	t_token			*head_token;
+	t_token			*new_token;
+	t_token_type	tok_type;
+	int				i;
+
+	i = 0;
+	head_token = NULL;
+	while (cmd_str[i] != '\0')
+	{
+		tok_type = get_token_type(cmd_str, i);
+		if (tok_type == CMD || tok_type == EMPTY)
+		{
+			new_token = create_str_token(cmd_str, &i, tok_type);
+		}
+		else
+			new_token = create_redirect_token(cmd_str, &i);
+		if (!new_token)
+			return (NULL); // free the whole token list
+		add_new_token(&head_token, new_token);
+	}
+	head_token = post_process_token(mshell, head_token);
+	//head_token = delete_empty_token(head_token);
+	if (!head_token)
+		return (NULL);
+	return (head_token);
+}
+//printf("segfault token\n");
+	//t_token	*temp_main_token;
+	//t_token	*temp;
+
+	// if (!main_token)
+	// 	return (NULL);
+	// temp_main_token = main_token;
+	// while (temp_main_token->next && (temp_main_token->next->tok_type != EMPTY
+	//	&& temp_main_token->tok_type != REDIRECT))
+	// {
+	// 	temp_main_token->tok_value =
+	//ft_strjoin(temp_main_token->tok_value, temp_main_token->next->tok_value);
+	// 	temp = temp_main_token->next;
+	// 	temp_main_value = temp_main_token->tok_value;
+	// 	temp_main_token->next = temp->next;
+	// 	free(temp_main_value);
+	// 	free(temp->tok_value);
+	// 	free(temp);
+	// 	temp_main_token = temp_main_token->next;
+	// }

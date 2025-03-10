@@ -1,13 +1,13 @@
 #include "minishell.h"
 
-int	check_char_is_quote(char  c)
+int	check_char_is_quote(char c)
 {
-	if (c == '"' ||  c == '\'')
+	if (c == '"' || c == '\'')
 		return (1);
 	return (0);
 }
 
-int	check_char_is_dollar(char  c)
+int	check_char_is_dollar(char c)
 {
 	if (c == '$')
 		return (1);
@@ -26,7 +26,7 @@ char	*get_token_envkey(char *token_value, int i)
 	key_start = i;
 	key_end = 0;
 	env_key = NULL;
-	while (token_value[i +  key_end] && !ft_strchr("$?\"'/", token_value[i + key_end]))
+	while (token_value[i + key_end] && !ft_strchr("$?\"'/", token_value[i + key_end]))
 	{
 		key_end++;
 	}
@@ -41,6 +41,7 @@ char	*get_env_key_value(t_mshell *mshell, char *env_key)
 {
 	int		i;
 	char	*env_key_value;
+
 	if (!env_key)
 		return (NULL);
 	i = 0;
@@ -50,7 +51,7 @@ char	*get_env_key_value(t_mshell *mshell, char *env_key)
 		if (ft_strcmp(mshell->env[i].key, env_key) == 0)
 		{
 			env_key_value = ft_strdup(mshell->env[i].value);
-			return  (env_key_value);
+			return (env_key_value);
 		}
 		i++;
 	}

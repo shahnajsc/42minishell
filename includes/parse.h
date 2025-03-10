@@ -90,11 +90,14 @@ int		tokenize_input(t_mshell *mshell, char *input_str);
 //t_token	*create_tokens_list(t_mshell *mshell, int index);
 t_token	*create_str_token(char *cmd_str, int *i, t_token_type t_type);
 t_token	*create_redirect_token(char *cmd_str, int *i);
+char	*get_redir_token_value(char *cmd_str, int *i);
 void	add_new_token(t_token **head_token, t_token *new_token);
 t_token	*delete_empty_token(t_token *head_token);
-t_token	*assign_file_deli_tokens(t_token *head_token);
-t_token	*expand_token_values(t_mshell *mshell, t_token *head_token);
 t_token	*create_tokens_list(t_mshell *mshell, char *cmd_str);
+t_token	*post_process_token(t_mshell *mshell, t_token *head_token);
+t_token	*expand_token_values(t_mshell *mshell, t_token *head_token);
+t_token	*remove_token_quotes(t_token *head_token);
+t_token	*merge_consequtive_token(t_token *head_token);
 
 //..... ERROR .....//
 int		syntax_pre_error(t_mshell *mshell, t_syntax_err syn_err, char *err_value);

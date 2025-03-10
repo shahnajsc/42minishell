@@ -1,11 +1,11 @@
 #include  "minishell.h"
 
-static int get_splitted_cmd_len(t_token *token_list)
+static int	get_splitted_cmd_len(t_token *token_list)
 {
-	int	len;
-	t_token *current_token;
+	int		len;
+	t_token	*current_token;
 
-	len =  0;
+	len = 0;
 	current_token = token_list;
 	while (current_token)
 	{
@@ -18,8 +18,8 @@ static int get_splitted_cmd_len(t_token *token_list)
 
 static char	**create_splitted_cmd(char **splitted_cmd, t_token *token_list)
 {
-	t_token *current_token;
-	int i;
+	t_token	*current_token;
+	int		i;
 
 	i = 0;
 	if (!splitted_cmd)
@@ -46,9 +46,9 @@ static char	**create_splitted_cmd(char **splitted_cmd, t_token *token_list)
 
 char	**splitted_cmd(t_mshell *mshell, int i)
 {
-	int	len;
-	char **splitted_cmd;
-	t_token *token_list;
+	int		len;
+	char	**splitted_cmd;
+	t_token	*token_list;
 
 	token_list = mshell->cmds[i].token;
 	if (!token_list)
@@ -61,7 +61,7 @@ char	**splitted_cmd(t_mshell *mshell, int i)
 	if (!splitted_cmd)
 		return (NULL);
 	mshell->cmds[i].cmd_name = ft_strdup(splitted_cmd[0]);
-	if(!mshell->cmds[i].cmd_name)
+	if (!mshell->cmds[i].cmd_name)
 		return (NULL);
 	return (splitted_cmd);
 }
