@@ -39,7 +39,7 @@ int 	process_exit_code(char *arg, int *exit_status)
 	return (0);
 }
 int 	handle_exit(char **args, int *exit_status)
-{	
+{
 	if (!args[1])
 		*exit_status = 0;
 	else if (!is_invalid_digit(args[1]) && args[2])
@@ -64,11 +64,12 @@ int  ft_exit(t_mshell *mshell, char **args)
 	int	exit_status;
 
 	exit_status = 0;
-	ft_putendl_fd("exit", STDOUT_FILENO); 
+	ft_putendl_fd("exit", STDOUT_FILENO);
 	handle_exit(args, &exit_status);
-	printf("%d\n", exit_status);
+	// printf("%d\n", exit_status);
 	if (exit_status != 1)
 		exit_mshell(mshell, &exit_status);
+	mshell->exit_code = exit_status;
 	return (exit_status);
 }
 /*

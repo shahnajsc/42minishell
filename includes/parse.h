@@ -116,7 +116,7 @@ t_token_type	get_token_type(char *cmd_str, int i);
 int		check_char_is_redirect(char c);
 char	*get_token_envkey(char *token_value, int i);
 char	*get_env_key_value(t_mshell *mshell, char *env_key);
-char 	*ft_strndup(char *src, size_t n);
+//char 	*ft_strndup(char *src, size_t n);
 //,,,,,,,,,,,,,,,,,//
 //,,,,,,,,,,,,,,,,,//
 //......TEST FUNCTIONS.......///
