@@ -20,7 +20,7 @@ char	*remove_quote(char *tok_value)
 	return (new_value);
 }
 
-t_token	*remove_token_quotes(t_token *head_token)
+t_token	*remove_token_quotes(t_mshell *mshell, t_token *head_token, int cmd_id)
 {
 	t_token	*current_token;
 
@@ -30,7 +30,11 @@ t_token	*remove_token_quotes(t_token *head_token)
 	while (current_token)
 	{
 		if (check_char_is_quote(current_token->tok_value[0]))
+		{
+			if (current_token->tok_type == DELIMETER)
+				mshell->cmds[cmd_id].is_here_exp = 1;
 			current_token->tok_value = remove_quote(current_token->tok_value);
+		}
 		if (!current_token->tok_value)
 			return (NULL);
 		current_token = current_token->next;

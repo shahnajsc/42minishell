@@ -81,7 +81,7 @@ t_token	*create_str_token(char *cmd_str, int *i, t_token_type t_type)
 	return (new_token);
 }
 
-t_token	*create_tokens_list(t_mshell *mshell, char *cmd_str)
+t_token	*create_tokens_list(t_mshell *mshell, char *cmd_str, int cmd_id)
 {
 	t_token			*head_token;
 	t_token			*new_token;
@@ -103,7 +103,7 @@ t_token	*create_tokens_list(t_mshell *mshell, char *cmd_str)
 			return (NULL); // free the whole token list
 		add_new_token(&head_token, new_token);
 	}
-	head_token = post_process_token(mshell, head_token);
+	head_token = post_process_token(mshell, head_token, cmd_id);
 	//head_token = delete_empty_token(head_token);
 	if (!head_token)
 		return (NULL);

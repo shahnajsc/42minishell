@@ -26,6 +26,7 @@ MAN_DIR 		= srcs/envp/envp_duplicate.c	\
 				srcs/parse/test_parse.c		srcs/parse/splitted_cmd.c	\
 				srcs/parse/token_post_process.c		srcs/parse/token_expand.c	\
 				srcs/parse/token_quote_remove.c		srcs/parse/token_merge.c	\
+				srcs/parse/redirect_create.c	\
 
 # Source path
 

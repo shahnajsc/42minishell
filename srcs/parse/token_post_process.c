@@ -42,13 +42,13 @@ t_token	*assign_file_deli_tokens(t_token *head_token)
 	return (head_token);
 }
 
-t_token	*post_process_token(t_mshell *mshell, t_token *head_token)
+t_token	*post_process_token(t_mshell *mshell, t_token *head_token, int cmd_id)
 {
 	if (!head_token)
 		return (NULL);
 	head_token = assign_file_deli_tokens(head_token);
 	head_token = expand_token_values(mshell, head_token);
-	head_token = remove_token_quotes(head_token);
+	head_token = remove_token_quotes(mshell, head_token, cmd_id);
 	head_token = merge_consequtive_token(head_token);
 	//head_token = delete_empty_token(head_token);
 	if (!head_token)

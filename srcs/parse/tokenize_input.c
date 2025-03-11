@@ -16,6 +16,7 @@ static int	init_cmds(t_mshell*mshell, char *input_str)
 	{
 		mshell->cmds[i].token = NULL; // make token
 		mshell->cmds[i].redirects = NULL;
+		mshell->cmds[i].is_here_exp = 0;
 		mshell->cmds[i].cmd_str = cmds_temp[i];
 		mshell->cmds[i].cmd_name = NULL;
 		mshell->cmds[i].splitted_cmd = NULL;
@@ -52,14 +53,15 @@ int	tokenize_input(t_mshell *mshell, char *input_str)
 		return (syntax_pre_error(mshell, ERR_COMN, "Tokenization failed: Struct t_cmd init"));
 	while (i < mshell->count_cmds)
 	{
-		mshell->cmds[i].token = create_tokens_list(mshell, mshell->cmds[i].cmd_str);
+		mshell->cmds[i].token = create_tokens_list(mshell, mshell->cmds[i].cmd_str, i);
 		if (!mshell->cmds[i].token)
 			return (1);
 		mshell->cmds[i].splitted_cmd = splitted_cmd(mshell, i);
 		if (!mshell->cmds[i].splitted_cmd)
 			return (1);
-		// mshell->cmds[index].redirects = create_redirects_list(mshell, index);
-		// if (!mshell->cmds[index].redirects)
+		// mshell->cmds[i].redirects = create_redirects_list(mshell, i);
+		// if (!mshell->cmds[i].redirects)
+		// 	return (1);
 		i++;
 	}
 	print_command_list(mshell);
