@@ -1,27 +1,34 @@
 #include <stdio.h>
+#include <readline/readline.h>
+#include <readline/history.h>
 
-int	ft_strcmp(char *s1, char *s2)
-{
-	unsigned int	i;
-
-	i = 0;
-	while (s1[i] == s2[i] && s1[i] != '\0')
-		i++;
-	return (s1[i] - s2[i]);
+int main() {
+    printf("Readline headers are found!\n");
+    return 0;
 }
 
-int main(int argc, char **argv)
-{
-	if (argc != 3)
-		printf("error\n");
-	else
-	{
-		int i = ft_strcmp(argv[1], argv[2]);
-		printf("ag1:[%s]\n", argv[1]);
-		printf("ag1:[%s]\n", argv[2]);
-		printf("ret value:[%d]\n", i);
-	}
-}
+// int	ft_strcmp(char *s1, char *s2)
+// {
+// 	unsigned int	i;
+
+// 	i = 0;
+// 	while (s1[i] == s2[i] && s1[i] != '\0')
+// 		i++;
+// 	return (s1[i] - s2[i]);
+// }
+
+// int main(int argc, char **argv)
+// {
+// 	if (argc != 3)
+// 		printf("error\n");
+// 	else
+// 	{
+// 		int i = ft_strcmp(argv[1], argv[2]);
+// 		printf("ag1:[%s]\n", argv[1]);
+// 		printf("ag1:[%s]\n", argv[2]);
+// 		printf("ret value:[%d]\n", i);
+// 	}
+// }
 
 
 //#include "minishell.h"

@@ -3,7 +3,7 @@
 static int	init_cmds(t_mshell*mshell, char *input_str)
 {
 	char	**cmds_temp;
-	int	i;
+	int		i;
 
 	i = 0;
 	cmds_temp = split_input_by_pipes(mshell->count_cmds, input_str);
@@ -16,46 +16,17 @@ static int	init_cmds(t_mshell*mshell, char *input_str)
 	{
 		mshell->cmds[i].token = NULL; // make token
 		mshell->cmds[i].redirects = NULL;
+		mshell->cmds[i].is_here_exp = 0;
 		mshell->cmds[i].cmd_str = cmds_temp[i];
 		mshell->cmds[i].cmd_name = NULL;
 		mshell->cmds[i].splitted_cmd = NULL;
-		mshell->cmds[i].in_fd= -1;
-		mshell->cmds[i].out_fd= -1;
+		mshell->cmds[i].in_fd = -1;
+		mshell->cmds[i].out_fd = -1;
 		i++;
 	}
 	free(cmds_temp);
 	printf("\n");
 	return (0);
-}
-
-t_token	*create_tokens_list(t_mshell *mshell, char *cmd_str)
-{
-	t_token	*head_token;
-	t_token	*new_token;
-	t_token_type tok_type;
-	int	i;
-
-	i = 0;
-	head_token = NULL;
-	while (cmd_str[i] != '\0')
-	{
-		tok_type = get_token_type(cmd_str, i);
-		if (tok_type == CMD || tok_type == EMPTY)
-		{
-			new_token = create_str_token(cmd_str, &i, tok_type);
-		}
-		else
-			new_token = create_redirect_token(cmd_str, &i);
-		if (!new_token)
-			return (NULL); // free the whole token list
-		add_new_token(&head_token, new_token);
-	}
-	head_token = delete_empty_token(head_token);
-	head_token = assign_file_deli_tokens(head_token);
-	head_token = expand_token_values(mshell, head_token);
-	if (!head_token)
-		return (NULL);
-	return (head_token);
 }
 
 static int	update_mshell(t_mshell*mshell, char *input_str)
@@ -64,7 +35,7 @@ static int	update_mshell(t_mshell*mshell, char *input_str)
 		return (1);
 	mshell->count_cmds = count_pipes(input_str) + 1;
 	mshell->cmds = (t_cmd *)ft_calloc(mshell->count_cmds, sizeof(t_cmd));
-	if  (!mshell->cmds)
+	if (!mshell->cmds)
 		return (1);
 	return (0);
 }
@@ -82,14 +53,15 @@ int	tokenize_input(t_mshell *mshell, char *input_str)
 		return (syntax_pre_error(mshell, ERR_COMN, "Tokenization failed: Struct t_cmd init"));
 	while (i < mshell->count_cmds)
 	{
-		mshell->cmds[i].token = create_tokens_list(mshell, mshell->cmds[i].cmd_str);
+		mshell->cmds[i].token = create_tokens_list(mshell, mshell->cmds[i].cmd_str, i);
 		if (!mshell->cmds[i].token)
 			return (1);
 		mshell->cmds[i].splitted_cmd = splitted_cmd(mshell, i);
 		if (!mshell->cmds[i].splitted_cmd)
 			return (1);
-		// mshell->cmds[index].redirects = create_redirects_list(mshell, index);
-		// if (!mshell->cmds[index].redirects)
+		// mshell->cmds[i].redirects = create_redirects_list(mshell, i);
+		// if (!mshell->cmds[i].redirects)
+		// 	return (1);
 		i++;
 	}
 	print_command_list(mshell);
@@ -105,10 +77,6 @@ int	tokenize_input(t_mshell *mshell, char *input_str)
 	// }
 	// printf("\n");
 	//...................
-
-
-
-
 
 //................................
 	// printf("full str:[%s]\n", input_str);

@@ -23,21 +23,22 @@ static char	*get_part_cmd(char *start, char *end, int len)
 		return (NULL);
 	index = 0;
 	while (start < end)
-	{	part_cmd[index++] = *start;
+	{
+		part_cmd[index++] = *start;
 		start++;
 	}
 	part_cmd[index] = '\0';
 	return (part_cmd);
 }
 
-static char *get_end_point(char *input_str)
+static char	*get_end_point(char *input_str)
 {
 	while (*input_str)
 	{
 		if (check_char_is_quote(*input_str))
 			input_str = skip_quoted_part(input_str);
 		else if (*input_str == '|')
-			break;
+			break ;
 		else
 			input_str++;
 	}
@@ -72,6 +73,7 @@ static char	**splitted_by_pipe(char *input_str, char **cmds_temp, int cmd_count,
 char	**split_input_by_pipes(int cmd_count, char *input_str)
 {
 	char	**cmds_temp;
+
 	if (!input_str || input_str[0] == '\0' || check_str_whitespaces(input_str))
 		return (NULL);
 	cmds_temp = (char **)malloc(sizeof(char *) * (cmd_count + 1));
