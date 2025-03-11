@@ -58,12 +58,12 @@ int	tokenize_input(t_mshell *mshell, char *input_str)
 		mshell->cmds[i].splitted_cmd = splitted_cmd(mshell, i);
 		if (!mshell->cmds[i].splitted_cmd)
 			return (1);
-		// mshell->cmds[i].redirects = create_redirects_list(mshell, i);
-		// if (!mshell->cmds[i].redirects)
-		// 	return (1);
+		mshell->cmds[i].redirects = create_redirects_list(mshell, i);
+		if (!mshell->cmds[i].redirects)
+			return (1);
 		i++;
 	}
-	//print_command_list(mshell);
+	print_command_list(mshell);
 	return (0);
 }
 
