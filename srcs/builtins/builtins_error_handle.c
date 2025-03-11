@@ -2,19 +2,29 @@
 
 int cd_error(char **args, t_cd_error err)
 {
-	ft_putstr_fd("minishell: cd: ", STDERR_FILENO);
-	ft_putstr_fd(args[1], STDERR_FILENO);
-	ft_putstr_fd(": ", STDERR_FILENO);
+	if (err != GETCWD)
+		ft_putstr_fd("minishell: ", STDERR_FILENO);
+	ft_putstr_fd("cd: ", STDERR_FILENO);
+	if (args && err != MANY_ARGS && err != GETCWD)
+		ft_putstr_fd(args[1], STDERR_FILENO);
 	if (err == NO_FILE)
-		ft_putendl_fd("No such file or directory", STDERR_FILENO);
+		ft_putendl_fd(": No such file or directory", STDERR_FILENO);
 	else if (err == NOT_DIR)
-		ft_putendl_fd("Not a directory", STDERR_FILENO);
+		ft_putendl_fd(": Not a directory", STDERR_FILENO);
 	else if (err == NO_PERM)
-		ft_putendl_fd("Permission denied", STDERR_FILENO);
+		ft_putendl_fd(": Permission denied", STDERR_FILENO);
 	else if (err == HOME_UNSET)
-		ft_putendl_fd("HOME not set", STDERR_FILENO);
-	else if (err == TOO_MANY_ARGS)
+		ft_putendl_fd(": HOME not set", STDERR_FILENO);
+	else if (err == MANY_ARGS)
 		ft_putendl_fd("too many arguments", STDERR_FILENO);
+	else if (err == GETCWD)
+	{
+		ft_putstr_fd("error retrieving current directory: ", STDERR_FILENO);
+		ft_putstr_fd("getcwd: ", STDERR_FILENO);
+		ft_putstr_fd("cannot access parent directories: ", STDERR_FILENO);
+		ft_putendl_fd("No such file or directory", STDERR_FILENO);
+		return (0);
+	}
 	return (1);
 }
 int 	builtins_error(char *arg, char *err_msg, char *free_str)
