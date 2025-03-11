@@ -32,25 +32,31 @@ MAN_DIR 		= srcs/envp/envp_duplicate.c	\
 
 # Source path
 
-MAN_SRCS		=	main_parse.c $(MAN_DIR)
+# MAN_SRCS		=	main_parse.c $(MAN_DIR)
 
-#MAN_BUILT  		= srcs/builtins/ft_pwd.c \
+MAN_BUILT  		= srcs/builtins/ft_pwd.c \
 				srcs/builtins/ft_env.c 	srcs/builtins/ft_export.c \
 				srcs/builtins/ft_cd.c 	srcs/builtins/ft_echo.c \
 				srcs/builtins/ft_unset.c srcs/builtins/builtins_error_handle.c \
 				srcs/builtins/builtins.c srcs/builtins/utils_cd.c \
 				srcs/builtins/env_init.c  srcs/builtins/utils_export.c \
 				srcs/builtins/utils_builtins.c \
-				srcs/minishell/minishell_initiate.c srcs/builtins/ft_exit.c \
+				srcs/builtins/ft_exit.c \
 				srcs/signals/signals.c \
+				#srcs/minishell/minishell_initiate.c
 
 # Source path
 
-#MAN_SRCS		= builtins_main.c $(MAN_BUILT)
+MAN_SRCS		= main.c $(MAN_BUILT) $(MAN_DIR)
 
 # Marker files to track which version is built
 #mandatory : .mandatory
 #bonus : .bonus
+
+valgrind:
+		valgrind --leak-check=full --show-reachable=yes --show-leak-kinds=all \
+		--track-origins=yes --track-fds=yes --trace-children=yes \
+		--suppressions=readline.supp -s ./minishell
 
 all: mandatory
 

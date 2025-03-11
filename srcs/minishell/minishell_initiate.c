@@ -16,6 +16,7 @@ void	minishell(t_mshell *mshell)
 		{
 			add_history(input_str);
 			parse_input(mshell, input_str);
+			builtins_execv(mshell);
 			// execute_mshell(mshell);
 			// clean_mshell(mshell);
 		}
