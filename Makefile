@@ -8,6 +8,8 @@ CFLAGS 			= -Wall -Wextra -Werror
 LDFLAGS			 = -lreadline -L /opt/homebrew/opt/readline/lib -I /opt/homebrew/opt/readline/include
 
 #-L ~/.brew/opt/readline/lib -I ~/.brew/opt/readline/include
+#CFLAGS 			= -Wall -Wextra -Werror -g
+#RLFLAGS			= -lreadline -L ~/.brew/opt/readline/lib -I ~/.brew/opt/readline/include
 #LDFLAGS 		= -fsanitize=address  -fsanitize=address -g
 INCLUDES 		= -I./includes -I./libft/includes
 RM 				= rm -f
@@ -40,6 +42,7 @@ MAN_SRCS		=	main_parse.c $(MAN_DIR)
 				srcs/builtins/env_init.c  srcs/builtins/utils_export.c \
 				srcs/builtins/utils_builtins.c \
 				srcs/minishell/minishell_initiate.c srcs/builtins/ft_exit.c \
+				srcs/signals/signals.c \
 
 # Source path
 
