@@ -45,5 +45,6 @@ typedef struct	s_mshell
 
 //FUNCTIONS
 void	minishell(t_mshell *mshell);
+void	cleanup_mshell(t_mshell *mshell);
 
 #endif

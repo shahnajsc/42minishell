@@ -47,16 +47,18 @@ int	check_invalid_redirection(t_mshell *mshell, char *input_str)
 
 int	check_invalid_pipe(t_mshell *mshell, char *input_str)
 {
-	while (check_char_whitespaces(*input_str))
+	while (*input_str && check_char_whitespaces(*input_str))
 		input_str++;
-	if (*input_str == '|')
+	if (*input_str && *input_str == '|')
 		return (syntax_pre_error(mshell, ERR_P, (input_str + 1)));
-	while (*input_str != '\0')
+	while (*input_str)
 	{
 		if (*input_str == '\'' || *input_str == '"')
 			input_str = skip_quoted_part(input_str);
 		else if (*input_str != '\'' && *input_str != '"' && *input_str != '|')
+		{
 			input_str = skip_unquoted_part(input_str);
+		}
 		else if (*input_str == '|')
 		{
 			input_str++;
@@ -98,9 +100,9 @@ int	input_pre_validation(t_mshell *mshell, char *input_str)
 {
 	if (check_str_whitespaces(input_str))
 		return (syntax_pre_error(mshell, ERR_COMN, NULL)); // check for actual error mg
-	if (check_invalid_pipe(mshell, input_str))
-		return (1);
 	if (check_missing_quotes(mshell, input_str))
+		return (1);
+	if (check_invalid_pipe(mshell, input_str))
 		return (1);
 	if (check_backslash(mshell, input_str))
 		return (1);

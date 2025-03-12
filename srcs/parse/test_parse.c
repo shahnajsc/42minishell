@@ -40,28 +40,28 @@ void print_token_list(t_token *token_list)
 	printf("\n");
 }
 
-void print_redirect_list(t_redirect *rd_list, t_token *token)
-{
-	int i;
-	int count;
-	t_token	*temp;
+// void print_redirect_list(t_redirect *rd_list, t_token *token)
+// {
+// 	int i;
+// 	int count;
+// 	t_token	*temp;
 
-	temp = token;
-	count = 0;
-	i = 0;
-	while (temp)
-	{
-		if (temp->tok_type == REDIRECT)
-			count++;
-		temp= temp->next;
-	}
-	while (i < count)
-	{
-		printf("::rd[%d] type:[%u][%s]\n", i, rd_list[i].rd_type, rd_list[i].file_deli);
-		i++;
-	}
-	printf("\n");
-}
+// 	temp = token;
+// 	count = 0;
+// 	i = 0;
+// 	while (temp)
+// 	{
+// 		if (temp->tok_type == REDIRECT)
+// 			count++;
+// 		temp= temp->next;
+// 	}
+// 	while (i < count)
+// 	{
+// 		printf("::rd[%d] type:[%u][%s]\n", i, rd_list[i].rd_type, rd_list[i].file_deli);
+// 		i++;
+// 	}
+// 	printf("\n");
+// }
 
 void print_splitted_cmd_list(char **cmds, char *name)
 {
@@ -91,8 +91,8 @@ void print_command_list(t_mshell *mshell)
 		print_token_list(mshell->cmds[i].token);
 		printf("CMDS\n");
 		print_splitted_cmd_list(mshell->cmds[i].splitted_cmd, mshell->cmds[i].cmd_name);
-		printf("RDs\n");
-		print_redirect_list(mshell->cmds[i].redirects, mshell->cmds[i].token);
+		// printf("RDs\n");
+		// print_redirect_list(mshell->cmds[i].redirects, mshell->cmds[i].token);
 		printf("____________________________\n");
 		i++;
 	}

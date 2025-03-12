@@ -80,6 +80,7 @@ int	update_env_state(t_mshell *mshell, char *current_pwd)
 	update_cd_env(&mshell->env, "PWD", current_pwd);
 	// if (shell_state(mshell, prev_pwd->value, current_pwd))
 	// 	return (1);
+	free(current_pwd);
 	return (0);
 }
 

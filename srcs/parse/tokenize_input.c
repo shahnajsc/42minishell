@@ -17,14 +17,14 @@ static int	init_cmds(t_mshell*mshell, char *input_str)
 		mshell->cmds[i].token = NULL; // make token
 		mshell->cmds[i].redirects = NULL;
 		mshell->cmds[i].is_here_exp = 0;
-		mshell->cmds[i].cmd_str = cmds_temp[i];
+		mshell->cmds[i].cmd_str = ft_strdup(cmds_temp[i]);
 		mshell->cmds[i].cmd_name = NULL;
 		mshell->cmds[i].splitted_cmd = NULL;
-		mshell->cmds[i].in_fd = -1;
-		mshell->cmds[i].out_fd = -1;
+		// mshell->cmds[i].in_fd = -1;
+		// mshell->cmds[i].out_fd = -1;
 		i++;
 	}
-	free(cmds_temp);
+	ft_free_grid((void **)cmds_temp);
 	return (0);
 }
 
@@ -54,16 +54,26 @@ int	tokenize_input(t_mshell *mshell, char *input_str)
 	{
 		mshell->cmds[i].token = create_tokens_list(mshell, mshell->cmds[i].cmd_str, i);
 		if (!mshell->cmds[i].token)
+		{
+			//printf("no token %d\n", mshell->count_cmds);
 			return (1);
+		}
+
 		mshell->cmds[i].splitted_cmd = splitted_cmd(mshell, i);
 		if (!mshell->cmds[i].splitted_cmd)
+		{
+			//printf("no cmd %d\n", mshell->count_cmds);
 			return (1);
-		mshell->cmds[i].redirects = create_redirects_list(mshell, i);
-		if (!mshell->cmds[i].redirects)
-			return (1);
+		}
+		// mshell->cmds[i].redirects = create_redirects_list(mshell, i);
+		// if (!mshell->cmds[i].redirects)
+		// {
+		// 	printf("no rd %d\n", mshell->count_cmds);
+		// 	return (1);
+		// }
 		i++;
 	}
-	print_command_list(mshell);
+	///print_command_list(mshell);
 	return (0);
 }
 
