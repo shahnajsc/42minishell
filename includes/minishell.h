@@ -36,7 +36,7 @@ typedef struct	s_mshell
 {
 	t_env			*env;
 	//char			*input;
-  t_built_state   *b_state;
+	t_built_state   *b_state;
 	int				count_cmds;
 	t_cmd			*cmds;
 	int				exit_code;
@@ -45,5 +45,6 @@ typedef struct	s_mshell
 
 //FUNCTIONS
 void	minishell(t_mshell *mshell);
+void	cleanup_mshell(t_mshell *mshell);
 
 #endif

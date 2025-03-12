@@ -2,8 +2,9 @@
 
 static int mshell_data_init(t_mshell *mshell, char **envp)
 {
-	ft_memset(mshell, 0, sizeof(mshell));
+	//ft_memset(mshell, 0, sizeof(mshell));
 	mshell->env = init_env(envp);
+	//mshell->env = NULL;
 	if (!mshell->env)
 		return (1);
 	return (0);
@@ -21,7 +22,10 @@ int	main(int argc, char **argv, char **envp)
 		exit(EXIT_FAILURE);
 	}
 	(void)argv;
+	//printf("inside main\n");
 	if (mshell_data_init(&mshell, envp))
 		exit(EXIT_FAILURE);
+	//printf("after mshellll init\n");
 	minishell(&mshell);
+	cleanup_mshell(&mshell);
 }

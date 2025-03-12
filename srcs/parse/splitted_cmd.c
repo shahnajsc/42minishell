@@ -32,6 +32,7 @@ static char	**create_splitted_cmd(char **splitted_cmd, t_token *token_list)
 			splitted_cmd[i] = ft_strdup(current_token->tok_value);
 			if (!splitted_cmd[i])
 			{
+				//ft_free_grid((void **)splitted_cmd);
 				while (i > 0)
 					free(splitted_cmd[--i]);
 				free(splitted_cmd);

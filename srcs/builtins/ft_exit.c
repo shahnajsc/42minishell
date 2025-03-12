@@ -56,7 +56,10 @@ int 	handle_exit(char **args, int *exit_status)
 }
 int 	exit_mshell(t_mshell *mshell, int *exit_status)
 {
-	free_env(mshell->env);
+	//free_env(mshell->env);
+	//cleanup_on_loop(mshell);
+	cleanup_mshell(mshell);
+	mshell->exit_code = 0;
 	exit (*exit_status);
 }
 int  ft_exit(t_mshell *mshell, char **args)

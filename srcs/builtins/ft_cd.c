@@ -6,7 +6,7 @@ static int 	get_home_directory(t_env **env, char **path)
 
 	variable = get_env_var(*env, "HOME");
 	if (!variable || !variable->value)
-		return (1); 
+		return (1);
 	if (*path && *path != variable->value)
 		free(*path);
 	*path = ft_strdup(variable->value);
@@ -26,7 +26,7 @@ static int 	is_invalid_directory(t_env **env, char **args)
 			return (HOME_UNSET);
 	}
 	if (stat(args[1], &file_stat) == -1)
-		return (NO_FILE);  
+		return (NO_FILE);
 	if (!S_ISDIR(file_stat.st_mode))
 		return (NOT_DIR);
 	if (access(args[1], R_OK | W_OK | X_OK) != 0)

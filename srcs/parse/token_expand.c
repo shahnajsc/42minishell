@@ -43,24 +43,20 @@ char	*get_expanded_token(t_mshell *mshell, char *token_value, int *i)
 char	*expand_text_token(t_mshell *mshell, char *token_value)
 {
 	int		i;
-	char	*exit_code;
 
 	if (!token_value)
 		return (NULL);
 	i = 0;
-	exit_code = ft_itoa(mshell->exit_code);
-	if (!exit_code)
-		return (NULL);
 	if (token_value[i] == '\'')
 		return (token_value);
 	while (token_value[i])
 	{
-		// if (token_value[i] == '$' && token_value[i +  1] && token_value[i + 1] == '$')
-		// 	what??
+		if (token_value[i] == '$' && token_value[i + 1] && token_value[i + 1] == '$')
+			token_value = get_var_expanded(token_value, ft_itoa(getpid()), "&", &i);
 		if (token_value[i] == '$' && token_value[i + 1] && !ft_strchr("$/", token_value[i + 1]))
 		{
 			if (check_char_whitespaces(token_value[i + 1]) || token_value[i + 1] == '?')
-				token_value = get_var_expanded(token_value, exit_code, "?", &i);
+				token_value = get_var_expanded(token_value, ft_itoa(mshell->exit_code), "?", &i);
 			else
 				token_value = get_expanded_token(mshell, token_value, &i);
 		}
