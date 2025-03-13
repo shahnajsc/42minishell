@@ -54,13 +54,12 @@ int 	handle_exit(char **args, int *exit_status)
 	}
 	return (*exit_status);
 }
-int 	exit_mshell(t_mshell *mshell, int *exit_status)
+int 	exit_mshell(t_mshell *mshell)
 {
 	//free_env(mshell->env);
 	//cleanup_on_loop(mshell);
 	cleanup_mshell(mshell);
-	mshell->exit_code = 0;
-	exit (*exit_status);
+	exit (mshell->exit_code);
 }
 int  ft_exit(t_mshell *mshell, char **args)
 {
@@ -69,10 +68,11 @@ int  ft_exit(t_mshell *mshell, char **args)
 	exit_status = 0;
 	ft_putendl_fd("exit", STDOUT_FILENO);
 	handle_exit(args, &exit_status);
-	// printf("%d\n", exit_status);
-	if (exit_status != 1)
-		exit_mshell(mshell, &exit_status);
 	mshell->exit_code = exit_status;
+	// printf("%d\n", exit_status);
+	if (mshell->exit_code != 1)
+		exit_mshell(mshell);
+	
 	return (exit_status);
 }
 /*

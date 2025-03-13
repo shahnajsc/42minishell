@@ -54,5 +54,6 @@ int  			ft_exit(t_mshell *mshell, char **args);
 int 			is_invalid_digit(char *arg);
 void			update_cd_env(t_env **env, const char *key, const char *set_path);
 void  			setup_signal_handlers();
+int 			exit_mshell(t_mshell *mshell);
 #endif
 
