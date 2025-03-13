@@ -3,8 +3,8 @@
 void 	reset_prompt()
 {
 	ft_putchar_fd('\n', STDERR_FILENO);
-	rl_on_new_line();
 	rl_replace_line("", 0);
+	rl_on_new_line();
 	rl_redisplay();
 }
 
@@ -31,6 +31,5 @@ void  ignore_sigquit()
 void  setup_signal_handlers()
 {
 	ignore_sigquit();
-
-	
+	reset_sigint();
 }
