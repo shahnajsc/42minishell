@@ -10,7 +10,7 @@ static int envp_size(char **envp)
 	return (i);
 }
 
-static char *set_key_value(t_env *env, char *envp, char **sign)
+static int set_key_value(t_env *env, char *envp, char **sign)
 {
 	int 		key_len;
 
@@ -19,22 +19,19 @@ static char *set_key_value(t_env *env, char *envp, char **sign)
 		key_len = *sign - envp;
 		(*env).key = ft_strndup(envp, key_len);
 		if (!(*env).key)
-			return (NULL);
+			return (FAILURE);
 		(*env).value = ft_strdup(*sign + 1);
 		if (!(*env).value)
-		{
-			free((*env).key);
-			return (NULL);
-		}
+			return (free((*env).key), 1);
 	}
 	else
 	{
 		(*env).key = ft_strdup(envp);
     	(*env).value = NULL;
 		if (!(*env).key)
-			return (NULL);
+			return (FAILURE);
 	}
-	return (envp);
+	return (0);
 }
 
 int	env_duplicate(t_env **env, char **envp)
@@ -46,16 +43,13 @@ int	env_duplicate(t_env **env, char **envp)
 	while (envp[i] != NULL)
 	{
 		sign = ft_strchr(envp[i], '=');
-		if (!set_key_value(&((*env)[i]), envp[i], &sign))
-		{
-			free_env(*env);
-			return(-1);
-		}
+		if (set_key_value(&((*env)[i]), envp[i], &sign))
+			return(free_env(*env), FAILURE);
 		i++;
 	}
 	(*env)[i].key = NULL;
 	(*env)[i].value = NULL;
-	return (0);
+	return (SUCSSES);
 }
 
 void 	mshell_level(t_env **env)
@@ -64,12 +58,11 @@ void 	mshell_level(t_env **env)
 	char 		*new_lvl;
 	int 		nbr;
 
+	new_lvl = ft_strdup("1");
 	shlvl = get_env_var(*env, "SHLVL");
 	if (!shlvl || !shlvl->value)
-	{
-		add_env_var(env, "SHLVL", "1");
-		return ;
-	}
+		return (add_env_var(env, "SHLVL", new_lvl));
+	free(new_lvl);
 	nbr = ft_atoi(shlvl->value);
 	new_lvl = ft_itoa(nbr + 1);
 	if (nbr < 999)
@@ -77,10 +70,7 @@ void 	mshell_level(t_env **env)
 		free(shlvl->value);
 		shlvl->value = ft_strdup(new_lvl);
 		if (!shlvl->value )
-		{
-			free(new_lvl);
-			return ;
-		}
+			return (free(new_lvl));
 		free(new_lvl);
 	}
 	else
@@ -90,20 +80,15 @@ void 	mshell_level(t_env **env)
 t_env	*init_env(char **envp)
 {
 	t_env 		*env_list;
-	int 		size;
 
-	size = envp_size(envp);
-	env_list = ft_calloc(sizeof(t_env), (size + 1));
+	env_list = ft_calloc(sizeof(t_env), (envp_size(envp) + 1));
 	if (!env_list)
 	{
 		ft_putendl_fd("minishell: Allocation faild for env", STDERR_FILENO);
 		return(NULL);
 	}
-	if (env_duplicate(&env_list, envp) != 0)
-	{
-		free(env_list);
-		return (NULL);
-	}
+	if (env_duplicate(&env_list, envp))
+		return (free(env_list), NULL);
 	mshell_level(&env_list);
 	return (env_list);
 }

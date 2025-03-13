@@ -25,7 +25,6 @@ int 	ft_export(t_mshell *mshell, char **args)
 	int 	status_code;
 
 	status_code = 0;
-	// check if the string is empty
 	if (!args[1])
 		print_export(mshell->env);
 	else

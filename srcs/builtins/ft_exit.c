@@ -38,41 +38,49 @@ int 	process_exit_code(char *arg, int *exit_status)
 	*exit_status = (int)exit_nbr;
 	return (0);
 }
-int 	handle_exit(char **args, int *exit_status)
+void 	handle_exit(char **args, int *exit_status)
 {
 	if (!args[1])
 		*exit_status = 0;
+	else if (!*args[1])
+	{
+		ft_putstr_fd("minishell: exit: ", 2);
+		ft_putstr_fd(args[1], 2);	
+		ft_putstr_fd(": numeric argument required\n", 2);
+		*exit_status = 2;
+	}
 	else if (!is_invalid_digit(args[1]) && args[2])
 	{
-		builtins_error(args[0], "too many arguments", NULL);
-		*exit_status = 1;
+		ft_putstr_fd("minishell: exit: ", 2);
+		ft_putstr_fd(args[1], 2);
+		ft_putstr_fd(": too many arguments\n", 2);
+		*exit_status = -1;
 	}
 	else if (is_invalid_digit(args[1]) || process_exit_code(args[1], exit_status))
 	{
-		builtins_error(args[0], "numeric argument required", NULL);
+		ft_putstr_fd("minishell: exit: ", 2);
+		ft_putstr_fd(args[1], 2);
+		ft_putstr_fd(": numeric argument required\n", 2);
 		*exit_status = 2;
 	}
-	return (*exit_status);
 }
-int 	exit_mshell(t_mshell *mshell, int *exit_status)
+int 	exit_mshell(t_mshell *mshell)
 {
-	//free_env(mshell->env);
-	//cleanup_on_loop(mshell);
+	int 	status;
+
+	status = mshell->exit_code;
 	cleanup_mshell(mshell);
-	mshell->exit_code = 0;
-	exit (*exit_status);
+	exit (status);
 }
 int  ft_exit(t_mshell *mshell, char **args)
 {
 	int	exit_status;
 
-	exit_status = 0;
 	ft_putendl_fd("exit", STDOUT_FILENO);
 	handle_exit(args, &exit_status);
-	// printf("%d\n", exit_status);
-	if (exit_status != 1)
-		exit_mshell(mshell, &exit_status);
 	mshell->exit_code = exit_status;
+	if (exit_status != -1)
+		exit_mshell(mshell);
 	return (exit_status);
 }
 /*
