@@ -23,7 +23,6 @@ typedef enum s_cd_error
 	NOT_DIR,
 	NO_PERM,
 	HOME_UNSET,
-	CMN_ERR,
 	MANY_ARGS,
 	GETCWD,
 } t_cd_error;
@@ -36,8 +35,8 @@ int 			ft_cd(t_mshell *mshell, char **args);
 char 			*ft_strndup(char *src, size_t n);
 void			set_env_variable(t_mshell *mshell, char **args, int *err_code);
 void 			free_env(t_env *env);
-void			ft_echo(t_mshell *mshell, char **args);
-void 			ft_unset(t_mshell *mshell, char **keys, int i, int index);
+int			ft_echo(t_mshell *mshell, char **args);
+int 			ft_unset(t_mshell *mshell, char **keys, int i, int index);
 t_env 			*get_env_var(t_env *env, char *key);
 void   			add_env_var(t_env **env, char *key, char *value);
 int				update_env_state(t_mshell *mshell, char *current_pwd);
@@ -54,5 +53,6 @@ int  			ft_exit(t_mshell *mshell, char **args);
 int 			is_invalid_digit(char *arg);
 void			update_cd_env(t_env **env, const char *key, const char *set_path);
 void  			setup_signal_handlers();
+int 			exit_mshell(t_mshell *mshell);
 #endif
 

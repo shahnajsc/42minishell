@@ -15,7 +15,7 @@ int copy_env(t_env *old_env, t_env *new_env)
         if (!new_env[i].key || (!new_env[i].value && old_env[i].value))
 		{
 			free_env(new_env);
-			return(free(new_env[i].key), 0);
+			return(free(new_env[i].key), 1);
 		}
         i++;
     }
@@ -33,7 +33,7 @@ void   add_env_var(t_env **old_env, char *key, char *value)
 	if (!new_env)
 		return ;
 	if (copy_env((*old_env), new_env))
-		return ;
+		return (free(new_env));
 	i = env_size(new_env);
 	new_env[i].key = ft_strdup(key);
 	if (value)

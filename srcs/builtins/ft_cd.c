@@ -65,6 +65,9 @@ int 	ft_cd(t_mshell *mshell, char **args)
 {
 	int			status_code;
 
+	if (!*args[1])
+		return (0);
 	status_code = handle_cd(mshell, args);
+	mshell->exit_code = status_code;
 	return (status_code);
 }
