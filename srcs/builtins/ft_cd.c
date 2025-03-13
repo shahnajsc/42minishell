@@ -24,15 +24,17 @@ static char 	*get_target_directory(t_env **env, char *directory_arg)
 }
 static int 	is_invalid_directory(char **args, char *file)
 {
-	struct stat	file_stat;
+	struct stat	sb;
 
 	if (args[1] && args[2])
 		return (MANY_ARGS);
-	if (stat(file, &file_stat) == -1)
+	if (stat(file, &sb) == -1)
 		return (NO_FILE);
-	if (!S_ISDIR(file_stat.st_mode))
+	if (!S_ISDIR(sb.st_mode))
 		return (NOT_DIR);
-	if (access(file, R_OK | W_OK | X_OK) != 0)
+	if ((sb.st_mode & (S_IRUSR | S_IRGRP)) == 0
+		|| (sb.st_mode & (S_IWUSR | S_IWGRP)) == 0
+		|| (sb.st_mode & (S_IXUSR | S_IXGRP)) == 0)
 		return (NO_PERM);
 	return (SUCSSES);
 }
