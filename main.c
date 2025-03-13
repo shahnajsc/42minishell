@@ -1,56 +1,31 @@
-#include <stdio.h>
+#include "minishell.h"
 
-int	ft_strcmp(char *s1, char *s2)
+static int mshell_data_init(t_mshell *mshell, char **envp)
 {
-	unsigned int	i;
-
-	i = 0;
-	while (s1[i] == s2[i] && s1[i] != '\0')
-		i++;
-	return (s1[i] - s2[i]);
+	//ft_memset(mshell, 0, sizeof(mshell));
+	mshell->env = init_env(envp);
+	//mshell->env = NULL;
+	if (!mshell->env)
+		return (1);
+	return (0);
 }
 
-int main(int argc, char **argv)
+
+
+int	main(int argc, char **argv, char **envp)
 {
-	if (argc != 3)
-		printf("error\n");
-	else
+	t_mshell mshell;
+
+	if (argc != 1)
 	{
-		int i = ft_strcmp(argv[1], argv[2]);
-		printf("ag1:[%s]\n", argv[1]);
-		printf("ag1:[%s]\n", argv[2]);
-		printf("ret value:[%d]\n", i);
+		ft_putstr_fd("Error: Correct  argument: ./minishell\n", 2);
+		exit(EXIT_FAILURE);
 	}
+	(void)argv;
+	//printf("inside main\n");
+	if (mshell_data_init(&mshell, envp))
+		exit(EXIT_FAILURE);
+	//printf("after mshellll init\n");
+	minishell(&mshell);
+	cleanup_mshell(&mshell);
 }
-
-
-//#include "minishell.h"
-
-// static int mshell_data_init(t_mshell *mshell, char **envp)
-// {
-// 	ft_memset(mshell, 0, sizeof(mshell));
-// 	mshell->envp = envp_duplicate(envp);
-// 	if (!mshell->envp)
-// 		return (1); // error msg
-// 	mshell->count_cmds = 0;
-// 	mshell->cmds = NULL;
-// 	mshell->exit_code = 0;
-// 	return (0);
-// }
-
-
-
-// int	main(int argc, char **argv, char **envp)
-// {
-// 	t_mshell mshell;
-
-// 	if (argc != 1)
-// 	{
-// 		ft_putstr_fd("Error: Correct  argument: ./minishell\n", 2);
-// 		exit(EXIT_FAILURE);
-// 	}
-// 	(void)argv;
-// 	if (mshell_data_init(&mshell, envp))
-// 		exit(EXIT_FAILURE);
-// 	minishell(&mshell);
-// }

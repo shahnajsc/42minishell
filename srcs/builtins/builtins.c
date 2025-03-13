@@ -1,26 +1,20 @@
 #include "minishell.h"
 
-
-int builtins_execv(t_mshell *mshell, char *input_str)
+int builtins_execv(t_mshell *mshell)
 {
-	char 		**args;
-
-	args = ft_split(input_str, ' ');
-	if (!args)
-		return (1);
-	if (ft_strcmp(args[0], "env") == 0)
-		ft_env(mshell, args);
-	else if (ft_strcmp(args[0], "pwd") == 0)
+	if (ft_strcmp(mshell->cmds[0].cmd_name, "env") == 0)
+		ft_env(mshell, mshell->cmds[0].splitted_cmd);
+	else if (ft_strcmp(mshell->cmds[0].cmd_name,  "pwd") == 0)
 		ft_pwd(mshell);
-	else if (ft_strcmp(args[0], "export") == 0)
-		ft_export(mshell, args);
-	else if (ft_strcmp(args[0], "cd") == 0)
-		ft_cd(mshell, args);
-	else if (ft_strcmp(args[0], "echo") == 0)
-		ft_echo(mshell, args);
-	else if (ft_strcmp(args[0], "exit") == 0)
-		ft_exit(mshell, args);
-	else if (ft_strcmp(args[0], "unset") == 0)
-		ft_unset(mshell, args, 1, 0);
+	else if (ft_strcmp(mshell->cmds[0].cmd_name,  "export") == 0)
+		ft_export(mshell, mshell->cmds[0].splitted_cmd);
+	else if (ft_strcmp(mshell->cmds[0].cmd_name,  "cd") == 0)
+		ft_cd(mshell, mshell->cmds[0].splitted_cmd);
+	else if (ft_strcmp(mshell->cmds[0].cmd_name,  "echo") == 0)
+		ft_echo(mshell, mshell->cmds[0].splitted_cmd);
+	else if (ft_strcmp(mshell->cmds[0].cmd_name,  "exit") == 0)
+		ft_exit(mshell, mshell->cmds[0].splitted_cmd);
+	else if (ft_strcmp(mshell->cmds[0].cmd_name,  "unset") == 0)
+		ft_unset(mshell, mshell->cmds[0].splitted_cmd, 1, 0);
 	return (EXIT_SUCCESS);
 }

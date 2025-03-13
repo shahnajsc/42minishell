@@ -12,15 +12,20 @@ static int envp_size(char **envp)
 
 static char *set_key_value(t_env *env, char *envp, char **sign)
 {
-	int 		key_len;      
+	int 		key_len;
 
 	if (*sign)
 	{
 		key_len = *sign - envp;
-		(*env).key = ft_strndup(envp, key_len); 
-		(*env).value = ft_strdup(*sign + 1);
-		if (!(*env).key || !(*env).value) 
+		(*env).key = ft_strndup(envp, key_len);
+		if (!(*env).key)
 			return (NULL);
+		(*env).value = ft_strdup(*sign + 1);
+		if (!(*env).value)
+		{
+			free((*env).key);
+			return (NULL);
+		}
 	}
 	else
 	{
@@ -42,7 +47,7 @@ int	env_duplicate(t_env **env, char **envp)
 	{
 		sign = ft_strchr(envp[i], '=');
 		if (!set_key_value(&((*env)[i]), envp[i], &sign))
-		{    
+		{
 			free_env(*env);
 			return(-1);
 		}
@@ -61,7 +66,7 @@ void 	mshell_level(t_env **env)
 
 	shlvl = get_env_var(*env, "SHLVL");
 	if (!shlvl || !shlvl->value)
-	{	
+	{
 		add_env_var(env, "SHLVL", "1");
 		return ;
 	}
@@ -71,10 +76,15 @@ void 	mshell_level(t_env **env)
 	{
 		free(shlvl->value);
 		shlvl->value = ft_strdup(new_lvl);
+		if (!shlvl->value )
+		{
+			free(new_lvl);
+			return ;
+		}
 		free(new_lvl);
 	}
 	else
-		mshell_lvl_error(env, new_lvl);   //program should terminate	
+		mshell_lvl_error(env, new_lvl);   //program should terminate
 }
 
 t_env	*init_env(char **envp)

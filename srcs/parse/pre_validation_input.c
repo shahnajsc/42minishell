@@ -34,7 +34,7 @@ int	check_invalid_redirection(t_mshell *mshell, char *input_str)
 				return (syntax_pre_error(mshell, ERR_RD, (input_str - rd_count)));
 			while (*input_str && check_char_whitespaces(*input_str))
 				input_str++;
-			if  (!*input_str || *input_str == '\n' || ft_strchr("<>|", *input_str))
+			if (!*input_str || *input_str == '\n' || ft_strchr("<>|", *input_str))
 				return (syntax_pre_error(mshell, ERR_RD, input_str));
 		}
 		else
@@ -47,32 +47,34 @@ int	check_invalid_redirection(t_mshell *mshell, char *input_str)
 
 int	check_invalid_pipe(t_mshell *mshell, char *input_str)
 {
-	while (check_char_whitespaces(*input_str))
+	while (*input_str && check_char_whitespaces(*input_str))
 		input_str++;
-	if (*input_str == '|')
+	if (*input_str && *input_str == '|')
 		return (syntax_pre_error(mshell, ERR_P, (input_str + 1)));
-	while (*input_str != '\0')
+	while (*input_str)
 	{
 		if (*input_str == '\'' || *input_str == '"')
 			input_str = skip_quoted_part(input_str);
 		else if (*input_str != '\'' && *input_str != '"' && *input_str != '|')
+		{
 			input_str = skip_unquoted_part(input_str);
+		}
 		else if (*input_str == '|')
 		{
 			input_str++;
 			if (*input_str == '|' || check_str_whitespaces(input_str))
 				return (syntax_pre_error(mshell, ERR_P, input_str));
 			while (*input_str && check_char_whitespaces(*input_str))
-					input_str++;
+				input_str++;
 			if (*input_str && *input_str == '|')
 				return (syntax_pre_error(mshell, ERR_P, (input_str + 1)));
 		}
 	}
 	mshell->exit_code = 0;
-	return (0); // why |> fdf is working???
+	return (0);
 }
 
-int check_missing_quotes(t_mshell *mshell, char *input_str)
+int	check_missing_quotes(t_mshell *mshell, char *input_str)
 {
 	char	quote;
 
@@ -94,13 +96,13 @@ int check_missing_quotes(t_mshell *mshell, char *input_str)
 	return (0);
 }
 
-int input_pre_validation(t_mshell *mshell, char *input_str)
+int	input_pre_validation(t_mshell *mshell, char *input_str)
 {
 	if (check_str_whitespaces(input_str))
-		return (syntax_pre_error(mshell, ERR_COMN, NULL));  // check for actual error mg
-	if (check_invalid_pipe(mshell, input_str))
-		return (1);
+		return (syntax_pre_error(mshell, ERR_COMN, NULL)); // check for actual error mg
 	if (check_missing_quotes(mshell, input_str))
+		return (1);
+	if (check_invalid_pipe(mshell, input_str))
 		return (1);
 	if (check_backslash(mshell, input_str))
 		return (1);
@@ -109,5 +111,9 @@ int input_pre_validation(t_mshell *mshell, char *input_str)
 	mshell->exit_code = 0;// check is it needed???
 	return (0);
 }
+
+//************************************** */
+// why |> fdf is working???
+
 
 //printf("after inside unquoted part str: %c \n", *input_str);

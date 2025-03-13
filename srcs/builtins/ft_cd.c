@@ -1,35 +1,38 @@
 #include <minishell.h>
 
-static int 	get_home_directory(t_env **env, char **path)
+static char 	*home_directory(t_env **env, char **path)
 {
 	t_env 	*variable;
 
 	variable = get_env_var(*env, "HOME");
 	if (!variable || !variable->value)
-		return (1); 
-	if (*path && *path != variable->value)
-		free(*path);
+		return (NULL);
 	*path = ft_strdup(variable->value);
 	if (!*path)
-		return (1);
-	return (0);
+		return (NULL);
+	return (*path);
 }
-static int 	is_invalid_directory(t_env **env, char **args)
+static char 	*get_target_directory(t_env **env, char *directory_arg)
+{
+	char *home_dir;
+
+	home_dir = home_directory(env, &home_dir);
+	if (!directory_arg || ft_strcmp(directory_arg, "~") == 0)
+		return (home_dir);
+	free(home_dir);
+	return (directory_arg);
+}
+static int 	is_invalid_directory(char **args, char *file)
 {
 	struct stat	file_stat;
 
 	if (args[1] && args[2])
 		return (MANY_ARGS);
-	if (!args[1] || ft_strcmp(args[1], "~") == 0)
-	{
-		if (get_home_directory(env, &args[1]))
-			return (HOME_UNSET);
-	}
-	if (stat(args[1], &file_stat) == -1)
-		return (NO_FILE);  
+	if (stat(file, &file_stat) == -1)
+		return (NO_FILE);
 	if (!S_ISDIR(file_stat.st_mode))
 		return (NOT_DIR);
-	if (access(args[1], R_OK | W_OK | X_OK) != 0)
+	if (access(file, R_OK | W_OK | X_OK) != 0)
 		return (NO_PERM);
 	return (SUCSSES);
 }
@@ -38,11 +41,15 @@ static int handle_cd(t_mshell *mshell, char **args)
 {
 	t_cd_error 		error_code;
 	char 			*new_pwd;
+	char 			*target;
 
-	error_code = is_invalid_directory(&mshell->env, args);
+	target = get_target_directory(&mshell->env, args[1]);
+	if (!target)
+		return(cd_error(args, HOME_UNSET));
+	error_code = is_invalid_directory(args, target);
 	if (error_code != SUCSSES)
 		return (cd_error(args, error_code));
-	if (chdir(args[1]) == -1)
+	if (chdir(target) == -1)
 		return (FAILURE);
 	new_pwd = getcwd(NULL, 0);
 	if (!new_pwd)
