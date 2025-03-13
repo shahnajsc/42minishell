@@ -53,5 +53,6 @@ t_env  			*allocate_new_env(t_env *old_env);
 int  			ft_exit(t_mshell *mshell, char **args);
 int 			is_invalid_digit(char *arg);
 void			update_cd_env(t_env **env, const char *key, const char *set_path);
-void 			setup_ignore_sigquit();
+void  			setup_signal_handlers();
 #endif
+
