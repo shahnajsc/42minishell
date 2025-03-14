@@ -15,7 +15,7 @@ int copy_env(t_env *old_env, t_env *new_env)
         if (!new_env[i].key || (!new_env[i].value && old_env[i].value))
 		{
 			free_env(new_env);
-			return(builtins_error(NULL, "Allocation failed for new env", new_env[i].key));
+			return(free(new_env[i].key), 1);
 		}
         i++;
     }
@@ -33,7 +33,7 @@ void   add_env_var(t_env **old_env, char *key, char *value)
 	if (!new_env)
 		return ;
 	if (copy_env((*old_env), new_env))
-		return ;
+		return (free(new_env));
 	i = env_size(new_env);
 	new_env[i].key = ft_strdup(key);
 	if (value)
@@ -42,7 +42,8 @@ void   add_env_var(t_env **old_env, char *key, char *value)
 		new_env[i].value = NULL;
     new_env[i + 1].key = NULL;
     new_env[i + 1].value = NULL;
-	free(*old_env);
+	free_env(*old_env);
+	free(value);
 	*old_env = new_env;
 }
 
@@ -50,6 +51,7 @@ void 	process_without_sign(t_env **env, char *arg)
 {
 	if (!get_env_var(*env, arg))
 		add_env_var(env, arg, NULL);
+	return ;
 }
 
 void 	process_with_sign(t_env **env, char *arg, char *sign)

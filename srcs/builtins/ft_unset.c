@@ -47,15 +47,17 @@ int copy_variable(t_env *src_var, t_env *dest_var)
 }
 
 
-void ft_unset(t_mshell *mshell, char **keys, int i, int index)
+int ft_unset(t_mshell *mshell, char **keys, int i, int index)
 {
     t_env *new_env;
 
     if (!mshell || !mshell->env || !keys)
-        return;
+        return(1);
+    if (!*keys[1])
+        return (0);
     new_env = allocate_env_size(env_size(mshell->env), count_keys(keys));
     if (!new_env)
-        return ;
+        return (1);
     while (mshell->env[i].key != NULL)
     {
         if (!should_unset_var(&mshell->env[i], keys, count_keys(keys)))
@@ -63,7 +65,7 @@ void ft_unset(t_mshell *mshell, char **keys, int i, int index)
             if (!copy_variable(&mshell->env[i], &new_env[index]))
             {
                 free_env(new_env);
-                return ;
+                return (1);
             }
             index++;
         }
@@ -73,4 +75,5 @@ void ft_unset(t_mshell *mshell, char **keys, int i, int index)
     new_env[index].value = NULL;
     free_env(mshell->env);
     mshell->env = new_env;
+    return (0); // mshell exit code //
 }
