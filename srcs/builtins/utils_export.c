@@ -26,9 +26,7 @@ void   add_env_var(t_env **old_env, char *key, char *value)
 {
 	t_env 	*new_env;
 	int 	i;
-
-	if (!old_env || !key)
-		return ;	
+	
 	new_env = allocate_new_env(*old_env);
 	if (!new_env)
 		return ;
@@ -43,7 +41,6 @@ void   add_env_var(t_env **old_env, char *key, char *value)
     new_env[i + 1].key = NULL;
     new_env[i + 1].value = NULL;
 	free_env(*old_env);
-	free(value);
 	*old_env = new_env;
 }
 
@@ -63,7 +60,7 @@ void 	process_with_sign(t_env **env, char *arg, char *sign)
 	key = ft_strndup(arg, sign - arg);
 	value = ft_strdup(sign + 1);
 	if (!key || !value)
-		return ;
+		return (free(key));
 	variable = get_env_var(*env, key);
 	if (variable)
 	{
@@ -71,7 +68,10 @@ void 	process_with_sign(t_env **env, char *arg, char *sign)
 		variable->value = value;
 	}
 	else
+	{
 		add_env_var(env, key, value);
+		free(value);
+	}
 	free(key);
 }
 

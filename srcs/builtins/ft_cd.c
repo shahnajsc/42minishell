@@ -58,15 +58,15 @@ static int handle_cd(t_mshell *mshell, char **args)
 	if (!new_pwd)
 		return (cd_error(args, GETCWD));
 	if (update_env_state(mshell, new_pwd) != SUCSSES)
-		return (FAILURE);
+		return (free(new_pwd), FAILURE);
 	return (SUCSSES);
 }
 int 	ft_cd(t_mshell *mshell, char **args)
 {
 	int			status_code;
 
-	if (!*args[1])
-		return (0);
+	// if (!*args[1])
+	// 	return (0);
 	status_code = handle_cd(mshell, args);
 	mshell->exit_code = status_code;
 	return (status_code);
