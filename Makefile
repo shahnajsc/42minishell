@@ -32,7 +32,7 @@ DIR_PAR 		= srcs/envp/envp_duplicate.c	\
 				srcs/parse/redirect_list_create.c	srcs/parse/cleanup_input.c\
 
 DIR_REDI 		= srcs/redirect/file_open.c	srcs/redirect/redirect_handle.c\
-				srcs/redirect/error_handle_file.c	\
+				srcs/redirect/error_handle_file.c	srcs/redirect/read_line.c	\
 
 MAN_BUILT  		= srcs/builtins/ft_pwd.c \
 				srcs/builtins/ft_env.c 	srcs/builtins/ft_export.c \

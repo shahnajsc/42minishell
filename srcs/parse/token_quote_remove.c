@@ -17,6 +17,7 @@ char	*remove_quote(char *tok_value)
 		i++;
 	}
 	new_value[i] = '\0';
+	free(tok_value);
 	return (new_value);
 }
 
