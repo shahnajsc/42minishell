@@ -4,6 +4,8 @@ int	redirect_handle_cmd(t_mshell *mshell, t_redirect *rd_list, int *fd)
 {
 	int	i;
 
+	if (!rd_list)
+		return (1);
 	i = 0;
 	while (rd_list && rd_list[i].rd_type)
 	{
@@ -18,4 +20,7 @@ int	redirect_handle_cmd(t_mshell *mshell, t_redirect *rd_list, int *fd)
 			fd[1] = get_file_fd(mshell, rd_list[i].file_deli, rd_list[i].rd_type);
 		i++;
 	}
+	if (fd[0] == -1 || fd[1] == -1)
+		return (1);
+	return (0);
 }
