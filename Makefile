@@ -18,7 +18,7 @@ RM 				= rm -f
 LIBFT	 		= ./libft/libft.a
 
 # Source files by directory
-MAN_DIR 		= srcs/envp/envp_duplicate.c	\
+DIR_PAR 		= srcs/envp/envp_duplicate.c	\
 				srcs/minishell/minishell_initiate.c	\
 				srcs/minishell/cleanup_mshell.c	\
 				srcs/parse/pre_validation_input.c	srcs/parse/utils_pre_validation.c	\
@@ -29,12 +29,10 @@ MAN_DIR 		= srcs/envp/envp_duplicate.c	\
 				srcs/parse/test_parse.c		srcs/parse/splitted_cmd.c	\
 				srcs/parse/token_post_process.c		srcs/parse/token_expand.c	\
 				srcs/parse/token_quote_remove.c		srcs/parse/token_merge.c	\
-				srcs/parse/redirect_create.c	srcs/parse/cleanup_input.c\
+				srcs/parse/redirect_list_create.c	srcs/parse/cleanup_input.c\
 
-
-# Source path
-
-# MAN_SRCS		=	main_parse.c $(MAN_DIR)
+DIR_REDI 		= srcs/redirect/file_open.c	srcs/redirect/redirect_handle.c\
+				srcs/redirect/error_handle_file.c	\
 
 MAN_BUILT  		= srcs/builtins/ft_pwd.c \
 				srcs/builtins/ft_env.c 	srcs/builtins/ft_export.c \
@@ -49,7 +47,7 @@ MAN_BUILT  		= srcs/builtins/ft_pwd.c \
 
 # Source path
 
-MAN_SRCS		= main.c $(MAN_BUILT) $(MAN_DIR)
+MAN_SRCS		= main.c $(MAN_BUILT) $(DIR_PAR) $(DIR_REDI)
 
 # Marker files to track which version is built
 #mandatory : .mandatory

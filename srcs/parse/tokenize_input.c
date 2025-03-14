@@ -65,15 +65,12 @@ int	tokenize_input(t_mshell *mshell, char *input_str)
 			//printf("no cmd %d\n", mshell->count_cmds);
 			return (1);
 		}
-		// mshell->cmds[i].redirects = create_redirects_list(mshell, i);
-		// if (!mshell->cmds[i].redirects)
-		// {
-		// 	printf("no rd %d\n", mshell->count_cmds);
-		// 	return (1);
-		// }
+		mshell->cmds[i].redirects = create_redirects_list(mshell, i);
+		if (!mshell->cmds[i].redirects && get_rd_list_len(mshell->cmds[i].token) > 0)
+			return (1);
 		i++;
 	}
-	///print_command_list(mshell);
+	print_command_list(mshell);
 	return (0);
 }
 

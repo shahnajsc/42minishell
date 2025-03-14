@@ -16,6 +16,8 @@ char	*get_var_expanded(char *token, char *env_value, char *env_key, int *i)
 		ft_strlcpy(new_token + *i, env_value, *i + env_len + 1);
 	ft_strlcpy(new_token + *i + env_len, token + *i + ft_strlen(env_key) + 1, new_len + 1);
 	*i += env_len;
+	free(token);
+	free(env_value);
 	return (new_token);
 }
 
@@ -32,11 +34,9 @@ char	*get_expanded_token(t_mshell *mshell, char *token_value, int *i)
 	if (!env_key_value)
 		return (free(env_key), NULL);
 	expanded_token = get_var_expanded(token_value, env_key_value, env_key, i);
-	free(env_key);
-	free(env_key_value);
-	free(token_value);
 	if (!expanded_token)
 		return (NULL);
+	free(env_key);
 	return (expanded_token);
 }
 
