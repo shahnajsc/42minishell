@@ -25,7 +25,7 @@ int		ft_env(t_mshell *mshell, char **args)
 	status_code = 0;
 	if (!args[1])
 		print_env(mshell->env);
-	else
+	else if (!*args[1] || args[1])
 	{
 		ft_putstr_fd("env: ‘", STDERR_FILENO);
 		ft_putstr_fd(args[1], STDERR_FILENO);

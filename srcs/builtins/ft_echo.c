@@ -1,8 +1,10 @@
 #include "minishell.h"
 
-int	is_newline(char *c, int *nl)
+int	is_newline(char *str, int *nl)
 {
-	if (ft_strcmp(c, "-n") == 0 || (ft_strncmp(c, "-n", 2) == 0 && c[2] == 'n'))
+	if (!str || !nl) 
+        return (0);
+	if ((ft_strcmp(str, "-n") == 0) || (ft_strncmp(str, "-n", 2) == 0 && str[2] == 'n'))
 	{
 		*nl= 0;
 		return (1);
