@@ -12,7 +12,7 @@ typedef enum e_token_type
 	DELIMETER,
 }  t_token_type;
 
-typedef enum e_rerirect_type
+typedef enum e_redirect_type
 {
 	RD_IN, //value :file name
 	RD_HEREDOC, // value: Delimeter

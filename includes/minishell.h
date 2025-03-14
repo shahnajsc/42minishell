@@ -12,6 +12,7 @@
 # include "envp.h"
 # include "parse.h"
 # include "builtins.h"
+# include "redirect.h"
 # include "../libft/includes/libft.h"
 
 
@@ -22,7 +23,7 @@
 # include <string.h>
 # include <fcntl.h>
 # include <dirent.h>
-//# include <sys/wait.h>
+# include <sys/wait.h>
 # include <limits.h>
 # include <errno.h>
 # include <signal.h>

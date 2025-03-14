@@ -1,5 +1,16 @@
 #include "minishell.h"
 
+void	redirect_fd(int from_fd, int to_fd)
+{
+	if (dup2(from_fd, to_fd) == -1)
+	{
+		perror("minishell: dup2");
+		close(from_fd);
+		//exit(1);
+	}
+	close(from_fd);
+}
+
 int	redirect_handle_cmd(t_mshell *mshell, t_redirect *rd_list, int *fd)
 {
 	int	i;
@@ -22,5 +33,9 @@ int	redirect_handle_cmd(t_mshell *mshell, t_redirect *rd_list, int *fd)
 	}
 	if (fd[0] == -1 || fd[1] == -1)
 		return (1);
+	if (fd[0] != -1 && fd[0] != -2) // fd[0] = -2 fd[1] = -2 from prev func
+		redirect_fd(fd[0], STDIN_FILENO);
+	if (fd[1] != -1 && fd[1] != -2)
+		redirect_fd(fd[1], STDOUT_FILENO);
 	return (0);
 }
