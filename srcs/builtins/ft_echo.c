@@ -1,5 +1,6 @@
 #include "minishell.h"
-int 	is_n(char *str)
+
+static int 	is_n(char *str)
 {
 	int i;
 
@@ -12,7 +13,7 @@ int 	is_n(char *str)
 	}
 	return (1);
 }
-int	is_newline(char *str, int *nl)
+static int	is_newline(char *str, int *nl)
 {
 	if (!str || !nl) 
         return (0);
@@ -31,6 +32,8 @@ int	ft_echo(t_mshell *mshell, char **args)
 
 	i = 1;
 	new_line = 1;
+	if (!mshell || !mshell->env || !args)
+		return (0);
 	if (args[i] && is_newline(args[i], &new_line))
 	{	
 		i++;

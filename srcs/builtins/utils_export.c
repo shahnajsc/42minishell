@@ -1,6 +1,20 @@
 #include "minishell.h"
 
-int copy_env(t_env *old_env, t_env *new_env)
+static t_env  *allocate_new_env(t_env *old_env)
+{
+	t_env 	*new_env;
+	int 	i;
+
+	if (!old_env)
+        return NULL;
+	i = env_size(old_env);
+	new_env = ft_calloc(sizeof(t_env), (i + 2));
+	if (!new_env)
+		return (NULL);
+	return (new_env);
+}
+
+static int copy_env(t_env *old_env, t_env *new_env)
 {
     int 	i;
 
@@ -21,7 +35,6 @@ int copy_env(t_env *old_env, t_env *new_env)
     }
 	return (0);
 }
-
 void   add_env_var(t_env **old_env, char *key, char *value)
 {
 	t_env 	*new_env;
@@ -47,8 +60,7 @@ void   add_env_var(t_env **old_env, char *key, char *value)
 void 	process_without_sign(t_env **env, char *arg)
 {
 	if (!get_env_var(*env, arg))
-		add_env_var(env, arg, NULL);
-	return ;
+		return (add_env_var(env, arg, NULL));
 }
 
 void 	process_with_sign(t_env **env, char *arg, char *sign)
@@ -73,26 +85,4 @@ void 	process_with_sign(t_env **env, char *arg, char *sign)
 		free(value);
 	}
 	free(key);
-}
-
-void	set_env_variable(t_mshell *mshell, char **args, int *status_code)
-{
-	char 		*sign;
-	int 		i; 
-
-	i = 1;
-	while (args[i] != NULL)
-	{
-		if (is_invalid_identifier(args[i]))
-			*status_code = 1;
-		else
-		{
-			sign = ft_strchr(args[i], '=');
-			if (!sign)
-				process_without_sign(&mshell->env, args[i]);
-			else
-				process_with_sign(&mshell->env, args[i], sign);		
-		}
-		i++;	
-	}
 }

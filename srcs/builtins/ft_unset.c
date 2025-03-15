@@ -1,72 +1,79 @@
 #include "minishell.h"
 
-t_env 	*allocate_env_size(int env_size, int key_len)
+static t_env 	*allocate_env_size(int env_size, int key_len)
 {
 	int 	new_env_size;
 	t_env 	*new_env;
 
 	new_env_size = env_size - key_len;
-	new_env = ft_calloc(sizeof(t_env), new_env_size + 1); 
+	new_env = ft_calloc(new_env_size + 1, sizeof(t_env));
 	if (!new_env)
 		return (NULL);
 	return (new_env);
 }
 
-int should_unset_var(t_env *env_var, char **keys, int keys_len)
+static int should_unset_var(t_env *env_var, char **keys)
 {
-    int index = 0;
+    int i;
 
-    while (index < keys_len)
+    i = 0;
+    while (keys[i] != NULL)
     {
-        if (strcmp(env_var->key, keys[index]) == 0)
-            return (1);  // Variable should be unset if there's a match
-        index++;
+        if (strcmp(env_var->key, keys[i]) == 0)
+            return (1);  // unset if there's a match
+        i++;
     }
-    return (0);  // No match found, so do not unset this variable
+    return (0);  // No match found
 }
 
-int count_keys(char **keys)
+static int count_keys(t_env *env, char **keys)
 {
     int count;
+    int i;
 
-	count = 1;
-    while (keys[count] != NULL)
-        count++;
+    i = 1;
+	count = 0;
+    while (keys[i] != NULL)
+    {
+        if (get_env_var(env, keys[i]))
+            count++;
+        i++;
+    }
     return (count);
 }
-int copy_variable(t_env *src_var, t_env *dest_var)
+static int copy_variable(t_env *src_var, t_env *dest_var)
 {
     dest_var->key = ft_strdup(src_var->key);
-	if (src_var->value)
-		dest_var->value =ft_strdup(src_var->value);
-	else
-		dest_var->value = NULL;
-    if (!dest_var->key || (!dest_var->value && src_var->value))
-        return (0); 
+    if (!dest_var->key)
+        return (0);
+    if (src_var->value)
+    {
+        dest_var->value = ft_strdup(src_var->value);
+        if (!dest_var->value)
+            return (free(dest_var->key), 0);
+    }
+    else
+        dest_var->value = NULL;
     return (1);
 }
 
-
 int ft_unset(t_mshell *mshell, char **keys, int i, int index)
 {
-    t_env *new_env;
-
-    if (!mshell || !mshell->env || !keys)
-        return(1);
-    if (!*keys[1])
-        return (0);
-    new_env = allocate_env_size(env_size(mshell->env), count_keys(keys));
+    int     env_count;
+    t_env   *new_env;
+    
+    if (!mshell || !mshell->env || !keys || !*keys)
+        return 0;
+    env_count = env_size(mshell->env);
+    new_env = allocate_env_size(env_count, count_keys(mshell->env, keys));
     if (!new_env)
-        return (1);
-    while (mshell->env[i].key != NULL)
+        return (0);
+    while (i < env_count)
     {
-        if (!should_unset_var(&mshell->env[i], keys, count_keys(keys)))
+        if (!should_unset_var(&mshell->env[i], keys))
         {
             if (!copy_variable(&mshell->env[i], &new_env[index]))
-            {
-                free_env(new_env);
-                return (1);
-            }
+                return (free_env(new_env), 0);
             index++;
         }
         i++;
@@ -75,5 +82,6 @@ int ft_unset(t_mshell *mshell, char **keys, int i, int index)
     new_env[index].value = NULL;
     free_env(mshell->env);
     mshell->env = new_env;
-    return (0); // mshell exit code //
+    mshell->exit_code = 0;
+    return (0);
 }

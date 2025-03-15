@@ -34,7 +34,7 @@ static int set_key_value(t_env *env, char *envp, char **sign)
 	return (0);
 }
 
-int	env_duplicate(t_env **env, char **envp)
+static int	env_duplicate(t_env **env, char **envp)
 {
 	char	*sign;
 	int		i;
@@ -52,7 +52,7 @@ int	env_duplicate(t_env **env, char **envp)
 	return (SUCSSES);
 }
 
-void 	mshell_level(t_env **env)
+static void mshell_level(t_env **env)
 {
 	t_env 		*shlvl;
 	char 		*new_lvl;
@@ -81,6 +81,8 @@ t_env	*init_env(char **envp)
 {
 	t_env 		*env_list;
 
+	if (!envp)
+		return (0);
 	env_list = ft_calloc(sizeof(t_env), (envp_size(envp) + 1));
 	if (!env_list)
 	{

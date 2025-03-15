@@ -34,19 +34,9 @@ t_env 	*get_env_var(t_env *env, char *key)
 	}
 	return (NULL);
 }
-t_env  *allocate_new_env(t_env *old_env)
-{
-	t_env 	*new_env;
-	int 	i;
 
-	if (!old_env)
-        return NULL;
-	i = env_size(old_env);
-	new_env = ft_calloc(sizeof(t_env), (i + 2));
-	if (!new_env)
-		return (NULL);
-	return (new_env);
-}
+
+
 int 	env_size(t_env *env)
 {
 	int i;
