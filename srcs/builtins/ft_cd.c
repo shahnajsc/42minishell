@@ -1,6 +1,6 @@
 #include <minishell.h>
 
-static char 	*home_directory(t_env **env, char **dir)
+static char *home_directory(t_env **env, char **dir)
 {
 	t_env 	*variable;
 
@@ -12,7 +12,7 @@ static char 	*home_directory(t_env **env, char **dir)
 		return (NULL);
 	return (*dir);
 }
-static char 	*get_target_directory(t_env **env, char *directory_arg)
+static char *get_target_directory(t_env **env, char *directory_arg)
 {
 	char *target;
 
@@ -52,7 +52,7 @@ static int handle_cd(t_mshell *mshell, char **args)
 		return(cd_error(args, HOME_UNSET));
 	error_code = is_invalid_directory(args, target);
 	if (error_code != SUCSSES)
-		return (cd_error(args, error_code));
+		return (free(target), cd_error(args, error_code));
 	if (chdir(target) == -1)
 		return (free(target), 0);
 	free(target);
@@ -67,6 +67,8 @@ int 	ft_cd(t_mshell *mshell, char **args)
 {
 	int			status_code;
 
+	if (!mshell || !mshell->env || !args)
+		return (0);
 	status_code = handle_cd(mshell, args);
 	mshell->exit_code = status_code;
 	return (status_code);

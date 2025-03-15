@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-long long ft_atoll(const char *str, long long number, long long check)
+static long long ft_atoll(const char *str, long long number, long long check)
 {
     int signcount;
 
@@ -24,7 +24,7 @@ long long ft_atoll(const char *str, long long number, long long check)
     return (number * signcount);
 }
 
-int 	process_exit_code(char *arg, int *exit_status)
+static int 	process_exit_code(char *arg, int *exit_status)
 {
 	long long 	exit_nbr;
 
@@ -38,17 +38,10 @@ int 	process_exit_code(char *arg, int *exit_status)
 	*exit_status = (int)exit_nbr;
 	return (0);
 }
-void 	handle_exit(char **args, int *exit_status)
+static void 	handle_exit(char **args, int *exit_status)
 {
 	if (!args[1])
 		*exit_status = 0;
-	else if (!*args[1])
-	{
-		ft_putstr_fd("minishell: exit: ", 2);
-		ft_putstr_fd(args[1], 2);	
-		ft_putstr_fd(": numeric argument required\n", 2);
-		*exit_status = 2;
-	}
 	else if (!is_invalid_digit(args[1]) && args[2])
 	{
 		ft_putstr_fd("minishell: exit: ", 2);
@@ -56,7 +49,8 @@ void 	handle_exit(char **args, int *exit_status)
 		ft_putstr_fd(": too many arguments\n", 2);
 		*exit_status = -1;
 	}
-	else if (is_invalid_digit(args[1]) || process_exit_code(args[1], exit_status))
+	else if (!*args[1] || is_invalid_digit(args[1])
+		|| process_exit_code(args[1], exit_status))
 	{
 		ft_putstr_fd("minishell: exit: ", 2);
 		ft_putstr_fd(args[1], 2);
@@ -76,6 +70,8 @@ int  ft_exit(t_mshell *mshell, char **args)
 {
 	int	exit_status;
 
+	if (!mshell || !mshell->env || !args)
+		return (0);
 	ft_putendl_fd("exit", STDOUT_FILENO);
 	handle_exit(args, &exit_status);
 	mshell->exit_code = exit_status;

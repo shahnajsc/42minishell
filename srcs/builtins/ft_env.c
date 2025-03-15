@@ -23,6 +23,8 @@ int		ft_env(t_mshell *mshell, char **args)
 	int 	status_code;
 
 	status_code = 0;
+	if (!mshell || !mshell->env || !args)
+		return (0);
 	if (!args[1])
 		print_env(mshell->env);
 	else if (!*args[1] || args[1])

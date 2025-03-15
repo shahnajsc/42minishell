@@ -1,5 +1,26 @@
 #include "minishell.h"
 
+static void	set_env_variable(t_mshell *mshell, char **args, int *status_code)
+{
+	char 		*sign;
+	int 		i; 
+
+	i = 1;
+	while (args[i] != NULL)
+	{
+		if (is_invalid_identifier(args[i]))
+			*status_code = 1;
+		else
+		{
+			sign = ft_strchr(args[i], '=');
+			if (!sign)
+				process_without_sign(&mshell->env, args[i]);
+			else
+				process_with_sign(&mshell->env, args[i], sign);		
+		}
+		i++;	
+	}
+}
 static void 	print_export(t_env *env)
 {
 	int 	i;
@@ -24,6 +45,8 @@ int 	ft_export(t_mshell *mshell, char **args)
 {
 	int 	status_code;
 
+	if (!mshell || !mshell->env || !args)
+		return (0);
 	status_code = 0;
 	if (!args[1])
 		print_export(mshell->env);

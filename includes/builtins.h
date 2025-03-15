@@ -33,7 +33,6 @@ int				ft_pwd(t_mshell *mshell);
 int 			builtins_error(char *arg, char *err_msg, char *free_str);
 int 			ft_cd(t_mshell *mshell, char **args);
 char 			*ft_strndup(char *src, size_t n);
-void			set_env_variable(t_mshell *mshell, char **args, int *err_code);
 void 			free_env(t_env *env);
 int			ft_echo(t_mshell *mshell, char **args);
 int 			ft_unset(t_mshell *mshell, char **keys, int i, int index);
@@ -48,11 +47,13 @@ t_env			*init_env(char **envp);
 int 			is_invalid_identifier(char *identifier);
 int				mshell_lvl_error(t_env **env, char *new_lvl);
 int 			env_size(t_env *env);
-t_env  			*allocate_new_env(t_env *old_env);
 int  			ft_exit(t_mshell *mshell, char **args);
 int 			is_invalid_digit(char *arg);
 void			update_cd_env(t_env **env, const char *key, const char *set_path);
 void  			setup_signal_handlers();
 int 			exit_mshell(t_mshell *mshell);
+void 			process_without_sign(t_env **env, char *arg);
+void 			process_with_sign(t_env **env, char *arg, char *sign);
+void   			add_env_var(t_env **old_env, char *key, char *value);
 #endif
 
