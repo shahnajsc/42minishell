@@ -15,7 +15,7 @@ static int	is_n(char *str)
 }
 static int	is_newline(char *str, int *nl)
 {
-	if (!str || !nl)
+	if (!str || !nl || !*nl)
 		return (0);
 	if ((str[0] == '-' && is_n(str)))
 	{
