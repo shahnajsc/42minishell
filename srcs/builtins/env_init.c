@@ -1,8 +1,8 @@
 #include "minishell.h"
 
-static int envp_size(char **envp)
+static int	envp_size(char **envp)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (envp[i])
@@ -10,9 +10,9 @@ static int envp_size(char **envp)
 	return (i);
 }
 
-static int set_key_value(t_env *env, char *envp, char **sign)
+static int	set_key_value(t_env *env, char *envp, char **sign)
 {
-	int 		key_len;
+	int	key_len;
 
 	if (*sign)
 	{
@@ -27,7 +27,7 @@ static int set_key_value(t_env *env, char *envp, char **sign)
 	else
 	{
 		(*env).key = ft_strdup(envp);
-    	(*env).value = NULL;
+		(*env).value = NULL;
 		if (!(*env).key)
 			return (FAILURE);
 	}
@@ -44,7 +44,7 @@ static int	env_duplicate(t_env **env, char **envp)
 	{
 		sign = ft_strchr(envp[i], '=');
 		if (set_key_value(&((*env)[i]), envp[i], &sign))
-			return(free_env(*env), FAILURE);
+			return (free_env(*env), FAILURE);
 		i++;
 	}
 	(*env)[i].key = NULL;
@@ -52,11 +52,11 @@ static int	env_duplicate(t_env **env, char **envp)
 	return (SUCSSES);
 }
 
-static void mshell_level(t_env **env)
+static void	mshell_level(t_env **env)
 {
-	t_env 		*shlvl;
-	char 		*new_lvl;
-	int 		nbr;
+	t_env	*shlvl;
+	char	*new_lvl;
+	int		nbr;
 
 	new_lvl = ft_strdup("1");
 	shlvl = get_env_var(*env, "SHLVL");
@@ -69,17 +69,17 @@ static void mshell_level(t_env **env)
 	{
 		free(shlvl->value);
 		shlvl->value = ft_strdup(new_lvl);
-		if (!shlvl->value )
+		if (!shlvl->value)
 			return (free(new_lvl));
 		free(new_lvl);
 	}
 	else
-		mshell_lvl_error(env, new_lvl);   //program should terminate
+		mshell_lvl_error(env, new_lvl); // program should terminate
 }
 
 t_env	*init_env(char **envp)
 {
-	t_env 		*env_list;
+	t_env	*env_list;
 
 	if (!envp)
 		return (0);
@@ -87,7 +87,7 @@ t_env	*init_env(char **envp)
 	if (!env_list)
 	{
 		ft_putendl_fd("minishell: Allocation faild for env", STDERR_FILENO);
-		return(NULL);
+		return (NULL);
 	}
 	if (env_duplicate(&env_list, envp))
 		return (free(env_list), NULL);

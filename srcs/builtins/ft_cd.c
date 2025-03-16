@@ -1,8 +1,8 @@
 #include <minishell.h>
 
-static char *home_directory(t_env **env, char **dir)
+static char	*home_directory(t_env **env, char **dir)
 {
-	t_env 	*variable;
+	t_env	*variable;
 
 	variable = get_env_var(*env, "HOME");
 	if (!variable || !variable->value)
@@ -12,9 +12,9 @@ static char *home_directory(t_env **env, char **dir)
 		return (NULL);
 	return (*dir);
 }
-static char *get_target_directory(t_env **env, char *directory_arg)
+static char	*get_target_directory(t_env **env, char *directory_arg)
 {
-	char *target;
+	char	*target;
 
 	if (!directory_arg || ft_strcmp(directory_arg, "~") == 0)
 		return (home_directory(env, &target));
@@ -22,7 +22,7 @@ static char *get_target_directory(t_env **env, char *directory_arg)
 		target = ft_strdup(directory_arg);
 	return (target);
 }
-static int 	is_invalid_directory(char **args, char *file)
+static int	is_invalid_directory(char **args, char *file)
 {
 	struct stat	sb;
 
@@ -41,15 +41,15 @@ static int 	is_invalid_directory(char **args, char *file)
 	return (SUCSSES);
 }
 
-static int handle_cd(t_mshell *mshell, char **args)
+static int	handle_cd(t_mshell *mshell, char **args)
 {
-	t_cd_error 		error_code;
-	char 			*new_pwd;
-	char 			*target;
+	t_cd_error	error_code;
+	char		*new_pwd;
+	char		*target;
 
 	target = get_target_directory(&mshell->env, args[1]);
 	if (!target)
-		return(cd_error(args, HOME_UNSET));
+		return (cd_error(args, HOME_UNSET));
 	error_code = is_invalid_directory(args, target);
 	if (error_code != SUCSSES)
 		return (free(target), cd_error(args, error_code));
@@ -63,9 +63,9 @@ static int handle_cd(t_mshell *mshell, char **args)
 		return (free(new_pwd), FAILURE);
 	return (SUCSSES);
 }
-int 	ft_cd(t_mshell *mshell, char **args)
+int	ft_cd(t_mshell *mshell, char **args)
 {
-	int			status_code;
+	int	status_code;
 
 	if (!mshell || !mshell->env || !args)
 		return (0);

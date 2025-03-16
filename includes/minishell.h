@@ -36,7 +36,7 @@ typedef struct	s_mshell
 {
 	t_env			*env;
 	//char			*input;
-	t_built_state   *b_state;
+	// t_built_state   *b_state;
 	int				count_cmds;
 	t_cmd			*cmds;
 	int				exit_code;

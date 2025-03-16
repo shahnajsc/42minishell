@@ -1,32 +1,32 @@
 #include "minishell.h"
 
-static long long ft_atoll(const char *str, long long number, long long check)
+static long long	ft_atoll(const char *str, long long number, long long check)
 {
-    int signcount;
+	int	signcount;
 
 	signcount = 1;
-    if (*str == '-' || *str == '+')
-    {
-        if (*str == '-')
-            signcount = -1;
-        str++;
-    }
-    while (*str >= '0' && *str <= '9')
-    {
-        check = (number * 10) + (*str - '0');
-        if (check / 10 != number && signcount == 1)
-            return (LLONG_MAX);
-        if (check / 10 != number && signcount == -1)
-            return (LLONG_MIN);
-        number = check;
-        str++;
-    }
-    return (number * signcount);
+	if (*str == '-' || *str == '+')
+	{
+		if (*str == '-')
+			signcount = -1;
+		str++;
+	}
+	while (*str >= '0' && *str <= '9')
+	{
+		check = (number * 10) + (*str - '0');
+		if (check / 10 != number && signcount == 1)
+			return (LLONG_MAX);
+		if (check / 10 != number && signcount == -1)
+			return (LLONG_MIN);
+		number = check;
+		str++;
+	}
+	return (number * signcount);
 }
 
-static int 	process_exit_code(char *arg, int *exit_status)
+static int	process_exit_code(char *arg, int *exit_status)
 {
-	long long 	exit_nbr;
+	long long	exit_nbr;
 
 	exit_nbr = ft_atoll(arg, 0, 0);
 	if (exit_nbr == LLONG_MAX || exit_nbr == LLONG_MIN)
@@ -38,7 +38,7 @@ static int 	process_exit_code(char *arg, int *exit_status)
 	*exit_status = (int)exit_nbr;
 	return (0);
 }
-static void 	handle_exit(char **args, int *exit_status)
+static void	handle_exit(char **args, int *exit_status)
 {
 	if (!args[1])
 		*exit_status = 0;
@@ -58,15 +58,15 @@ static void 	handle_exit(char **args, int *exit_status)
 		*exit_status = 2;
 	}
 }
-int 	exit_mshell(t_mshell *mshell)
+int	exit_mshell(t_mshell *mshell)
 {
-	int 	status;
+	int	status;
 
 	status = mshell->exit_code;
 	cleanup_mshell(mshell);
-	exit (status);
+	exit(status);
 }
-int  ft_exit(t_mshell *mshell, char **args)
+int	ft_exit(t_mshell *mshell, char **args)
 {
 	int	exit_status;
 
@@ -81,12 +81,15 @@ int  ft_exit(t_mshell *mshell, char **args)
 }
 /*
 
-args only nbr -> too many arguments 		>> 		exit_stat >> 1     		 NO Ex
+args only nbr
+								-> too many arguments 		>> 		exit_stat >> 1     			NO Ex
 
-args only char -> numeric argument required  >> 	exit_stat >> 2  		YES Ex
+args only char
+				-> numeric argument required  >> 	exit_stat >> 2  		YES Ex
 
-args starts nbr .> too many arguments        >>     exit_stat >> 1     		 NO Ex
+args starts nbr .> too many arguments        >>     exit_stat >> 1     			NO Ex
 
-args starts char -> numeric argument required  >> 	exit_stat >> 2  		YES Ex
+args starts char
+				-> numeric argument required  >> 	exit_stat >> 2  		YES Ex
 
 */
