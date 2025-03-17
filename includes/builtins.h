@@ -41,7 +41,7 @@ t_env 			*get_env_var(t_env *env, char *key);
 void   			add_env_var(t_env **env, char *key, char *value);
 int				update_env_state(t_mshell *mshell, char *current_pwd);
 int 			cd_error(char **args, t_cd_error err);
-int 			builtins_execv(t_mshell *mshell);
+int 			execute_builtins(t_mshell *mshell, t_cmd *cmd);
 t_built_state 	*init_built_state();
 int 			ft_export(t_mshell *mshell, char **args);
 t_env			*init_env(char **envp);

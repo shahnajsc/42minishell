@@ -3,7 +3,7 @@
 void	minishell(t_mshell *mshell)
 {
 	char	*input_str;
-	int 	status;
+
 	int fd;
 	char *line;
 
@@ -36,7 +36,8 @@ void	minishell(t_mshell *mshell)
 				continue ;
 			}
 			free(input_str);
-			status = builtins_execv(mshell);
+			if (mshell->cmds)
+				execute_cmds(mshell);
 			// printf("%d\n", status);
 			cleanup_on_loop(mshell);
 		}

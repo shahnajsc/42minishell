@@ -14,5 +14,5 @@ int	file_error(t_mshell *mshell, char *err_value, char *err_msg, int err_code)
 		ft_putendl_fd(err_msg, STDERR_FILENO);
 	}
 	mshell->exit_code = err_code;
-	return (1);
+	return (-1);
 }

@@ -56,9 +56,7 @@ void	cleanup_on_loop(t_mshell *mshell)
 			mshell->cmds[i].cmd_name = NULL;
 		}
 		if (mshell->cmds[i].splitted_cmd)
-		{
 			ft_free_grid((void **)mshell->cmds[i].splitted_cmd);
-		}
 		if (mshell->cmds[i].redirects)
 			free_redirects(mshell->cmds[i].redirects, mshell->cmds[i].token);
 		if (mshell->cmds[i].token)
