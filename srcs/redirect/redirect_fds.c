@@ -1,17 +1,20 @@
 #include "minishell.h"
 
-int	get_heredoc_fd(t_mshell *mshell, char *deli)
+int	get_heredoc_fd(t_mshell *mshell, t_redirect *rd_list, int i)
 {
 	int	pipe_fd[2];
 	char *hd_lines;
 
 	hd_lines = ft_strdup("");
+	if (!hd_lines)
+		printf("no hd_lines\n");
 	if (pipe(pipe_fd) == -1)
 	{
 		free(hd_lines);
-		return(file_error(mshell, deli, "Pipe open failed", 111));
+		return(file_error(mshell, rd_list[i].file_deli, "Pipe open failed", 111));
 	}
-	heredoc_handle(mshell, deli, pipe_fd[1], hd_lines);
+	heredoc_handle(mshell, rd_list, i, &hd_lines);
+	printf("line: %s", rd_list[i].file_deli);
 	close (pipe_fd[1]);
 	return (pipe_fd[0]);
 }

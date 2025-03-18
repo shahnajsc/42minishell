@@ -1,5 +1,27 @@
 #include "minishell.h"
 
+void	error_return(t_mshell *mshell, char *err_in, char *msg_err, int ret_value)
+{
+	ft_putstr_fd("mshell: ", 2);
+	if (*err_in != '\0')
+	{
+		ft_putstr_fd(err_in, 2);
+	}
+	if (*msg_err == '\0' || !msg_err)
+	{
+		ft_putstr_fd(": ", 2);
+		perror("");
+	}
+	else
+	{
+		ft_putstr_fd(": ", 2);
+		ft_putstr_fd(msg_err, 2);
+		ft_putstr_fd("\n", 2);
+	}
+	cleanup_on_loop(mshell);
+	exit(ret_value);
+}
+
 static char	**get_envp_paths(t_mshell *mshell)
 {
 	char	**env_paths;
