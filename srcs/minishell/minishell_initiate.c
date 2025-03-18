@@ -3,24 +3,7 @@
 void	minishell(t_mshell *mshell)
 {
 	char	*input_str;
-
-	// int fd;
-	// char *line;
-
-	// fd  = open("outfile", O_RDONLY, 0444);
-	// if (fd == -1)
-	// 	printf("error opening file\n");
-	// line = read_line(fd);
-	// while (line)
-	// {
-	// 	printf("line: %s", line);
-	// 	free(line);
-	// 	line = read_line(fd);
-	// 	if (!line)
-	// 		break ;
-	// }
-	// free(line);
-	// close(fd);
+  
 	setup_signal_handlers();
 	while (1) // need signal handle for exit
 	{

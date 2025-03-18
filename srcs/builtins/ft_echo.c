@@ -1,10 +1,25 @@
 #include "minishell.h"
 
-int	is_newline(char *c, int *nl)
+static int	is_n(char *str)
 {
-	if (ft_strcmp(c, "-n") == 0)
+	int	i;
+
+	i = 1;
+	while (str[i])
 	{
-		*nl= 0;
+		if (str[i] != 'n')
+			return (0);
+		i++;
+	}
+	return (1);
+}
+static int	is_newline(char *str, int *nl)
+{
+	if (!str || !nl || !*nl)
+		return (0);
+	if ((str[0] == '-' && is_n(str)))
+	{
+		*nl = 0;
 		return (1);
 	}
 	*nl = 1;
@@ -12,13 +27,19 @@ int	is_newline(char *c, int *nl)
 }
 int	ft_echo(t_mshell *mshell, char **args)
 {
-	int 		i;
-	int 		new_line;
+	int	i;
+	int	new_line;
 
 	i = 1;
 	new_line = 1;
+	if (!mshell || !mshell->env || !args)
+		return (0);
 	if (args[i] && is_newline(args[i], &new_line))
+	{
 		i++;
+		while (args[i] && args[i][0] == '-' && is_n(args[i]))
+			i++;
+	}
 	while (args[i] != NULL)
 	{
 		ft_putstr_fd(args[i], STDOUT_FILENO);

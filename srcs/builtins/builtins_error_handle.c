@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-int cd_error(char **args, t_cd_error err)
+int	cd_error(char **args, t_cd_error err)
 {
 	if (err != GETCWD)
 		ft_putstr_fd("minishell: ", STDERR_FILENO);
@@ -27,7 +27,7 @@ int cd_error(char **args, t_cd_error err)
 	}
 	return (1);
 }
-int 	builtins_error(char *arg, char *err_msg, char *free_str)
+int	builtins_error(char *arg, char *err_msg, char *free_str)
 {
 	ft_putstr_fd("minishell: ", STDERR_FILENO);
 	if (arg)
@@ -38,9 +38,9 @@ int 	builtins_error(char *arg, char *err_msg, char *free_str)
 	return (1);
 }
 
-int 	is_invalid_identifier(char *identifier)
+int	is_invalid_identifier(char *identifier)
 {
-	int 	i;
+	int	i;
 
 	if (!identifier || (!ft_isalpha(identifier[0]) && identifier[0] != '_'))
 	{
@@ -71,11 +71,11 @@ int	mshell_lvl_error(t_env **env, char *new_lvl)
 	ft_putendl_fd(") too high, resetting to 1", STDERR_FILENO);
 	free(new_lvl);
 	free_env(*env);
-	exit (EXIT_FAILURE); 
+	exit(EXIT_FAILURE);
 }
-void 	free_env(t_env *env)
+void	free_env(t_env *env)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (env[i].key != NULL)
@@ -86,4 +86,3 @@ void 	free_env(t_env *env)
 	}
 	free(env);
 }
-

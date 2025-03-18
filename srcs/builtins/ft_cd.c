@@ -1,8 +1,8 @@
 #include <minishell.h>
 
-static char 	*home_directory(t_env **env, char **dir)
+static char	*home_directory(t_env **env, char **dir)
 {
-	t_env 	*variable;
+	t_env	*variable;
 
 	variable = get_env_var(*env, "HOME");
 	if (!variable || !variable->value)
@@ -12,9 +12,9 @@ static char 	*home_directory(t_env **env, char **dir)
 		return (NULL);
 	return (*dir);
 }
-static char 	*get_target_directory(t_env **env, char *directory_arg)
+static char	*get_target_directory(t_env **env, char *directory_arg)
 {
-	char *target;
+	char	*target;
 
 	if (!directory_arg || ft_strcmp(directory_arg, "~") == 0)
 		return (home_directory(env, &target));
@@ -22,12 +22,14 @@ static char 	*get_target_directory(t_env **env, char *directory_arg)
 		target = ft_strdup(directory_arg);
 	return (target);
 }
-static int 	is_invalid_directory(char **args, char *file)
+static int	is_invalid_directory(char **args, char *file)
 {
 	struct stat	sb;
 
 	if (args[1] && args[2])
 		return (MANY_ARGS);
+	if (!*file)
+		return (SUCSSES);
 	if (stat(file, &sb) == -1)
 		return (NO_FILE);
 	if (!S_ISDIR(sb.st_mode))
@@ -39,33 +41,33 @@ static int 	is_invalid_directory(char **args, char *file)
 	return (SUCSSES);
 }
 
-static int handle_cd(t_mshell *mshell, char **args)
+static int	handle_cd(t_mshell *mshell, char **args)
 {
-	t_cd_error 		error_code;
-	char 			*new_pwd;
-	char 			*target;
+	t_cd_error	error_code;
+	char		*new_pwd;
+	char		*target;
 
 	target = get_target_directory(&mshell->env, args[1]);
 	if (!target)
-		return(cd_error(args, HOME_UNSET));
+		return (cd_error(args, HOME_UNSET));
 	error_code = is_invalid_directory(args, target);
 	if (error_code != SUCSSES)
-		return (cd_error(args, error_code));
+		return (free(target), cd_error(args, error_code));
 	if (chdir(target) == -1)
-		return (free(target), FAILURE);
+		return (free(target), 0);
 	free(target);
 	new_pwd = getcwd(NULL, 0);
 	if (!new_pwd)
 		return (cd_error(args, GETCWD));
 	if (update_env_state(mshell, new_pwd) != SUCSSES)
-		return (FAILURE);
+		return (free(new_pwd), FAILURE);
 	return (SUCSSES);
 }
-int 	ft_cd(t_mshell *mshell, char **args)
+int	ft_cd(t_mshell *mshell, char **args)
 {
-	int			status_code;
+	int	status_code;
 
-	if (!*args[1])
+	if (!mshell || !mshell->env || !args)
 		return (0);
 	status_code = handle_cd(mshell, args);
 	mshell->exit_code = status_code;

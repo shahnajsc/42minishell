@@ -1,8 +1,8 @@
 #include "minishell.h"
 
-static void 	print_env(t_env *env)
+static void	print_env(t_env *env)
 {
-	int 	i;
+	int	i;
 
 	i = -1;
 	while (env[++i].key != NULL)
@@ -18,14 +18,16 @@ static void 	print_env(t_env *env)
 		}
 	}
 }
-int		ft_env(t_mshell *mshell, char **args)
+int	ft_env(t_mshell *mshell, char **args)
 {
-	int 	status_code;
+	int status_code;
 
 	status_code = 0;
+	if (!mshell || !mshell->env || !args)
+		return (0);
 	if (!args[1])
 		print_env(mshell->env);
-	else
+	else if (!*args[1] || args[1])
 	{
 		ft_putstr_fd("env: ‘", STDERR_FILENO);
 		ft_putstr_fd(args[1], STDERR_FILENO);

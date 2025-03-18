@@ -1,27 +1,27 @@
 #include "minishell.h"
 
-char *ft_strndup(char *src, size_t n)
+char	*ft_strndup(char *src, size_t n)
 {
-    size_t i;
-    char *dest;
+	size_t	i;
+	char	*dest;
 
 	if (!src)
 		return (NULL);
 	i = 0;
 	dest = malloc(sizeof(size_t) * (n + 1));
-    if (!dest)
-        return (NULL);
-    while (i < n && src[i] != '\0')
-    {
-        dest[i] = src[i];
-        i++;
-    }
-    dest[i] = '\0';
-    return (dest);
+	if (!dest)
+		return (NULL);
+	while (i < n && src[i] != '\0')
+	{
+		dest[i] = src[i];
+		i++;
+	}
+	dest[i] = '\0';
+	return (dest);
 }
-t_env 	*get_env_var(t_env *env, char *key)
+t_env	*get_env_var(t_env *env, char *key)
 {
-	int		i;
+	int	i;
 
 	if (!env || !key || !*key)
 		return (NULL);
@@ -34,22 +34,10 @@ t_env 	*get_env_var(t_env *env, char *key)
 	}
 	return (NULL);
 }
-t_env  *allocate_new_env(t_env *old_env)
-{
-	t_env 	*new_env;
-	int 	i;
 
-	if (!old_env)
-        return NULL;
-	i = env_size(old_env);
-	new_env = ft_calloc(sizeof(t_env), (i + 2));
-	if (!new_env)
-		return (NULL);
-	return (new_env);
-}
-int 	env_size(t_env *env)
+int	env_size(t_env *env)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (env[i].key != NULL)
@@ -57,13 +45,13 @@ int 	env_size(t_env *env)
 	return (i);
 }
 
-int 	is_invalid_digit(char *arg)
+int	is_invalid_digit(char *arg)
 {
-	int 	i;
+	int	i;
 
 	i = 0;
-	if (arg[i] == '-' || arg[i] == '+') 
-        i++;
+	if (arg[i] == '-' || arg[i] == '+')
+		i++;
 	while (arg[i] != '\0')
 	{
 		if (!ft_isdigit(arg[i]))
