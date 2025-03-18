@@ -9,7 +9,7 @@ static void	free_redirects(t_redirect *redirects, t_token *token)
 		return ;
 	i =  0;
 	len = get_rd_list_len(token);
-	while (i < len - 1)
+	while (i < len)
 	{
 		if (redirects[i].file_deli)
 			free(redirects[i].file_deli);

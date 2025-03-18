@@ -3,7 +3,7 @@
 void	minishell(t_mshell *mshell)
 {
 	char	*input_str;
-  
+
 	setup_signal_handlers();
 	while (1) // need signal handle for exit
 	{
@@ -23,7 +23,7 @@ void	minishell(t_mshell *mshell)
 			if (mshell->cmds)
 				execute_cmds(mshell);
 			printf("in minishell\n");
-			//cleanup_on_loop(mshell);
+			cleanup_on_loop(mshell);
 		}
 	}
 	rl_clear_history();

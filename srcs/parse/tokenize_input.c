@@ -70,7 +70,7 @@ int	tokenize_input(t_mshell *mshell, char *input_str)
 			return (1);
 		i++;
 	}
-	print_command_list(mshell);
+	//print_command_list(mshell);
 	return (0);
 }
 

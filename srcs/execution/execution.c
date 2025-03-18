@@ -24,10 +24,10 @@ void	execute_cmds(t_mshell *mshell)
 	if (check_is_builtin(&mshell->cmds[0]) && mshell->count_cmds == 1)
 	{
 		execute_builtins(mshell, &mshell->cmds[0]);
-		printf("cmdexecuted\n");
+		//printf("cmdexecuted\n");
 	}
-	else
-		printf("cmd not executed\n");
+	// else
+	// 	printf("cmd not executed\n");
 	// else
 	// {
 	// }

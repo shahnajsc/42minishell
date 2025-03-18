@@ -2,12 +2,12 @@
 
 int execute_builtins(t_mshell *mshell, t_cmd *cmd)
 {
-	// int fds[2];
+	int fds[2];
 
-	// fds[0] = -2;
-	// fds[1] = -2;
-	// redirect_handle_cmd(mshell, cmd->redirects, fds);
-	// printf("get HD in builtins: %s\n", cmd->redirects[0].file_deli);
+	fds[0] = -2;
+	fds[1] = -2;
+	redirect_handle_cmd(mshell, cmd->redirects, fds);
+	//printf("get HD in builtins: %s\n", cmd->redirects[0].file_deli);
 	if (ft_strcmp(cmd->cmd_name, "env") == 0)
 		return (ft_env(mshell, cmd->splitted_cmd));
 	else if (ft_strcmp(cmd->cmd_name,  "pwd") == 0)
