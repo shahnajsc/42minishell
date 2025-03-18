@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-int builtins_execv(t_mshell *mshell)
+int builtins_exec(t_mshell *mshell)
 {
 	if (ft_strcmp(mshell->cmds[0].cmd_name, "env") == 0)
 		return (ft_env(mshell, mshell->cmds[0].splitted_cmd));

@@ -3,8 +3,8 @@
 void	minishell(t_mshell *mshell)
 {
 	char	*input_str;
-	// int 	status;
 
+	// int 	status;
 	setup_signal_handlers();
 	while (1) // need signal handle for exit
 	{
@@ -20,7 +20,7 @@ void	minishell(t_mshell *mshell)
 				continue ;
 			}
 			free(input_str);
-			builtins_execv(mshell);
+			builtins_exec(mshell);
 			// printf("%d\n", status);
 			cleanup_on_loop(mshell);
 		}

@@ -15,9 +15,9 @@ static int	is_n(char *str)
 }
 static int	is_newline(char *str, int *nl)
 {
-	if (!str || !nl)
+	if (!str || !nl || !*nl)
 		return (0);
-	if ((ft_strncmp(str, "-n", 2) == 0 && is_n(str)))
+	if ((str[0] == '-' && is_n(str)))
 	{
 		*nl = 0;
 		return (1);
@@ -37,7 +37,7 @@ int	ft_echo(t_mshell *mshell, char **args)
 	if (args[i] && is_newline(args[i], &new_line))
 	{
 		i++;
-		while (args[i] && ft_strncmp(args[i], "-n", 2) == 0 && is_n(args[i]))
+		while (args[i] && args[i][0] == '-' && is_n(args[i]))
 			i++;
 	}
 	while (args[i] != NULL)

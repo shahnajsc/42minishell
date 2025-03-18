@@ -74,7 +74,7 @@ void 	process_with_sign(t_env **env, char *arg, char *sign)
 	if (!key || !value)
 		return (free(key));
 	variable = get_env_var(*env, key);
-	if (variable)
+	if (variable && variable->value)
 	{
 		free(variable->value);
 		variable->value = value;

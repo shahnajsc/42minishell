@@ -2,14 +2,14 @@
 
 int	ft_pwd(t_mshell *mshell)
 {
-	char 		*cwd;
-	t_env 		*pwd;
+	char	*cwd;
+	t_env	*pwd;
 
 	if (!mshell || !mshell->env)
 		return (0);
 	cwd = getcwd(NULL, 0);
 	if (cwd)
-	{	
+	{
 		ft_putendl_fd(cwd, STDOUT_FILENO);
 		free(cwd);
 	}
