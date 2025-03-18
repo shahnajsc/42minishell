@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-static void	set_env_variable(t_mshell *mshell, char **args, int *status_code)
+static void	set_env_var(t_mshell *mshell, char **args, int *status_code)
 {
 	char	*sign;
 	int		i;
@@ -51,6 +51,6 @@ int	ft_export(t_mshell *mshell, char **args)
 	if (!args[1])
 		print_export(mshell->env);
 	else
-		set_env_variable(mshell, args, &status_code);
+		set_env_var(mshell, args, &status_code);
 	return (status_code);
 }
