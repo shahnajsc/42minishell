@@ -3,14 +3,14 @@
 void	minishell(t_mshell *mshell)
 {
 	char	*input_str;
-
-	// int 	status;
+  
 	setup_signal_handlers();
 	while (1) // need signal handle for exit
 	{
 		input_str = readline(PROMPT);
 		if (!input_str)
-			exit_mshell(mshell);
+			break ;
+			//exit_mshell(mshell);
 		else
 		{
 			add_history(input_str);
@@ -20,9 +20,10 @@ void	minishell(t_mshell *mshell)
 				continue ;
 			}
 			free(input_str);
-			builtins_exec(mshell);
-			// printf("%d\n", status);
-			cleanup_on_loop(mshell);
+			if (mshell->cmds)
+				execute_cmds(mshell);
+			printf("in minishell\n");
+			//cleanup_on_loop(mshell);
 		}
 	}
 	rl_clear_history();

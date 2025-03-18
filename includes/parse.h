@@ -45,8 +45,8 @@ typedef struct s_cmd
 	char		*cmd_str;
 	char		*cmd_name;
 	char		**splitted_cmd;
-	// int			in_fd;
-	// int			out_fd;
+	int			in_fd;
+	int			out_fd;
 }	t_cmd;
 
 // typedef struct	s_mshell

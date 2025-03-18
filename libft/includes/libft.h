@@ -6,7 +6,7 @@
 /*   By: shachowd <shachowd@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 13:02:57 by shachowd          #+#    #+#             */
-/*   Updated: 2025/02/02 15:07:52 by shachowd         ###   ########.fr       */
+/*   Updated: 2025/03/14 14:32:15 by shachowd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@
 # endif
 
 # ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 2014
+#  define BUFFER_SIZE 10
 # endif
 
 # define HEX_LOWER "0123456789abcdef"
