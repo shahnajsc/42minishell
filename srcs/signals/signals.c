@@ -1,7 +1,8 @@
 #include "minishell.h"
 
-void 	reset_prompt()
+void 	reset_prompt(int sigint)
 {
+	(void)sigint;
 	ft_putchar_fd('\n', STDERR_FILENO);
 	rl_replace_line("", 0);
 	rl_on_new_line();
@@ -28,8 +29,22 @@ void  ignore_sigquit()
 	if (sigaction(SIGQUIT, &sa, NULL) == -1 )
 		return ;
 }
-void  setup_signal_handlers()
+
+void    setup_terminal(void)
 {
-	ignore_sigquit();
-	reset_sigint();
+    int             fd;
+    struct termios terminal;
+
+    fd = STDIN_FILENO;
+    if (tcgetattr(fd, &terminal) == -1)
+        return ;
+    terminal.c_lflag &= ~ECHOCTL;
+    if (tcsetattr(fd, TCSANOW, &terminal) == -1)
+        return ;
+}
+void    setup_signal_handlers(void)
+{
+    setup_terminal();
+    ignore_sigquit();
+    reset_sigint();
 }
