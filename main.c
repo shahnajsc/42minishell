@@ -5,7 +5,7 @@ static int	mshell_data_init(t_mshell *mshell, char **envp)
 	mshell->env = init_env(envp);
 	if (!mshell->env)
 		return (1);
-	mshell->b_state = NULL;
+	// mshell->b_state = NULL;
 	mshell->cmds = NULL;
 	mshell->count_cmds = 0;
 	mshell->exit_code = 0;
