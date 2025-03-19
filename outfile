@@ -1,4 +1,2 @@
-NAME 			= minishell
-	$(CC) $(CFLAGS) $(LDFLAGS) $(INCLUDES) $(MAN_SRCS) $(LIBFT) -o $(NAME)
-	$(RM) $(NAME) .mandatory
-0
+hi
+[?2004hminishell>> [?2004l

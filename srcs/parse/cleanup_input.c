@@ -5,7 +5,7 @@ static void	free_redirects(t_redirect *redirects, t_token *token)
 	int	len;
 	int	i;
 
-	if (!redirects)
+	if (!redirects || !token)
 		return ;
 	i =  0;
 	len = get_rd_list_len(token);
@@ -36,6 +36,26 @@ static void	free_tokens(t_token *token)
 		cur_token = cur_token->next;
 		free(temp);
 	}
+	token = NULL;
+}
+void	close_free_pipe(t_mshell *mshell)
+{
+	int	i;
+
+	i = 0;
+	if (!mshell || !mshell->pipe_fds)
+		return ;
+	while (mshell->pipe_fds[i] != NULL)
+	{
+		if (mshell->pipe_fds[i][0] >= 0)
+			close(mshell->pipe_fds[i][0]);
+		if (mshell->pipe_fds[i][1] >= 0)
+			close(mshell->pipe_fds[i][1]);
+		free(mshell->pipe_fds[i]);
+		i++;
+	}
+	free(mshell->pipe_fds);
+	mshell->pipe_fds = NULL;
 }
 
 void	cleanup_on_loop(t_mshell *mshell)
@@ -56,15 +76,13 @@ void	cleanup_on_loop(t_mshell *mshell)
 			free(mshell->cmds[i].cmd_name);
 			mshell->cmds[i].cmd_name = NULL;
 		}
-		if (mshell->cmds[i].splitted_cmd)
-			ft_free_grid((void **)mshell->cmds[i].splitted_cmd);
-		if (mshell->cmds[i].redirects)
-			free_redirects(mshell->cmds[i].redirects, mshell->cmds[i].token);
-		if (mshell->cmds[i].token)
-			free_tokens(mshell->cmds[i].token);
+		ft_free_grid((void **)mshell->cmds[i].splitted_cmd);
+		free_redirects(mshell->cmds[i].redirects, mshell->cmds[i].token);
+		free_tokens(mshell->cmds[i].token);
 		i++;
 	}
 	free(mshell->cmds);
 	mshell->cmds = NULL;
+	close_free_pipe(mshell);
 	mshell->count_cmds = 0;
 }

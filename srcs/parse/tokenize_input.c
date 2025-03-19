@@ -20,8 +20,8 @@ static int	init_cmds(t_mshell*mshell, char *input_str)
 		mshell->cmds[i].cmd_str = ft_strdup(cmds_temp[i]);
 		mshell->cmds[i].cmd_name = NULL;
 		mshell->cmds[i].splitted_cmd = NULL;
-		// mshell->cmds[i].in_fd = -1;
-		// mshell->cmds[i].out_fd = -1;
+		mshell->cmds[i].in_fd = -1;
+		mshell->cmds[i].out_fd = -1;
 		i++;
 	}
 	ft_free_grid((void **)cmds_temp);

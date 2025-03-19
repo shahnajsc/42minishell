@@ -44,7 +44,7 @@ void	heredoc_handle(t_mshell *mshell, t_redirect *rd_list, int i, char **hd_line
 	char *line;
 
 	if (!hd_lines || rd_list)
-		printf("no hd \n"); /// return ;
+		return ;
 	while (1)
 	{
 		line = readline("> ");
@@ -59,9 +59,9 @@ void	heredoc_handle(t_mshell *mshell, t_redirect *rd_list, int i, char **hd_line
 			break ;
 		}
 		if (heredoc_join(hd_lines, line))
-			printf("mem allocation and joined failed\n");
+			return ;
 	}
-	free(rd_list[i].file_deli);
+	//free(rd_list[i].file_deli);
 	rd_list[i].file_deli = *hd_lines;
 	mshell->exit_code = 112;
 }

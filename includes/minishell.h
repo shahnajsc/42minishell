@@ -41,6 +41,7 @@ typedef struct	s_mshell
 	//t_built_state   *b_state;
 	int				count_cmds;
 	t_cmd			*cmds;
+	int				**pipe_fds;
 	int				exit_code;
 }	t_mshell;
 

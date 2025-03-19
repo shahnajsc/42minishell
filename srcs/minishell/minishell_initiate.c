@@ -22,7 +22,6 @@ void	minishell(t_mshell *mshell)
 			free(input_str);
 			if (mshell->cmds)
 				execute_cmds(mshell);
-			printf("in minishell\n");
 			cleanup_on_loop(mshell);
 		}
 	}

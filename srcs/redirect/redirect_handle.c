@@ -6,21 +6,20 @@ void	redirect_fd(int from_fd, int to_fd)
 	{
 		perror("minishell: dup2");
 		close(from_fd);
+			return ;
 		//exit(1);
 	}
 	close(from_fd);
 }
 
-int	redirect_handle_cmd(t_mshell *mshell, t_redirect *rd_list, int *fd)
+int	redirect_handle_cmd(t_mshell *mshell, t_redirect *rd_list, int *fd, int len)
 {
 	int	i;
 
 	if (!rd_list)
-		printf("no rd list\n");
-		//return (1);
-	printf("RD_LIST %s\n", rd_list[0].file_deli);
+		return (1);
 	i = 0;
-	while (rd_list && rd_list[i].rd_type)
+	while (i < len)
 	{
 		// check amigous redirect
 		if (rd_list[i].rd_type == RD_HEREDOC)
