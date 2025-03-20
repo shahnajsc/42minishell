@@ -1,6 +1,0 @@
-NAME 			= minishell
-	$(CC) $(CFLAGS) $(LDFLAGS) $(INCLUDES) $(MAN_SRCS) $(LIBFT) -o $(NAME)
-	$(RM) $(NAME) .mandatory
-NAME 			= minishell
-	$(CC) $(CFLAGS) $(LDFLAGS) $(INCLUDES) $(MAN_SRCS) $(LIBFT) -o $(NAME)
-	$(RM) $(NAME) .mandatory

@@ -2,13 +2,6 @@
 
 int execute_builtins(t_mshell *mshell, t_cmd *cmd)
 {
-	int fds[2];
-	int len;
-
-	len = get_rd_list_len(cmd->token);
-	fds[0] = -2;
-	fds[1] = -2;
-	redirect_handle_cmd(mshell, cmd->redirects, fds, len);
 	if (ft_strcmp(cmd->cmd_name, "env") == 0)
 		return (ft_env(mshell, cmd->splitted_cmd));
 	else if (ft_strcmp(cmd->cmd_name,  "pwd") == 0)
