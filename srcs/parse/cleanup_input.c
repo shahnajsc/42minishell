@@ -58,6 +58,18 @@ void	close_free_pipe(t_mshell *mshell)
 	mshell->pipe_fds = NULL;
 }
 
+void	close_fds(t_cmd *cmd)
+{
+	if (cmd->i_o_fd[0] > -1)
+		close(cmd->i_o_fd[0]);
+	if (cmd->i_o_fd[1] > -1)
+		close(cmd->i_o_fd[1]);
+	if (cmd->rd_fd[0] > -1)
+		close(cmd->rd_fd[0]);
+	if (cmd->rd_fd[1] > -1)
+		close(cmd->rd_fd[1]);
+}
+
 void	cleanup_on_loop(t_mshell *mshell)
 {
 	int	i;
@@ -79,6 +91,7 @@ void	cleanup_on_loop(t_mshell *mshell)
 		ft_free_grid((void **)mshell->cmds[i].splitted_cmd);
 		free_redirects(mshell->cmds[i].redirects, mshell->cmds[i].token);
 		free_tokens(mshell->cmds[i].token);
+		close_fds(&mshell->cmds[i]);
 		i++;
 	}
 	free(mshell->cmds);

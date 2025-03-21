@@ -22,6 +22,8 @@ static int	init_cmds(t_mshell*mshell, char *input_str)
 		mshell->cmds[i].splitted_cmd = NULL;
 		mshell->cmds[i].i_o_fd[0] = -2;
 		mshell->cmds[i].i_o_fd[1] = -2;
+		mshell->cmds[i].rd_fd[0] = -2;
+		mshell->cmds[i].rd_fd[1] = -2;
 		//mshell->cmds[i].out_fd = -1;
 		i++;
 	}

@@ -89,90 +89,80 @@ char **convert_env(t_env *env, char ***copy_env)
 
 void	builtins_in_parent(t_mshell *mshell, t_cmd *cmd)
 {
-	int	temp_fds[2] = {dup(STDIN_FILENO), dup(STDOUT_FILENO)};
+	cmd->i_o_fd[0] = dup(STDIN_FILENO);
+	cmd->i_o_fd[1] = dup(STDOUT_FILENO);
+
 	int len;
 
 	len = get_rd_list_len(cmd->token);
 	if (redirect_handle_cmd(mshell, cmd, len) == EXIT_FAILURE)
 	{
-		redirect_fd(temp_fds[0], STDIN_FILENO);
-		redirect_fd(temp_fds[1], STDOUT_FILENO);
+		redirect_fd(cmd->i_o_fd[0], STDIN_FILENO);
+		redirect_fd(cmd->i_o_fd[1], STDOUT_FILENO);
 		return ;
 	}
 	if (execute_builtins(mshell, cmd) > 0 )
 	{
-		redirect_fd(temp_fds[0], STDIN_FILENO);
-		redirect_fd(temp_fds[1], STDOUT_FILENO);
+		redirect_fd(cmd->i_o_fd[0], STDIN_FILENO);
+		redirect_fd(cmd->i_o_fd[1], STDOUT_FILENO);
 		return;
 	}
-	redirect_fd(temp_fds[0], STDIN_FILENO);
-	redirect_fd(temp_fds[1], STDOUT_FILENO);
+	redirect_fd(cmd->i_o_fd[0], STDIN_FILENO);
+	redirect_fd(cmd->i_o_fd[1], STDOUT_FILENO);
 }
-// echo hi >> out > outfile
 
-void	external_in_parent(t_mshell *mshell, t_cmd *cmd)
+void	external_in_parent(t_mshell *mshell, t_cmd *cmd, char ***copy_env)
 {
-	int	temp_fds[2] = {dup(STDIN_FILENO), dup(STDOUT_FILENO)};
 	int len;
 	char *cmd_path;
-	char **env_p;
 
+	cmd->i_o_fd[0] = dup(STDIN_FILENO);
+	cmd->i_o_fd[1] = dup(STDOUT_FILENO);
 	len = get_rd_list_len(cmd->token);
 	if (redirect_handle_cmd(mshell, cmd, len) == EXIT_FAILURE)
 	{
-		redirect_fd(temp_fds[0], STDIN_FILENO);
-		redirect_fd(temp_fds[1], STDOUT_FILENO);
+		redirect_fd(cmd->i_o_fd[0], STDIN_FILENO);
+		redirect_fd(cmd->i_o_fd[1], STDOUT_FILENO);
 		return ;
 	}
 	cmd_path = get_command_path(mshell, cmd);
-	env_p = convert_env(mshell->env, &env_p);
-	if (!cmd_path)
-		return ;
-	if (execve(cmd_path, cmd->splitted_cmd, env_p) == -1)
-	{
-		free(cmd_path);
-		ft_free_grid((void **)env_p);
-		redirect_fd(temp_fds[0], STDIN_FILENO);
-		redirect_fd(temp_fds[1], STDOUT_FILENO);
-		return;
-	}
-	redirect_fd(temp_fds[0], STDIN_FILENO);
-	redirect_fd(temp_fds[1], STDOUT_FILENO);
+	  if (!cmd_path)
+    {
+        ft_putstr_fd(mshell->cmds->cmd_name, STDERR_FILENO);
+        ft_putstr_fd(": command not found\n", STDERR_FILENO);
+        ft_free_grid((void **)*copy_env);
+        cleanup_mshell(mshell);
+        exit(127);
+    }
+    execve(cmd_path, mshell->cmds->splitted_cmd, *copy_env);
+    perror("minishell");
+    ft_free_grid((void **)*copy_env);
+    cleanup_mshell(mshell);
+    free(cmd_path);
+	redirect_fd(cmd->i_o_fd[0], STDIN_FILENO);
+	redirect_fd(cmd->i_o_fd[1], STDOUT_FILENO);
+    exit (126);
 }
 
 void	execute_cmds(t_mshell *mshell)
 {
 	//int	i;
+	char **env_p;
 
 	if (!mshell->cmds || mshell->count_cmds == 0)
 		return ;
 	//i = 0;
-	// if (mshell->count_cmds > 1)
-	// {
-	// 	if (init_pipe(mshell, mshell->count_cmds))
-	// 		return ;
-	// 	printf("fd: %d, %d\n", mshell->pipe_fds[1][0], mshell->pipe_fds[1][1]);
-	// }
+	env_p = convert_env(mshell->env, &env_p);
+	if (!env_p)
+		return ;
 	if (check_is_builtin(&mshell->cmds[0]) && mshell->count_cmds == 1)
 	{
 		builtins_in_parent(mshell, &mshell->cmds[0]);
 	}
 	else
 	{
-		external_in_parent(mshell, &mshell->cmds[0]);
-		// while (i < mshell->count_cmds)
-		// {
-		// 	// create pipe
-		// 	// skip rd
-		// 	// call execution: bulit/external
-		// 	//builtin : cleaning
-		// 	// extranal
+		external_in_parent(mshell, &mshell->cmds[0], &env_p);
 
-		// 	// if (check_is_builtin(&mshell->cmds[i]))
-		// 	// 	execute_builtins(mshell, &mshell->cmds[i]);
-		// 	// else
-		// 	// 	printf("external CMD\n");
-		// 	i++;
-		// }
 	}
 }
+

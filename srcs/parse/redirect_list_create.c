@@ -78,7 +78,7 @@ t_redirect	*create_redirects_list(t_mshell *mshell, int cmd_id)
 
 	current_token = mshell->cmds[cmd_id].token;
 	rd_len = get_rd_list_len(current_token);
-	printf("rd len : %d \n", rd_len);
+	//printf("rd len : %d \n", rd_len);
 	if (rd_len < 1)
 		return (NULL);
 	rd_list = get_redirect_list(current_token, rd_len, 0);

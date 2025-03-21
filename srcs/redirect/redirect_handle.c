@@ -4,7 +4,7 @@ void	redirect_fd(int from_fd, int to_fd)
 {
 	if (dup2(from_fd, to_fd) == -1)
 	{
-		perror("minishell: dup2");
+		perror("minishell: dup24");
 		close(from_fd);
 			return ;
 		//exit(1);
@@ -13,12 +13,18 @@ void	redirect_fd(int from_fd, int to_fd)
 }
 int	set_rd_fds(t_cmd *cmd, int new_in_fd, int new_out_fd)
 {
-	if (cmd->i_o_fd[0] != -1 && cmd->i_o_fd[0] != -2)
-		close (cmd->i_o_fd[0]);
-	cmd->i_o_fd[0] = new_in_fd;
-	if (cmd->i_o_fd[1] != -1 && cmd->i_o_fd[1] != -2)
-		close (cmd->i_o_fd[1]);
-	cmd->i_o_fd[1] = new_out_fd;
+	if (new_in_fd != -2)
+	{
+		if (cmd->rd_fd[0] != -1 && cmd->rd_fd[0] != -2)
+			close (cmd->rd_fd[0]);
+		cmd->rd_fd[0] = new_in_fd;
+	}
+	if (new_out_fd != -2)
+	{
+		if (cmd->rd_fd[1] != -1 && cmd->rd_fd[1] != -2)
+			close (cmd->rd_fd[1]);
+		cmd->rd_fd[1] = new_out_fd;
+	}
 	if (new_in_fd == -1 || new_out_fd == -1)
 		return (EXIT_FAILURE);
 	return (EXIT_SUCCESS);
@@ -32,10 +38,11 @@ int	redirect_handle_cmd(t_mshell *mshell, t_cmd *cmd, int len)
 
 	i = 0;
 	rds = cmd->redirects;
-	fd[0] = -2;
-	fd[1] = -2;
 	while (cmd->redirects && i < len)
 	{
+		printf("RD type: %u\n", rds->rd_type);
+		fd[0] = -2;
+		fd[1] = -2;
 		// check amigous redirect
 		if (rds[i].rd_type == RD_HEREDOC)
 			fd[0] = get_heredoc_fd(mshell, rds, i); //use HD open
@@ -49,9 +56,9 @@ int	redirect_handle_cmd(t_mshell *mshell, t_cmd *cmd, int len)
 			return (EXIT_FAILURE);
 		i++;
 	}
-	if (cmd->i_o_fd[0] != -1 && cmd->i_o_fd[0] != -2) // fd[0] = -2 fd[1] = -2 from prev func
-		redirect_fd(cmd->i_o_fd[0], STDIN_FILENO);
-	if (cmd->i_o_fd[1] != -1 && cmd->i_o_fd[1] != -2)
-		redirect_fd(cmd->i_o_fd[1], STDOUT_FILENO);
+	if (cmd->rd_fd[0] != -1 && cmd->rd_fd[0] != -2) // fd[0] = -2 fd[1] = -2 from prev func
+		redirect_fd(cmd->rd_fd[0], STDIN_FILENO);
+	if (cmd->rd_fd[1] != -1 && cmd->rd_fd[1] != -2)
+		redirect_fd(cmd->rd_fd[1], STDOUT_FILENO);
 	return (EXIT_SUCCESS);
 }
