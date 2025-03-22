@@ -8,6 +8,12 @@ typedef struct s_redirect t_redirect;
 //...............FUNCTIONS................//
 void	execute_cmds(t_mshell *mshell);
 char	*get_command_path(t_mshell *mshell, t_cmd *cmd);
-void	builtins_in_parent(t_mshell *mshell, t_cmd *cmd);
+void	call_parent_process(t_mshell *mshell, int *pipe_fd, int i);
+void	call_child_process(t_mshell *mshell, int *pipe_fd, int i);
+
+//...........UTILS.........//
+int		check_is_builtin(t_cmd *cmd);
+char	**convert_env(t_env *env, char ***copy_env);
+int 	wait_processes(pid_t pid);
 
 #endif

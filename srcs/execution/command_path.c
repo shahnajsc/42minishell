@@ -94,5 +94,6 @@ char	*get_command_path(t_mshell *mshell, t_cmd *cmd)
 	if (!env_paths)
 		error_return(mshell, cmd->cmd_name, "No such file or directory", 127);
 	cmd_path = get_path_cmd(env_paths, cmd->cmd_name);
+	ft_free_grid((void **)env_paths);
 	return (cmd_path);
 }

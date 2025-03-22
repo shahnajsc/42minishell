@@ -42,6 +42,7 @@ typedef struct	s_mshell
 	int				count_cmds;
 	t_cmd			*cmds;
 	int				**pipe_fds;
+	int 			prev_read_fd;
 	int				exit_code;
 }	t_mshell;
 

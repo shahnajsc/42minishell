@@ -35,6 +35,7 @@ DIR_REDI 		= srcs/redirect/redirect_fds.c	srcs/redirect/redirect_handle.c\
 				srcs/redirect/error_handle_file.c	srcs/redirect/heredoc_handle.c	\
 
 DIR_EXE 		= srcs/execution/command_path.c	srcs/execution/execution.c\
+				srcs/execution/utils_execution.c	srcs/execution/execution_child.c	\
 
 MAN_BUILT  		= srcs/builtins/ft_pwd.c \
 				srcs/builtins/ft_env.c 	srcs/builtins/ft_export.c \
