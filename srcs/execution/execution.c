@@ -71,90 +71,98 @@ void 	wait_processes(t_mshell *mshell)
 		i++;
 	}
 }
-void 	children(t_mshell *mshell, int i)
+void children(t_mshell *mshell, int i)
 {
-	char 	**copy_env;
-	copy_env = NULL;
-	// printf("execution\n");
-	if (check_is_builtin(&mshell->cmds[i]))
-	{	
+    char **copy_env = NULL;
+
+    if (check_is_builtin(&mshell->cmds[i]))
+    {
 		execute_builtins(mshell, &mshell->cmds[i]);
 		cleanup_mshell(mshell);
-		exit(EXIT_SUCCESS);  
-	}
-	else
-	{	
-		convert_env(mshell->env, &copy_env);
-		execute_subprocess(mshell, &mshell->cmds[i], &copy_env);
 		exit(EXIT_SUCCESS);
-	}
+    }
+    else
+    {
+        convert_env(mshell->env, &copy_env);
+        execute_subprocess(mshell, &mshell->cmds[i], &copy_env);
+    }
 }
 
 void call_child_process(t_mshell *mshell, int *pipe_fd, int i)
 {
-	//printf("child main[%d]\n", i);
-	if (mshell->prev_read_fd != STDIN_FILENO)
-	{
-		redirect_fd(mshell->prev_read_fd, STDIN_FILENO);
-	}
-	if (i < mshell->count_cmds - 1)
-	{
-		// printf("child + i[%d]\n", i + 1);
-		close(pipe_fd[0]);
+	close(pipe_fd[0]); 
+    if (mshell->prev_read_fd != STDIN_FILENO)
+    {
+        redirect_fd(mshell->prev_read_fd, STDIN_FILENO);
+        close(mshell->prev_read_fd);
+    }
+    if (i < mshell->count_cmds - 1)
+    {
+		  
 		redirect_fd(pipe_fd[1], STDOUT_FILENO);
-		close(pipe_fd[1]);
-	}
-	// printf("works [%d]\n", i);
-	children(mshell, i);
-	
+        close(pipe_fd[1]);
+    }
+	close(pipe_fd[1]);
+    children(mshell, i);
 }
 
 void call_parent_process(t_mshell *mshell, int *pipe_fd, int i)
 {
-	if (mshell->prev_read_fd != STDIN_FILENO)
-	{
-		close(mshell->prev_read_fd);
-	}
-	if (i < mshell->count_cmds - 1)
-	{
-		close(pipe_fd[1]);
-		mshell->prev_read_fd = pipe_fd[0];
-	}
+	(void)i;
 
-}
-
-void	create_subprocesses(t_mshell *mshell)
-{	
-	int			i;
-	pid_t 		p_id;
-	int 		pipe_fd[2];
-	
-	
-	i = 0;
-	while (mshell->cmds && i < mshell->count_cmds)
-	{
-		if (pipe(pipe_fd) == -1)
-		{	
-			perror("Error");
-			return ;
-		}
-		p_id = fork();
-		if (p_id == -1)
-		{	
-			perror("Error");
-			return ;
-		}
-		if (p_id == 0)
-		{
-			call_child_process(mshell, pipe_fd, i);
-		}
-		else
-			call_parent_process(mshell, pipe_fd, i);
-		i++;
-	}
-	close(pipe_fd[0]);
 	close(pipe_fd[1]);
-	wait_processes(mshell);
+    if (mshell->prev_read_fd != STDIN_FILENO)
+		close(mshell->prev_read_fd);
+    mshell->prev_read_fd = pipe_fd[0];
+}
+void 		execute_external(t_mshell *mshell)
+{
+	pid_t 	p_id;
+
+	printf("run single processe\n");
+	p_id = fork();
+	if (p_id == -1)
+	{
+		perror("fork");
+        return;
+	}
+	if (p_id == 0)
+		children(mshell, 0);
+	else
+		wait_processes(mshell);
+}
+void create_subprocesses(t_mshell *mshell)
+{
+    int i = 0;
+    pid_t p_id;
+    int pipe_fd[2];
+
+	printf("run multiple processes\n");
+    while (mshell->cmds && i < mshell->count_cmds)
+    {
+        if (pipe(pipe_fd) == -1)
+        {
+            perror("pipe");
+            return;
+        }
+        p_id = fork();
+        if (p_id == -1)
+        {
+            perror("fork");
+            close(pipe_fd[0]);
+            close(pipe_fd[1]);
+            return;
+        }
+        if (p_id == 0)
+            call_child_process(mshell, pipe_fd, i);
+        else
+            call_parent_process(mshell, pipe_fd, i);
+        i++;
+    }
+    if (mshell->prev_read_fd != STDIN_FILENO)
+        close(mshell->prev_read_fd);
+    wait_processes(mshell);
+    mshell->prev_read_fd = STDIN_FILENO;
 }
 void    execute_cmds(t_mshell *mshell)
 {
@@ -165,6 +173,8 @@ void    execute_cmds(t_mshell *mshell)
     i = 0;
     if (check_is_builtin(&mshell->cmds[0]) && mshell->count_cmds == 1)
         execute_builtins(mshell, &mshell->cmds[0]);
+	else if (!check_is_builtin(&mshell->cmds[0]) && mshell->count_cmds == 1)
+		execute_external(mshell);
     else
 		create_subprocesses(mshell);
 }
