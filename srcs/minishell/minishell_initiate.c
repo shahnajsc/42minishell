@@ -1,16 +1,16 @@
 #include "minishell.h"
 
-void	minishell(t_mshell *mshell)
+int	minishell(t_mshell *mshell)
 {
 	char	*input_str;
-  
+
+	// int status = 0;
 	setup_signal_handlers();
 	while (1) // need signal handle for exit
 	{
 		input_str = readline(PROMPT);
 		if (!input_str)
 			break ;
-			//exit_mshell(mshell);
 		else
 		{
 			add_history(input_str);
@@ -21,10 +21,10 @@ void	minishell(t_mshell *mshell)
 			}
 			free(input_str);
 			if (mshell->cmds)
-				execute_cmds(mshell);
-			// printf("in minishell\n");
+				handle_command_execution(mshell);
 			cleanup_on_loop(mshell);
 		}
 	}
 	rl_clear_history();
+	return (mshell->exit_code);
 }

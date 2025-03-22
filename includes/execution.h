@@ -6,7 +6,7 @@ typedef enum e_redirect_type t_redirect_type;
 typedef struct s_redirect t_redirect;
 
 //...............FUNCTIONS................//
-void execute_cmds(t_mshell *mshell);
+void    handle_command_execution(t_mshell *mshell);
 char    *get_command_path(t_mshell *mshell, t_cmd *cmd);
 
 #endif

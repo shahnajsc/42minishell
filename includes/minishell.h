@@ -44,11 +44,13 @@ typedef struct	s_mshell
 	t_cmd			*cmds;
 	int				exit_code;
 	int 			prev_read_fd;
+	int 			pipe_fd[2];
 }	t_mshell;
 
 
 //FUNCTIONS
-void	minishell(t_mshell *mshell);
+
+int		minishell(t_mshell *mshell);
 void	cleanup_mshell(t_mshell *mshell);
 
 #endif
