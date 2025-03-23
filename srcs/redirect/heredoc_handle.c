@@ -39,12 +39,21 @@ int	heredoc_join(char **hd, char *line)
 	return (0);
 }
 
-void	heredoc_handle(t_mshell *mshell, t_redirect *rd_list, int i, char **hd_lines)
+void	heredoc_handle(t_mshell *mshell, t_redirect *rd_list, int i)
 {
 	char *line;
+	char *hd_lines;
 
-	if (!hd_lines || rd_list)
+	// if (!hd_lines || rd_list)
+	// 	return ;
+	if (!rd_list)
+		printf("no rd list\n");
+	hd_lines = ft_strdup("");
+	if (!hd_lines)
+	{
+		printf("error hd\n");
 		return ;
+	}
 	while (1)
 	{
 		line = readline("> ");
@@ -58,10 +67,10 @@ void	heredoc_handle(t_mshell *mshell, t_redirect *rd_list, int i, char **hd_line
 			free(line);
 			break ;
 		}
-		if (heredoc_join(hd_lines, line))
+		if (heredoc_join(&hd_lines, line))
 			return ;
 	}
-	//free(rd_list[i].file_deli);
-	rd_list[i].file_deli = *hd_lines;
+	free(rd_list[i].file_deli);
+	rd_list[i].file_deli = hd_lines;
 	mshell->exit_code = 112;
 }

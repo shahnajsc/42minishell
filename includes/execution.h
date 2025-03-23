@@ -10,6 +10,7 @@ void	execute_cmds(t_mshell *mshell);
 char	*get_command_path(t_mshell *mshell, t_cmd *cmd);
 void	call_parent_process(t_mshell *mshell, int *pipe_fd, int i);
 void	call_child_process(t_mshell *mshell, int *pipe_fd, int i);
+int	builtins_in_parent(t_mshell *mshell, t_cmd *cmd);
 
 //...........UTILS.........//
 int		check_is_builtin(t_cmd *cmd);

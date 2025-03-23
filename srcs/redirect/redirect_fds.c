@@ -3,23 +3,14 @@
 int	get_heredoc_fd(t_mshell *mshell, t_redirect *rd_list, int i)
 {
 	int	pipe_fd[2];
-	char *hd_lines;
 
-	hd_lines = ft_strdup("");
-	if (!hd_lines)
-	{
-		printf("error hd\n");
-		return (1);
-	}
 	if (pipe(pipe_fd) == -1)
 	{
-		free(hd_lines);
 		return(file_error(mshell, NULL, "Pipe open failed", 111));
 	}
-	heredoc_handle(mshell, rd_list, i, &hd_lines);
+	heredoc_handle(mshell, rd_list, i);
 	ft_putstr_fd(rd_list[i].file_deli, pipe_fd[1]);
 	close (pipe_fd[1]);
-	free(hd_lines);
 	return (pipe_fd[0]);
 }
 

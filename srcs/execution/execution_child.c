@@ -65,8 +65,9 @@ void 	children(t_mshell *mshell, int i)
 
 	if (check_is_builtin(&mshell->cmds[i]))
 	{
-		builtins_in_child(mshell, &mshell->cmds[i]);
+		//builtins_in_child(mshell, &mshell->cmds[i]);
 		//execute_builtins(mshell, &mshell->cmds[i]);
+		builtins_in_parent(mshell, &mshell->cmds[i]);
 		cleanup_mshell(mshell);
 		exit(EXIT_SUCCESS);
 	}
