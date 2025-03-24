@@ -39,14 +39,9 @@ int	execute_child_cmds(t_mshell *mshell)
 			call_parent_process(mshell, pipe_fd, i);
 		wait_processes(p_id);
 		i++;
-		// close(pipe_fd[0]);
-		// close(pipe_fd[1]);
-		// if (mshell->prev_read_fd)
-		// 	close(mshell->prev_read_fd);
 	}
-	// wait_processes(mshell);
-	 if (mshell->prev_read_fd != STDIN_FILENO)
-        close(mshell->prev_read_fd);
+	if (mshell->prev_read_fd != STDIN_FILENO)
+		close(mshell->prev_read_fd);
 	 mshell->prev_read_fd = STDIN_FILENO;
 	return (EXIT_SUCCESS);
 }
@@ -79,6 +74,8 @@ int	builtins_in_parent(t_mshell *mshell, t_cmd *cmd)
 void	execute_cmds(t_mshell *mshell)
 {
 	if (!mshell->cmds || mshell->count_cmds == 0)
+		return ;
+	if (heredoc_handle(mshell) == EXIT_FAILURE)
 		return ;
 	if (check_is_builtin(&mshell->cmds[0]) && mshell->count_cmds == 1)
 	{

@@ -16,7 +16,7 @@ static int	init_cmds(t_mshell*mshell, char *input_str)
 	{
 		mshell->cmds[i].token = NULL; // make token
 		mshell->cmds[i].redirects = NULL;
-		mshell->cmds[i].is_here_exp = 0;
+		mshell->cmds[i].is_hd_quote = 0;
 		mshell->cmds[i].cmd_str = ft_strdup(cmds_temp[i]);
 		mshell->cmds[i].cmd_name = NULL;
 		mshell->cmds[i].splitted_cmd = NULL;

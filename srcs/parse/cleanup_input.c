@@ -12,8 +12,15 @@ static void	free_redirects(t_redirect *redirects, t_token *token)
 	while (i < len)
 	{
 		if (redirects[i].file_deli)
+		{
 			free(redirects[i].file_deli);
-		redirects[i].file_deli = NULL;
+			redirects[i].file_deli = NULL;
+		}
+		if (redirects[i].hd_lines)
+		{
+			free(redirects[i].hd_lines);
+			redirects[i].hd_lines = NULL;
+		}
 		i++;
 	}
 	free(redirects);

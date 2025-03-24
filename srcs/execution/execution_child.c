@@ -2,26 +2,28 @@
 
 void	builtins_in_child(t_mshell *mshell, t_cmd *cmd)
 {
-	// cmd->i_o_fd[0] = dup(STDIN_FILENO);
-	// cmd->i_o_fd[1] = dup(STDOUT_FILENO);
+	cmd->i_o_fd[0] = dup(STDIN_FILENO);
+	cmd->i_o_fd[1] = dup(STDOUT_FILENO);
 
-	// int len;
+	int len;
 
-	// len = get_rd_list_len(cmd->token);
-	// if (redirect_handle_cmd(mshell, cmd, len) == EXIT_FAILURE)
-	// {
-	// 	// redirect_fd(cmd->i_o_fd[0], STDIN_FILENO);
-	// 	// redirect_fd(cmd->i_o_fd[1], STDOUT_FILENO);
-	// 	return ;
-	// }
+	len = get_rd_list_len(cmd->token);
+	if (redirect_handle_cmd(mshell, cmd, len) == EXIT_FAILURE)
+	{
+		redirect_fd(cmd->i_o_fd[0], STDIN_FILENO);
+		redirect_fd(cmd->i_o_fd[1], STDOUT_FILENO);
+		return ;
+	}
 	if (execute_builtins(mshell, cmd) > 0 )
 	{
-		// redirect_fd(cmd->i_o_fd[0], STDIN_FILENO);
-		// redirect_fd(cmd->i_o_fd[1], STDOUT_FILENO);
-		return;
+		redirect_fd(cmd->i_o_fd[0], STDIN_FILENO);
+		redirect_fd(cmd->i_o_fd[1], STDOUT_FILENO);
+		return ;
 	}
-	// redirect_fd(cmd->i_o_fd[0], STDIN_FILENO);
-	// redirect_fd(cmd->i_o_fd[1], STDOUT_FILENO);
+	redirect_fd(cmd->i_o_fd[0], STDIN_FILENO);
+	redirect_fd(cmd->i_o_fd[1], STDOUT_FILENO);
+	cleanup_mshell(mshell);
+	exit(EXIT_SUCCESS);
 }
 
 void 	execute_subprocess(t_mshell *mshell, t_cmd *cmd, char ***copy_env)
@@ -65,9 +67,9 @@ void 	children(t_mshell *mshell, int i)
 
 	if (check_is_builtin(&mshell->cmds[i]))
 	{
-		//builtins_in_child(mshell, &mshell->cmds[i]);
+		builtins_in_child(mshell, &mshell->cmds[i]);
 		//execute_builtins(mshell, &mshell->cmds[i]);
-		builtins_in_parent(mshell, &mshell->cmds[i]);
+		//builtins_in_parent(mshell, &mshell->cmds[i]);
 		cleanup_mshell(mshell);
 		exit(EXIT_SUCCESS);
 	}

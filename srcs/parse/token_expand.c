@@ -53,7 +53,7 @@ char	*expand_text_token(t_mshell *mshell, char *token_value)
 	{
 		if (token_value[i] == '$' && token_value[i + 1] && token_value[i + 1] == '$')
 			token_value = get_var_expanded(token_value, ft_itoa(getpid()), "&", &i);
-		if (token_value[i] == '$' && token_value[i + 1] && !ft_strchr("$/", token_value[i + 1]))
+		else if (token_value[i] == '$' && token_value[i + 1] && !ft_strchr("$/", token_value[i + 1]))
 		{
 			if (check_char_whitespaces(token_value[i + 1]) || token_value[i + 1] == '?')
 				token_value = get_var_expanded(token_value, ft_itoa(mshell->exit_code), "?", &i);

@@ -8,8 +8,7 @@ int	get_heredoc_fd(t_mshell *mshell, t_redirect *rd_list, int i)
 	{
 		return(file_error(mshell, NULL, "Pipe open failed", 111));
 	}
-	heredoc_handle(mshell, rd_list, i);
-	ft_putstr_fd(rd_list[i].file_deli, pipe_fd[1]);
+	ft_putstr_fd(rd_list[i].hd_lines, pipe_fd[1]);
 	close (pipe_fd[1]);
 	return (pipe_fd[0]);
 }
