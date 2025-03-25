@@ -45,6 +45,7 @@ typedef struct	s_mshell
 	int				exit_code;
 	int 			prev_read_fd;
 	int 			pipe_fd[2];
+	pid_t 			*p_id;
 }	t_mshell;
 
 

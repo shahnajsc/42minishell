@@ -9,6 +9,9 @@ static int	mshell_data_init(t_mshell *mshell, char **envp)
 	mshell->cmds = NULL;
 	mshell->count_cmds = 0;
 	mshell->exit_code = 0;
+	mshell->p_id = NULL;
+	mshell->pipe_fd[0] = -1;
+	mshell->pipe_fd[1] = -1;
 	mshell->prev_read_fd = STDIN_FILENO;
 	return (0);
 }

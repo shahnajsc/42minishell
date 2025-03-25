@@ -49,6 +49,5 @@ int	ft_echo(t_mshell *mshell, char **args)
 	}
 	if (new_line)
 		ft_putchar_fd('\n', STDOUT_FILENO);
-	mshell->exit_code = 0;
 	return (0);
 }

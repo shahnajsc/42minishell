@@ -19,6 +19,7 @@ char	*ft_strndup(char *src, size_t n)
 	dest[i] = '\0';
 	return (dest);
 }
+
 t_env	*get_env_var(t_env *env, char *key)
 {
 	int	i;

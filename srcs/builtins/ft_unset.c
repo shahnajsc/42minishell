@@ -82,6 +82,5 @@ int	ft_unset(t_mshell *mshell, char **keys, int i, int index)
 	new_env[index].value = NULL;
 	free_env(mshell->env);
 	mshell->env = new_env;
-	mshell->exit_code = 0;
 	return (0);
 }
