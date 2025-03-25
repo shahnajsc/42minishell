@@ -26,7 +26,8 @@ char	*get_token_envkey(char *token_value, int i)
 	key_start = i;
 	key_end = 0;
 	env_key = NULL;
-	while (token_value[i + key_end] && !ft_strchr("$?\"'/\\\n", token_value[i + key_end]))
+	while (token_value[i + key_end] && !check_char_whitespaces(token_value[i + key_end])
+		&& !ft_strchr("$?\"'/\\\n", token_value[i + key_end]))
 	{
 		key_end++;
 	}

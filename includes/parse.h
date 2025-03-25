@@ -125,7 +125,7 @@ char		*get_env_key_value(t_mshell *mshell, char *env_key);
 //,,,,,,,,,,,,,,,,,//
 //,,,,,,,,,,,,,,,,,//
 //......TEST FUNCTIONS.......///
-void		tokens_print(t_token *token);
+void		print_token_list(t_token *token_list);
 void		print_splitted_cmds(char **cmds);
 void 		print_command_list(t_mshell *mshell);
 #endif

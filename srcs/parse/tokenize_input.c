@@ -61,7 +61,7 @@ int	tokenize_input(t_mshell *mshell, char *input_str)
 			//printf("no token %d\n", mshell->count_cmds);
 			return (1);
 		}
-
+		//print_token_list(mshell->cmds[i].token);
 		mshell->cmds[i].splitted_cmd = splitted_cmd(mshell, i);
 		if (!mshell->cmds[i].splitted_cmd)
 		{

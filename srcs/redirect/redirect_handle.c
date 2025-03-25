@@ -40,7 +40,6 @@ int	redirect_handle_cmd(t_mshell *mshell, t_cmd *cmd, int len)
 	rds = cmd->redirects;
 	while (cmd->redirects && i < len)
 	{
-		printf("RD type: %u\n", rds->rd_type);
 		fd[0] = -2;
 		fd[1] = -2;
 		// check amigous redirect
