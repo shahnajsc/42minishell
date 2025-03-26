@@ -1,5 +1,18 @@
 #include "minishell.h"
 
+int	check_is_builtin(t_cmd *cmd)
+{
+	if (ft_strcmp(cmd->cmd_name, "env") == 0
+		|| ft_strcmp(cmd->cmd_name,"pwd") == 0
+		|| ft_strcmp(cmd->cmd_name, "export") == 0
+		|| ft_strcmp(cmd->cmd_name, "cd") == 0
+		|| ft_strcmp(cmd->cmd_name, "echo") == 0
+		|| ft_strcmp(cmd->cmd_name, "exit") == 0
+		|| ft_strcmp(cmd->cmd_name, "unset") == 0)
+		return (1);
+	return (0);
+}
+
 char **convert_env(t_env *env, char ***copy_env)
 {
     int i;
@@ -11,7 +24,7 @@ char **convert_env(t_env *env, char ***copy_env)
     i = 0;
     while (env[i].key != NULL)
     {
-        len = ft_strlen(env[i].key) + ft_strlen(env[i].value) + 2;  // +2 for '=' and '\0'
+        len = ft_strlen(env[i].key) + ft_strlen(env[i].value) + 2;
         (*copy_env)[i] = ft_calloc(len, sizeof(char));
         if (!(*copy_env)[i])
         {
@@ -23,16 +36,42 @@ char **convert_env(t_env *env, char ***copy_env)
         ft_strlcat((*copy_env)[i], env[i].value, len);
         i++;
     }
-	(*copy_env)[i] = NULL;
+    (*copy_env)[i] = NULL;
     return (*copy_env);
 }
 
-int 	wait_processes(pid_t pid)
+void child_redirection(t_mshell *mshell, int i, int *status)
+{
+    close(mshell->pipe_fd[0]);
+    if (mshell->prev_read_fd != STDIN_FILENO)
+        redirect_fd(mshell->prev_read_fd, STDIN_FILENO);
+    if (i < mshell->count_cmds - 1)
+		redirect_fd(mshell->pipe_fd[1], STDOUT_FILENO);
+	else
+		close(mshell->pipe_fd[1]);
+	check_command_exec(mshell, i, status);
+}
+
+void parent_redirecton(t_mshell *mshell)
+{
+	close(mshell->pipe_fd[1]);
+    if (mshell->prev_read_fd != STDIN_FILENO)
+		close(mshell->prev_read_fd);
+    mshell->prev_read_fd = mshell->pipe_fd[0];
+}
+
+int	wait_process(t_mshell *mshell, pid_t pid)
 {
 	int	wstatus;
 
-	waitpid(pid, &wstatus, 0);
+	if (waitpid(pid, &wstatus, 0) == -1)
+	{
+		perror("minishell: waitpid");
+		if (mshell->p_id)
+			free(mshell->p_id);
+		return (-1);
+	}
 	if (WIFEXITED(wstatus))
 		return (WEXITSTATUS(wstatus));
-	return (1);
+	return (0);
 }

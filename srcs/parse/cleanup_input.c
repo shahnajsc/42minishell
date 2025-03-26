@@ -50,22 +50,15 @@ void	close_free_pipe(t_mshell *mshell)
 	int	i;
 
 	i = 0;
-	if (!mshell || !mshell->pipe_fds)
+	if (!mshell)
 		return ;
-	while (mshell->pipe_fds[i] != NULL)
-	{
-		if (mshell->pipe_fds[i][0] >= 0)
-			close(mshell->pipe_fds[i][0]);
-		if (mshell->pipe_fds[i][1] >= 0)
-			close(mshell->pipe_fds[i][1]);
-		free(mshell->pipe_fds[i]);
-		i++;
-	}
-	free(mshell->pipe_fds);
-	mshell->pipe_fds = NULL;
+	if (mshell->pipe_fd[0] >= 0)
+		close(mshell->pipe_fd[0]);
+	if (mshell->pipe_fd[1] >= 0)
+		close(mshell->pipe_fd[1]);
 }
 
-void	close_fds(t_cmd *cmd)
+void	close_cmd_fds(t_cmd *cmd)
 {
 	if (cmd->i_o_fd[0] > -1)
 		close(cmd->i_o_fd[0]);
@@ -98,7 +91,7 @@ void	cleanup_on_loop(t_mshell *mshell)
 		ft_free_grid((void **)mshell->cmds[i].splitted_cmd);
 		free_redirects(mshell->cmds[i].redirects, mshell->cmds[i].token);
 		free_tokens(mshell->cmds[i].token);
-		close_fds(&mshell->cmds[i]);
+		close_cmd_fds(&mshell->cmds[i]);
 		i++;
 	}
 	free(mshell->cmds);

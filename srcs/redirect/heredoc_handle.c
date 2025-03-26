@@ -54,7 +54,7 @@ void	get_hd_lines(t_mshell *mshell, t_redirect *rd_list, int i, int is_quote)
 		line = readline("> ");
 		if (!line)
 			break ;
-		if (ft_strcmp(line, rd_list[i].file_deli) == 0) // && line[ft_strlen(deli) + 1] == '\n'
+		if (ft_strcmp(line, rd_list[i].file_deli) == 0)
 		{
 			free(line);
 			break ;

@@ -6,7 +6,7 @@
 /*   By: shachowd <shachowd@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 13:02:57 by shachowd          #+#    #+#             */
-/*   Updated: 2025/03/14 14:32:15 by shachowd         ###   ########.fr       */
+/*   Updated: 2025/03/26 08:59:45 by shachowd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@
 # endif
 
 # ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 10
+#  define BUFFER_SIZE 42
 # endif
 
 # define HEX_LOWER "0123456789abcdef"
@@ -105,6 +105,10 @@ int					ft_print_ptr(int fd, unsigned long ptr);
 char				*ft_strchr_pf(const char *s, int c);
 int					ft_print_hex(int fd, unsigned long n, char *strhex);
 int					ft_printf(int fd, const char *str, ...);
+
+//GNL
+size_t				ft_len_line(char *str);
+char				*get_next_line(int fd);
 
 //READER
 char				*ft_line_reader(int fd, char *line, int buffer, int index);
