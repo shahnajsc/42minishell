@@ -13,16 +13,16 @@ int 	allocate_pid(t_mshell *mshell)
 
 void 	close_fds(t_mshell *mshell)
 {
-    if (mshell->pipe_fd[0] != -1)
+   if (mshell->pipe_fd[0] != -1)
 	{
         close(mshell->pipe_fd[0]);
         mshell->pipe_fd[0] = -1;
-    }
+   }
     if (mshell->pipe_fd[1] != -1)
 	{
         close(mshell->pipe_fd[1]);
         mshell->pipe_fd[1] = -1;
-    }
+  }
 	if (mshell->prev_read_fd != STDIN_FILENO)
     {
 		close(mshell->prev_read_fd);

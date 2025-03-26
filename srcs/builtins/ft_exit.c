@@ -38,6 +38,7 @@ static int	process_exit_code(char *arg, int *exit_status)
 	*exit_status = (int)exit_nbr;
 	return (0);
 }
+
 static void	handle_exit(char **args, int *exit_status)
 {
 	if (!args[1])
@@ -58,6 +59,7 @@ static void	handle_exit(char **args, int *exit_status)
 		*exit_status = 2;
 	}
 }
+
 int	exit_mshell(t_mshell *mshell)
 {
 	int	status;
@@ -66,6 +68,7 @@ int	exit_mshell(t_mshell *mshell)
 	cleanup_mshell(mshell);
 	exit(status);
 }
+
 int	ft_exit(t_mshell *mshell, char **args)
 {
 	int	exit_status;
@@ -74,22 +77,9 @@ int	ft_exit(t_mshell *mshell, char **args)
 		return (0);
 	ft_putendl_fd("exit", STDOUT_FILENO);
 	handle_exit(args, &exit_status);
-	mshell->exit_code = exit_status;
 	if (exit_status != -1)
 		exit_mshell(mshell);
+	else
+		exit_status = 1;
 	return (exit_status);
 }
-/*
-
-args only nbr
-								-> too many arguments 		>> 		exit_stat >> 1     			NO Ex
-
-args only char
-				-> numeric argument required  >> 	exit_stat >> 2  		YES Ex
-
-args starts nbr .> too many arguments        >>     exit_stat >> 1     			NO Ex
-
-args starts char
-				-> numeric argument required  >> 	exit_stat >> 2  		YES Ex
-
-*/

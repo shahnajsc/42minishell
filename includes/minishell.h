@@ -18,6 +18,7 @@
 
 
 // Library
+# include <termios.h>
 # include <stdlib.h>
 # include <unistd.h>
 # include <stdio.h>
@@ -45,11 +46,15 @@ typedef struct	s_mshell
 	int 			prev_read_fd;
 	pid_t 			*p_id;
 	int				exit_code;
+	int 			prev_read_fd;
+	int 			pipe_fd[2];
+	pid_t 			*p_id;
 }	t_mshell;
 
 
 //FUNCTIONS
-void	minishell(t_mshell *mshell);
+
+int		minishell(t_mshell *mshell);
 void	cleanup_mshell(t_mshell *mshell);
 
 #endif

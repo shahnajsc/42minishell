@@ -18,9 +18,8 @@ void 	 execute_external(t_mshell *mshell, t_cmd *cmd, char ***copy_env)
 	ft_free_grid((void **)*copy_env);
 	cleanup_mshell(mshell);
 	free(cmd_path);
-	exit (126);
+	exit (EXIT_FAILURE);
 }
-
 
 int  wait_all(t_mshell *mshell)
 {
@@ -34,8 +33,8 @@ int  wait_all(t_mshell *mshell)
     while (mshell->cmds && i < mshell->count_cmds)
     {
         child_status = wait_process(mshell, mshell->p_id[i]);
-        if (child_status == -1)
-            child_status = 1;
+        if (child_status == -1) 
+            child_status = 1; 
         last_status = child_status;
         i++;
     }
@@ -79,7 +78,7 @@ int handle_pipeline(t_mshell *mshell, int i, int *status)
         mshell->p_id[i] = fork();
         if (create_child_process(mshell, mshell->p_id[i]) == -1)
             return (EXIT_FAILURE);
-        if (mshell->p_id[i] == 0)
+        if (mshell->p_id[i] == 0) 
             child_redirection(mshell, i, status);
         else
             parent_redirecton(mshell);

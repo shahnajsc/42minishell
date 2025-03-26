@@ -1,16 +1,18 @@
 #include "minishell.h"
 
-void	redirect_fd(int from_fd, int to_fd)
+void redirect_fd(int from_fd, int to_fd)
 {
-	if (dup2(from_fd, to_fd) == -1)
-	{
-		perror("minishell: dup24");
-		close(from_fd);
-			return ;
-		//exit(1);
-	}
-	close(from_fd);
+    if (from_fd == to_fd)
+        return; 
+    if (dup2(from_fd, to_fd) == -1)
+    {
+        perror("minishell: dup2");
+        exit(1);
+    }
+    if (from_fd != STDIN_FILENO && from_fd != STDOUT_FILENO && from_fd != STDERR_FILENO)
+        close(from_fd);
 }
+
 int	set_rd_fds(t_cmd *cmd, int new_in_fd, int new_out_fd)
 {
 	if (new_in_fd != -2)

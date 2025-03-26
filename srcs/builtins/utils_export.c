@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-static t_env  *allocate_new_env(t_env *old_env)
+t_env  *allocate_new_env(t_env *old_env)
 {
 	t_env 	*new_env;
 	int 	i;
@@ -35,6 +35,7 @@ static int copy_env(t_env *old_env, t_env *new_env)
     }
 	return (0);
 }
+
 void   add_env_var(t_env **old_env, char *key, char *value)
 {
 	t_env 	*new_env;

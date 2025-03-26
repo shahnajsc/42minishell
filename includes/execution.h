@@ -1,18 +1,17 @@
 #ifndef EXECUTION_H
 # define EXECUTION_H
-
 typedef struct s_mshell t_mshell;
 typedef enum e_redirect_type t_redirect_type;
 typedef struct s_redirect t_redirect;
 
 //...............EXECUTION................//
 int		check_is_builtin(t_cmd *cmd);
-int		wait_process(t_mshell *mshell, pid_t pid);
 void    handle_command_execution(t_mshell *mshell);
 int  	check_command_exec(t_mshell *mshell, int i, int *status);
 
 //...............UTILS................//
 void 	parent_redirecton(t_mshell *mshell);
+int		wait_process(t_mshell *mshell, pid_t pid);
 char 	**convert_env(t_env *env, char ***copy_env);
 char    *get_command_path(t_mshell *mshell, t_cmd *cmd);
 void 	child_redirection(t_mshell *mshell, int i, int *status);
@@ -20,7 +19,6 @@ void 	child_redirection(t_mshell *mshell, int i, int *status);
 
 //..... ERROR  && CLEANUP .....//
 void 	close_fds(t_mshell *mshell);
-void	close_cmd_fds(t_cmd *cmd);
 int 	setup_pipe(t_mshell *mshell);
 int 	allocate_pid(t_mshell *mshell);
 int		create_child_process(t_mshell *mshell, pid_t p_id);
@@ -32,7 +30,7 @@ int		create_child_process(t_mshell *mshell, pid_t p_id);
 // void	call_child_process(t_mshell *mshell, int *pipe_fd, int i);
 // int	builtins_in_parent(t_mshell *mshell, t_cmd *cmd);
 
-// //...........UTILS.........//
+// //...........UTILS............//
 // int		check_is_builtin(t_cmd *cmd);
 // char	**convert_env(t_env *env, char ***copy_env);
 // int 	wait_processes(pid_t pid);
