@@ -14,11 +14,12 @@ int		get_heredoc_fd(t_mshell *mshell, t_redirect *rd_list, int i);
 int		get_file_fd(t_mshell *mshell, char *path, t_redirect_type rd_type);
 
 //........... REDIRECTs.............//
-int		redirect_handle_cmd(t_mshell *mshell, t_redirect *rd_list, int *fd);
+int		redirect_handle_cmd(t_mshell *mshell, t_cmd *cmd, int len);
 void	redirect_fd(int from_fd, int to_fd);
 
 //.........HEREDOC.............//
-void	heredoc_handle(t_mshell *mshell, t_redirect *rd_list, int i, char **hd_lines);
+int		heredoc_handle(t_mshell *mshell);
+char	*expand_heredoc(t_mshell *mshell, char *hd_lines, int is_quote);
 
 
 char	*read_line(int fd);

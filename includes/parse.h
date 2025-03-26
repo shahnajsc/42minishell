@@ -30,8 +30,9 @@ typedef struct s_token
 
 typedef struct s_redirect
 {
-	t_redirect_type		rd_type;
-	char				*file_deli;
+	t_redirect_type	rd_type;
+	char			*file_deli;
+	char			*hd_lines;
 	//int					fd;
 	//char				*path;
 	//struct s_redirect	*next;
@@ -41,12 +42,13 @@ typedef struct s_cmd
 {
 	t_token		*token;
 	t_redirect	*redirects;
-	int			is_here_exp;;
+	int			is_hd_quote;;
 	char		*cmd_str;
 	char		*cmd_name;
 	char		**splitted_cmd;
-	int			in_fd;
-	int			out_fd;
+	int			i_o_fd[2];
+	int			rd_fd[2];
+	//int			out_fd;
 }	t_cmd;
 
 // typedef struct	s_mshell
@@ -100,6 +102,7 @@ t_token		*post_process_token(t_mshell *mshell, t_token *head_token, int cmd_id);
 t_token		*expand_token_values(t_mshell *mshell, t_token *head_token);
 t_token		*remove_token_quotes(t_mshell *mshell, t_token *head_token, int cmd_id);
 t_token		*merge_consequtive_token(t_token *head_token);
+char		*expand_text_token(t_mshell *mshell, char *token_value);
 
 //........REDIRECT..........//
 int			get_rd_list_len(t_token *token);
@@ -122,7 +125,7 @@ char		*get_env_key_value(t_mshell *mshell, char *env_key);
 //,,,,,,,,,,,,,,,,,//
 //,,,,,,,,,,,,,,,,,//
 //......TEST FUNCTIONS.......///
-void		tokens_print(t_token *token);
+void		print_token_list(t_token *token_list);
 void		print_splitted_cmds(char **cmds);
 void 		print_command_list(t_mshell *mshell);
 #endif

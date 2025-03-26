@@ -39,29 +39,56 @@ int	heredoc_join(char **hd, char *line)
 	return (0);
 }
 
-void	heredoc_handle(t_mshell *mshell, t_redirect *rd_list, int i, char **hd_lines)
+void	get_hd_lines(t_mshell *mshell, t_redirect *rd_list, int i, int is_quote)
 {
 	char *line;
+	char *hd_lines;
 
-	if (!hd_lines || rd_list)
-		printf("no hd \n"); /// return ;
+	if (!mshell || !rd_list)
+		return ;
+	hd_lines = ft_strdup("");
+	if (!hd_lines)
+		return ;
 	while (1)
 	{
 		line = readline("> ");
 		if (!line)
-		{
-			//print error and check if it is interupted by SIG
-			break ; // or exit??
-		}
-		if (ft_strncmp(line, rd_list[i].file_deli, ft_strlen(rd_list[i].file_deli)) == 0) // && line[ft_strlen(deli) + 1] == '\n'
+			break ;
+		if (ft_strcmp(line, rd_list[i].file_deli) == 0)
 		{
 			free(line);
 			break ;
 		}
-		if (heredoc_join(hd_lines, line))
-			printf("mem allocation and joined failed\n");
+		if (heredoc_join(&hd_lines, line))
+			return ;
 	}
-	free(rd_list[i].file_deli);
-	rd_list[i].file_deli = *hd_lines;
-	mshell->exit_code = 112;
+	rd_list[i].hd_lines = expand_heredoc(mshell, hd_lines, is_quote);
+	//mshell->exit_code = 112;
+}
+
+int	heredoc_handle(t_mshell *mshell)
+{
+	int	i;
+	int	j;
+	int	rd_len;
+
+	i = 0;
+	while (mshell->cmds && i < mshell->count_cmds)
+	{
+		j = 0;
+		rd_len = get_rd_list_len(mshell->cmds[i].token);
+		while (j < rd_len)
+		{
+			if (mshell->cmds[i].redirects[j].rd_type == RD_HEREDOC)
+			{
+				get_hd_lines(mshell, mshell->cmds[i].redirects, j, \
+				mshell->cmds[i].is_hd_quote);
+				if (!mshell->cmds[i].redirects[j].hd_lines)
+					return (EXIT_FAILURE);
+			}
+			j++;
+		}
+		i++;
+	}
+	return (EXIT_SUCCESS);
 }

@@ -5,15 +5,22 @@ static void	free_redirects(t_redirect *redirects, t_token *token)
 	int	len;
 	int	i;
 
-	if (!redirects)
+	if (!redirects || !token)
 		return ;
 	i =  0;
 	len = get_rd_list_len(token);
-	while (i < len - 1)
+	while (i < len)
 	{
 		if (redirects[i].file_deli)
+		{
 			free(redirects[i].file_deli);
-		redirects[i].file_deli = NULL;
+			redirects[i].file_deli = NULL;
+		}
+		if (redirects[i].hd_lines)
+		{
+			free(redirects[i].hd_lines);
+			redirects[i].hd_lines = NULL;
+		}
 		i++;
 	}
 	free(redirects);
@@ -36,6 +43,31 @@ static void	free_tokens(t_token *token)
 		cur_token = cur_token->next;
 		free(temp);
 	}
+	token = NULL;
+}
+void	close_free_pipe(t_mshell *mshell)
+{
+	int	i;
+
+	i = 0;
+	if (!mshell)
+		return ;
+	if (mshell->pipe_fd[0] >= 0)
+		close(mshell->pipe_fd[0]);
+	if (mshell->pipe_fd[1] >= 0)
+		close(mshell->pipe_fd[1]);
+}
+
+void	close_cmd_fds(t_cmd *cmd)
+{
+	if (cmd->i_o_fd[0] > -1)
+		close(cmd->i_o_fd[0]);
+	if (cmd->i_o_fd[1] > -1)
+		close(cmd->i_o_fd[1]);
+	if (cmd->rd_fd[0] > -1)
+		close(cmd->rd_fd[0]);
+	if (cmd->rd_fd[1] > -1)
+		close(cmd->rd_fd[1]);
 }
 
 void	cleanup_on_loop(t_mshell *mshell)
@@ -56,15 +88,14 @@ void	cleanup_on_loop(t_mshell *mshell)
 			free(mshell->cmds[i].cmd_name);
 			mshell->cmds[i].cmd_name = NULL;
 		}
-		if (mshell->cmds[i].splitted_cmd)
-			ft_free_grid((void **)mshell->cmds[i].splitted_cmd);
-		if (mshell->cmds[i].redirects)
-			free_redirects(mshell->cmds[i].redirects, mshell->cmds[i].token);
-		if (mshell->cmds[i].token)
-			free_tokens(mshell->cmds[i].token);
+		ft_free_grid((void **)mshell->cmds[i].splitted_cmd);
+		free_redirects(mshell->cmds[i].redirects, mshell->cmds[i].token);
+		free_tokens(mshell->cmds[i].token);
+		close_cmd_fds(&mshell->cmds[i]);
 		i++;
 	}
 	free(mshell->cmds);
 	mshell->cmds = NULL;
+	close_free_pipe(mshell);
 	mshell->count_cmds = 0;
 }
