@@ -43,11 +43,15 @@ typedef struct	s_mshell
 	int				count_cmds;
 	t_cmd			*cmds;
 	int				exit_code;
+	int 			prev_read_fd;
+	int 			pipe_fd[2];
+	pid_t 			*p_id;
 }	t_mshell;
 
 
 //FUNCTIONS
-void	minishell(t_mshell *mshell);
+
+int		minishell(t_mshell *mshell);
 void	cleanup_mshell(t_mshell *mshell);
 
 #endif

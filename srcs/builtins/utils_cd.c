@@ -65,6 +65,7 @@ void	update_cd(t_env **env, const char *key, const char *set_path)
 	free(variable->value);
 	variable->value = temp;
 }
+
 int	update_env_state(t_mshell *mshell, char *current_pwd)
 {
 	t_env 	*current_env_pwd;
@@ -83,4 +84,3 @@ int	update_env_state(t_mshell *mshell, char *current_pwd)
 	free(current_pwd);
 	return (0);
 }
-

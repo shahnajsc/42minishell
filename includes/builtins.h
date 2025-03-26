@@ -28,7 +28,6 @@ typedef enum s_cd_error
 }			t_cd_error;
 
 //........BUILTINS..........//
-int     execute_builtins(t_mshell *mshell, t_cmd *cmd);
 int			ft_pwd(t_mshell *mshell);
 int			ft_cd(t_mshell *mshell, char **args);
 int			ft_env(t_mshell *mshell, char **args);
@@ -36,11 +35,13 @@ int			ft_exit(t_mshell *mshell, char **args);
 int			ft_echo(t_mshell *mshell, char **args);
 int			ft_export(t_mshell *mshell, char **args);
 int			ft_unset(t_mshell *mshell, char **keys, int i, int index);
+int     	execute_builtins(t_mshell *mshell, t_cmd *cmd, int *status);
 
 //........UTILS..........//
-t_env		*init_env(char **envp);
 int			env_size(t_env *env);
+t_env		*init_env(char **envp);
 char		*ft_strndup(char *src, size_t n);
+t_env  		*allocate_new_env(t_env *old_env);
 t_env		*get_env_var(t_env *env, char *key);
 void		process_without_sign(t_env **env, char *arg);
 void		add_env_var(t_env **old_env, char *key, char *value);

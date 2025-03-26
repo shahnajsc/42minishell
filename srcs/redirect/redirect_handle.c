@@ -1,14 +1,16 @@
 #include "minishell.h"
 
-void	redirect_fd(int from_fd, int to_fd)
+void redirect_fd(int from_fd, int to_fd)
 {
-	if (dup2(from_fd, to_fd) == -1)
-	{
-		perror("minishell: dup2");
-		close(from_fd);
-		//exit(1);
-	}
-	close(from_fd);
+    if (from_fd == to_fd)
+        return; 
+    if (dup2(from_fd, to_fd) == -1)
+    {
+        perror("minishell: dup2");
+        exit(1);
+    }
+    if (from_fd != STDIN_FILENO && from_fd != STDOUT_FILENO && from_fd != STDERR_FILENO)
+        close(from_fd);
 }
 
 int	redirect_handle_cmd(t_mshell *mshell, t_redirect *rd_list, int *fd)
@@ -18,7 +20,6 @@ int	redirect_handle_cmd(t_mshell *mshell, t_redirect *rd_list, int *fd)
 	if (!rd_list)
 		printf("no rd list\n");
 		//return (1);
-	printf("RD_LIST %s\n", rd_list[0].file_deli);
 	i = 0;
 	while (rd_list && rd_list[i].rd_type)
 	{

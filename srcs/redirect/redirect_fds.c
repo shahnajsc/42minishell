@@ -14,7 +14,7 @@ int	get_heredoc_fd(t_mshell *mshell, t_redirect *rd_list, int i)
 		return(file_error(mshell, rd_list[i].file_deli, "Pipe open failed", 111));
 	}
 	heredoc_handle(mshell, rd_list, i, &hd_lines);
-	printf("line: %s", rd_list[i].file_deli);
+	//printf("line: %s", rd_list[i].file_deli);
 	close (pipe_fd[1]);
 	return (pipe_fd[0]);
 }
