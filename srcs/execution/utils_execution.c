@@ -59,7 +59,6 @@ void parent_redirecton(t_mshell *mshell)
 		close(mshell->prev_read_fd);
     mshell->prev_read_fd = mshell->pipe_fd[0];
 }
-
 int	wait_process(t_mshell *mshell, pid_t pid)
 {
 	int	wstatus;

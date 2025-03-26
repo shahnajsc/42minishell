@@ -18,9 +18,8 @@ void 	 execute_external(t_mshell *mshell, t_cmd *cmd, char ***copy_env)
 	ft_free_grid((void **)*copy_env);
 	cleanup_mshell(mshell);
 	free(cmd_path);
-	exit (126);
+	exit (EXIT_FAILURE);
 }
-
 
 int  wait_all(t_mshell *mshell)
 {
