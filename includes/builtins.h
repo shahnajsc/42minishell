@@ -35,7 +35,7 @@ int			ft_exit(t_mshell *mshell, char **args);
 int			ft_echo(t_mshell *mshell, char **args);
 int			ft_export(t_mshell *mshell, char **args);
 int			ft_unset(t_mshell *mshell, char **keys, int i, int index);
-int     	execute_builtins(t_mshell *mshell, t_cmd *cmd, int *status);
+int     execute_builtins(t_mshell *mshell, t_cmd *cmd, int *status);
 
 //........UTILS..........//
 int			env_size(t_env *env);

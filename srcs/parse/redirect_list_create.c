@@ -38,7 +38,7 @@ t_redirect	*get_redirect_list(t_token *token, int rd_len, int i)
 	t_redirect	*rd_list;
 
 	temp = token;
-	rd_list = ft_calloc(rd_len + 1, sizeof(t_redirect));
+	rd_list = ft_calloc(rd_len, sizeof(t_redirect));
 	if (!rd_list)
 		return (NULL);
 	while (temp)
@@ -46,13 +46,24 @@ t_redirect	*get_redirect_list(t_token *token, int rd_len, int i)
 		if (temp->tok_type == REDIRECT)
 		{
 			rd_list[i].rd_type = get_redirect_type(temp->tok_value);
+			rd_list[i].file_deli = NULL;
+			rd_list[i].hd_lines = NULL;
 			temp = temp->next;
 			while (temp && temp->tok_type == EMPTY)
 				temp = temp->next;
 			if (temp && (temp->tok_type == DELIMETER || temp->tok_type == FILENAME))
+			{
+				// if (rd_list[i].file_deli)
+				// 	free(rd_list[i].file_deli);
 				rd_list[i].file_deli = ft_strdup(temp->tok_value);
+			}
 			else
-				rd_list[i].file_deli = ft_strdup(""); // empty str or NULL
+			{
+				// if (rd_list[i].file_deli)
+				// 	free(rd_list[i].file_deli);
+				rd_list[i].file_deli = ft_strdup("");
+			}
+				//rd_list[i].file_deli = ft_strdup(""); // empty str or NULL
 			i++;
 		}
 		temp = temp->next;
@@ -68,7 +79,6 @@ t_redirect	*create_redirects_list(t_mshell *mshell, int cmd_id)
 
 	current_token = mshell->cmds[cmd_id].token;
 	rd_len = get_rd_list_len(current_token);
-	// printf("rd len : %d \n", rd_len);
 	if (rd_len < 1)
 		return (NULL);
 	rd_list = get_redirect_list(current_token, rd_len, 0);

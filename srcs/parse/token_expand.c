@@ -2,12 +2,15 @@
 
 char	*get_var_expanded(char *token, char *env_value, char *env_key, int *i)
 {
-	int		new_len;
 	char	*new_token;
 	int		env_len;
+	int		key_len;
+	int		new_len;
+
 
 	env_len = ft_strlen(env_value);
-	new_len = ft_strlen(token) + env_len - ft_strlen(env_key);
+	key_len  = ft_strlen(env_key);
+	new_len = ft_strlen(token) + env_len - key_len;
 	new_token = ft_calloc(new_len + 1, sizeof(char));
 	if (!new_token)
 		return (NULL);
@@ -35,7 +38,7 @@ char	*get_expanded_token(t_mshell *mshell, char *token_value, int *i)
 		return (free(env_key), NULL);
 	expanded_token = get_var_expanded(token_value, env_key_value, env_key, i);
 	if (!expanded_token)
-		return (NULL);
+		return (token_value);
 	free(env_key);
 	return (expanded_token);
 }
@@ -53,10 +56,15 @@ char	*expand_text_token(t_mshell *mshell, char *token_value)
 	{
 		if (token_value[i] == '$' && token_value[i + 1] && token_value[i + 1] == '$')
 			token_value = get_var_expanded(token_value, ft_itoa(getpid()), "&", &i);
-		if (token_value[i] == '$' && token_value[i + 1] && !ft_strchr("$/", token_value[i + 1]))
+		else if (token_value[i] == '$' && token_value[i + 1] && !ft_strchr("$/\"'", token_value[i + 1]))
 		{
 			if (check_char_whitespaces(token_value[i + 1]) || token_value[i + 1] == '?')
-				token_value = get_var_expanded(token_value, ft_itoa(mshell->exit_code), "?", &i);
+			{
+				if (check_char_whitespaces(token_value[i + 1]))
+					i++;
+				else
+					token_value = get_var_expanded(token_value, ft_itoa(mshell->exit_code), "?", &i);
+			}
 			else
 				token_value = get_expanded_token(mshell, token_value, &i);
 		}

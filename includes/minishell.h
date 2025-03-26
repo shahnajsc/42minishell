@@ -39,9 +39,12 @@ typedef struct	s_mshell
 {
 	t_env			*env;
 	//char			*input;
-	// t_built_state   *b_state;
+	//t_built_state   *b_state;
 	int				count_cmds;
 	t_cmd			*cmds;
+	int				pipe_fd[2];
+	int 			prev_read_fd;
+	pid_t 			*p_id;
 	int				exit_code;
 	int 			prev_read_fd;
 	int 			pipe_fd[2];

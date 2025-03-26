@@ -16,12 +16,15 @@ static int	init_cmds(t_mshell*mshell, char *input_str)
 	{
 		mshell->cmds[i].token = NULL; // make token
 		mshell->cmds[i].redirects = NULL;
-		mshell->cmds[i].is_here_exp = 0;
+		mshell->cmds[i].is_hd_quote = 0;
 		mshell->cmds[i].cmd_str = ft_strdup(cmds_temp[i]);
 		mshell->cmds[i].cmd_name = NULL;
 		mshell->cmds[i].splitted_cmd = NULL;
-		// mshell->cmds[i].in_fd = -1;
-		// mshell->cmds[i].out_fd = -1;
+		mshell->cmds[i].i_o_fd[0] = -2;
+		mshell->cmds[i].i_o_fd[1] = -2;
+		mshell->cmds[i].rd_fd[0] = -2;
+		mshell->cmds[i].rd_fd[1] = -2;
+		//mshell->cmds[i].out_fd = -1;
 		i++;
 	}
 	ft_free_grid((void **)cmds_temp);
@@ -58,7 +61,7 @@ int	tokenize_input(t_mshell *mshell, char *input_str)
 			//printf("no token %d\n", mshell->count_cmds);
 			return (1);
 		}
-
+		//print_token_list(mshell->cmds[i].token);
 		mshell->cmds[i].splitted_cmd = splitted_cmd(mshell, i);
 		if (!mshell->cmds[i].splitted_cmd)
 		{

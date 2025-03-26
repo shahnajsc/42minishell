@@ -95,10 +95,12 @@ void    handle_command_execution(t_mshell *mshell)
 
     if (!mshell->cmds || mshell->count_cmds == 0)
         return ;
+	if (heredoc_handle(mshell) == EXIT_FAILURE)
+		return ;
     if (check_is_builtin(&mshell->cmds[0]) && mshell->count_cmds == 1)
 		execute_builtins(mshell, &mshell->cmds[0], &status);
     else
 		handle_pipeline(mshell, 0, &status);
 	mshell->exit_code = status;
-	printf("status: %d\n", status);
+	//printf("status: %d\n", status);
 }

@@ -18,20 +18,20 @@ char **convert_env(t_env *env, char ***copy_env)
     int i;
     int len;
 
-    *copy_env = ft_calloc(env_size(env) + 1, sizeof(char *));  
+    *copy_env = ft_calloc(env_size(env) + 1, sizeof(char *));
     if (!(*copy_env))
         return (NULL);
     i = 0;
     while (env[i].key != NULL)
     {
-        len = ft_strlen(env[i].key) + ft_strlen(env[i].value) + 2; 
+        len = ft_strlen(env[i].key) + ft_strlen(env[i].value) + 2;
         (*copy_env)[i] = ft_calloc(len, sizeof(char));
         if (!(*copy_env)[i])
         {
-            ft_free_grid((void **)(*copy_env)); 
+            ft_free_grid((void **)(*copy_env));
             return (NULL);
         }
-        ft_strlcpy((*copy_env)[i], env[i].key, ft_strlen(env[i].key) + 1); 
+        ft_strlcpy((*copy_env)[i], env[i].key, ft_strlen(env[i].key) + 1);
         ft_strlcat((*copy_env)[i], "=", len);
         ft_strlcat((*copy_env)[i], env[i].value, len);
         i++;
@@ -49,7 +49,7 @@ void child_redirection(t_mshell *mshell, int i, int *status)
 		redirect_fd(mshell->pipe_fd[1], STDOUT_FILENO);
 	else
 		close(mshell->pipe_fd[1]);
-	check_command_exec(mshell, i, status); 
+	check_command_exec(mshell, i, status);
 }
 
 void parent_redirecton(t_mshell *mshell)
@@ -59,6 +59,7 @@ void parent_redirecton(t_mshell *mshell)
 		close(mshell->prev_read_fd);
     mshell->prev_read_fd = mshell->pipe_fd[0];
 }
+
 int	wait_process(t_mshell *mshell, pid_t pid)
 {
 	int	wstatus;
