@@ -60,8 +60,10 @@ int	minishell(t_mshell *mshell)
 			}
 			free(input_str);
 			if (mshell->cmds)
-				handle_command_execution(mshell);
+				execute_cmds(mshell);
+			printf("before mini: %d\n", mshell->exit_code);
 			cleanup_on_loop(mshell);
+			printf("after mini: %d\n", mshell->exit_code);
 		}
 	}
 	rl_clear_history();

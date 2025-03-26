@@ -37,6 +37,7 @@ DIR_REDI 		= srcs/redirect/redirect_fds.c	srcs/redirect/redirect_handle.c\
 
 DIR_EXE 		= srcs/execution/command_path.c	srcs/execution/execution.c\
 				srcs/execution/utils_execution.c	srcs/execution/error_handle_exe.c	\
+				srcs/execution/execution_child.c	\
 
 # DIR_EXE 		= srcs/execution/command_path.c	srcs/execution/execution.c\
 # 				srcs/execution/utils_execution.c	srcs/execution/execution_child.c	\

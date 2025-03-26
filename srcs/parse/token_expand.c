@@ -52,6 +52,7 @@ char	*expand_text_token(t_mshell *mshell, char *token_value)
 	i = 0;
 	if (token_value[i] == '\'')
 		return (token_value);
+	printf("expand: %d \n", mshell->exit_code);
 	while (token_value[i])
 	{
 		if (token_value[i] == '$' && token_value[i + 1] && token_value[i + 1] == '$')
