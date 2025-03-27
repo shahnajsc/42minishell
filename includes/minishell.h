@@ -35,6 +35,7 @@
 
 # define PROMPT "minishell>> "
 
+extern volatile sig_atomic_t g_heredoc;
 typedef struct	s_mshell
 {
 	t_env			*env;
@@ -46,15 +47,15 @@ typedef struct	s_mshell
 	int 			prev_read_fd;
 	pid_t 			*p_id;
 	int				exit_code;
-	int 			prev_read_fd;
-	int 			pipe_fd[2];
-	pid_t 			*p_id;
 }	t_mshell;
 
-
+extern volatile sig_atomic_t g_heredoc;
 //FUNCTIONS
 
 int		minishell(t_mshell *mshell);
 void	cleanup_mshell(t_mshell *mshell);
+void 	setup_heredoc_signals(struct sigaction *sa_old);
+void 	reset_prompt(int sigint);
+void 	handle_heredoc_signals(int sig);
 
 #endif
