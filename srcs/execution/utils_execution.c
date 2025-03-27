@@ -68,7 +68,10 @@ int	wait_process(t_mshell *mshell, pid_t pid)
 	{
 		perror("minishell: waitpid");
 		if (mshell->p_id)
-			free(mshell->p_id);
+        {	
+            free(mshell->p_id);
+            mshell->p_id = NULL;
+        }
 		return (-1);
 	}
 	if (WIFEXITED(wstatus))

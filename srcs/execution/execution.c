@@ -39,7 +39,10 @@ int  wait_all(t_mshell *mshell)
         i++;
     }
 	if (mshell->p_id)
-		free(mshell->p_id);
+	{	
+        free(mshell->p_id);
+        mshell->p_id = NULL;
+    }
     return (last_status);
 }
 
@@ -102,5 +105,5 @@ void    handle_command_execution(t_mshell *mshell)
     else
 		handle_pipeline(mshell, 0, &status);
 	mshell->exit_code = status;
-	//printf("status: %d\n", status);
+	printf("status: %d\n", status);
 }

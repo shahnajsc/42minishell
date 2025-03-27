@@ -19,7 +19,7 @@ void	redirect_fd(int from_fd, int to_fd);
 
 //.........HEREDOC.............//
 int		heredoc_handle(t_mshell *mshell);
-char	*expand_heredoc(t_mshell *mshell, char *hd_lines, int is_quote);
+char	*expand_heredoc(t_mshell *mshell, char *joined_lines, int is_quote);
 
 
 char	*read_line(int fd);

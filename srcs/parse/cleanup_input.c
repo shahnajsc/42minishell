@@ -56,6 +56,11 @@ void	close_free_pipe(t_mshell *mshell)
 		close(mshell->pipe_fd[0]);
 	if (mshell->pipe_fd[1] >= 0)
 		close(mshell->pipe_fd[1]);
+	if (mshell->p_id)
+	{
+		free(mshell->p_id);
+		mshell->p_id = NULL;
+	}
 }
 
 void	close_cmd_fds(t_cmd *cmd)

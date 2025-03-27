@@ -36,7 +36,11 @@ int		create_child_process(t_mshell *mshell, pid_t p_id)
 	{
 		perror("minishell: fork");
 		close_fds(mshell);
-		free(mshell->p_id);
+		if (mshell->p_id)
+		{	
+	        free(mshell->p_id);
+	        mshell->p_id = NULL;
+	    }
        	return (-1);
 	}
 	return (0);
@@ -48,7 +52,11 @@ int 	setup_pipe(t_mshell *mshell)
 	{
 		perror("minishell: pipe");
 		close_fds(mshell);
-		free(mshell->p_id);
+		if (mshell->p_id)
+		{	
+	        free(mshell->p_id);
+	        mshell->p_id = NULL;
+	    }
 		return (-1);
 	}
 	return (0);
