@@ -94,7 +94,7 @@ void    handle_command_execution(t_mshell *mshell)
 	int 	status;
 
     if (!mshell->cmds || mshell->count_cmds == 0)
-        return ;
+    {    return ;}
 	if (heredoc_handle(mshell) == EXIT_FAILURE)
 		return ;
     if (check_is_builtin(&mshell->cmds[0]) && mshell->count_cmds == 1)
