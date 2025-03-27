@@ -47,9 +47,6 @@ static void	free_tokens(t_token *token)
 }
 void	close_free_pipe(t_mshell *mshell)
 {
-	int	i;
-
-	i = 0;
 	if (!mshell)
 		return ;
 	if (mshell->pipe_fd[0] >= 0)

@@ -27,7 +27,10 @@ int  wait_all(t_mshell *mshell)
 
 int execute_child_cmds(t_mshell *mshell, int i, int *status)
 {
-    if (allocate_pid(mshell) == -1)
+	int	len;
+
+	len = get_rd_list_len(mshell->cmds[i].token);
+	if (allocate_pid(mshell) == -1)
         return (EXIT_FAILURE);
     while (mshell->cmds && i < mshell->count_cmds)
     {
@@ -36,6 +39,11 @@ int execute_child_cmds(t_mshell *mshell, int i, int *status)
         mshell->p_id[i] = fork();
         if (create_child_process(mshell, mshell->p_id[i]) == -1)
             return (EXIT_FAILURE);
+		if (redirect_handle_cmd(mshell, &mshell->cmds[i], len) == EXIT_FAILURE)
+		{
+			*status = 1;
+			return (EXIT_FAILURE);
+		}
         if (mshell->p_id[i] == 0)
             child_process(mshell, i, status);
         else
@@ -44,7 +52,7 @@ int execute_child_cmds(t_mshell *mshell, int i, int *status)
     }
     close_fds(mshell);
     *status = wait_all(mshell);
-    return (*status);
+    return (EXIT_SUCCESS);
 }
 
 int	store_std_fd(t_mshell *mshell, t_cmd *cmd, int *status)
@@ -149,7 +157,8 @@ int	builtins_in_parent(t_mshell *mshell, t_cmd *cmd, int *status)
 		restore_std_fd(mshell, cmd, status);
 		return (EXIT_FAILURE);
 	}
-	restore_std_fd(mshell, cmd, status);
+	if (restore_std_fd(mshell, cmd, status) == EXIT_FAILURE)
+		return (EXIT_FAILURE);
 	return (EXIT_SUCCESS);
 	// int len;
 
