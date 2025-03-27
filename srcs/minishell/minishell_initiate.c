@@ -49,7 +49,10 @@ int	minishell(t_mshell *mshell)
 	{
 		input_str = readline(PROMPT);
 		if (!input_str)
+		{
+			printf("exit\n");	
 			break ;
+		}
 		else
 		{
 			add_history(input_str);

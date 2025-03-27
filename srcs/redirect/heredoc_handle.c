@@ -39,16 +39,6 @@ int	heredoc_join(char **hd, char *line)
 	return (0);
 }
 
-int heredoc_event_hook(void)
-{
-	if (g_heredoc)
-	{
-		rl_done = 1;
-		return (1);
-	}
-	return (0);
-}
-
 void restore_signals(struct sigaction *old_sa)
 {
     if (old_sa) 
@@ -90,6 +80,8 @@ void get_hd_lines(t_mshell *mshell, t_redirect *rd_list, int i, int is_quote)
     restore_signals(&sa_old);
     if (!g_heredoc)
         rd_list[i].hd_lines = expand_heredoc(mshell, joined_lines, is_quote);
+	else
+		free(joined_lines);
     g_heredoc = 0;
 }
 

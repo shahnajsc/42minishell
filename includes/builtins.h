@@ -60,7 +60,4 @@ int			cd_error(char **args, t_cd_error err);
 int			mshell_lvl_error(t_env **env, char *new_lvl);
 int			builtins_error(char *arg, char *err_msg, char *free_str);
 
-//........SIGNALS..........//
-void		setup_signal_handlers(void);
-
 #endif

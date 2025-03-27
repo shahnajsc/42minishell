@@ -59,12 +59,9 @@ void parent_redirecton(t_mshell *mshell)
 		close(mshell->prev_read_fd);
     mshell->prev_read_fd = mshell->pipe_fd[0];
 }
-
-int	wait_process(t_mshell *mshell, pid_t pid)
+int     ft_wait(t_mshell *mshell, pid_t pid, int *wstatus)
 {
-	int	wstatus;
-
-	if (waitpid(pid, &wstatus, 0) == -1)
+    if (waitpid(pid, wstatus, 0) == -1)
 	{
 		perror("minishell: waitpid");
 		if (mshell->p_id)
@@ -74,7 +71,27 @@ int	wait_process(t_mshell *mshell, pid_t pid)
         }
 		return (-1);
 	}
+    return (0);
+}
+int	wait_process(t_mshell *mshell, pid_t p_id)
+{
+    int wstatus;
+    int  exit_status;
+
+    wstatus = 0;
+    exit_status = 0;
+	if (ft_wait(mshell, p_id, &wstatus) == -1)
+        exit_status = EXIT_FAILURE;
+    setup_signal_handlers();
 	if (WIFEXITED(wstatus))
-		return (WEXITSTATUS(wstatus));
-	return (0);
+	    exit_status = WEXITSTATUS(wstatus);
+    else if (WIFSIGNALED(wstatus))
+    {
+        exit_status = 128 + WTERMSIG(wstatus);
+        if (WTERMSIG(wstatus) == SIGQUIT)
+            ft_putstr_fd("Quit (core dumped)\n", STDERR_FILENO);
+    }
+    else
+    {    exit_status = EXIT_FAILURE;}
+	return (exit_status);
 }

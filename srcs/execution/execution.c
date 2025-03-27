@@ -24,18 +24,15 @@ void 	 execute_external(t_mshell *mshell, t_cmd *cmd, char ***copy_env)
 int  wait_all(t_mshell *mshell)
 {
     int i;
-    int child_status;
     int last_status;
 
     i = 0;
-	child_status = 0;
 	last_status = 0;
     while (mshell->cmds && i < mshell->count_cmds)
     {
-        child_status = wait_process(mshell, mshell->p_id[i]);
-        if (child_status == -1) 
-            child_status = 1; 
-        last_status = child_status;
+        last_status = wait_process(mshell, mshell->p_id[i]);
+        if (last_status == -1) 
+            last_status = 1; 
         i++;
     }
 	if (mshell->p_id)
@@ -43,6 +40,7 @@ int  wait_all(t_mshell *mshell)
         free(mshell->p_id);
         mshell->p_id = NULL;
     }
+    mshell->exit_code = last_status;
     return (last_status);
 }
 
@@ -82,9 +80,15 @@ int handle_pipeline(t_mshell *mshell, int i, int *status)
         if (create_child_process(mshell, mshell->p_id[i]) == -1)
             return (EXIT_FAILURE);
         if (mshell->p_id[i] == 0) 
+        {
+            setup_child_signals();   
             child_redirection(mshell, i, status);
+        }
         else
+        {
+            ignore_parent_signals();   
             parent_redirecton(mshell);
+        }
         i++;
     }
     close_fds(mshell);
