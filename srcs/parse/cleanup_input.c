@@ -65,14 +65,14 @@ void	close_free_pipe(t_mshell *mshell)
 
 void	close_cmd_fds(t_cmd *cmd)
 {
-	if (cmd->i_o_fd[0] > -1)
-		close(cmd->i_o_fd[0]);
-	if (cmd->i_o_fd[1] > -1)
-		close(cmd->i_o_fd[1]);
-	if (cmd->rd_fd[0] > -1)
-		close(cmd->rd_fd[0]);
-	if (cmd->rd_fd[1] > -1)
-		close(cmd->rd_fd[1]);
+	if (cmd->std_fd[0] > -1)
+		close(cmd->std_fd[0]);
+	if (cmd->std_fd[1] > -1)
+		close(cmd->std_fd[1]);
+	if (cmd->redi_fd[0] > -1)
+		close(cmd->redi_fd[0]);
+	if (cmd->redi_fd[1] > -1)
+		close(cmd->redi_fd[1]);
 }
 
 void	cleanup_on_loop(t_mshell *mshell)

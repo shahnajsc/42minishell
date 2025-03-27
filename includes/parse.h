@@ -46,8 +46,8 @@ typedef struct s_cmd
 	char		*cmd_str;
 	char		*cmd_name;
 	char		**splitted_cmd;
-	int			i_o_fd[2];
-	int			rd_fd[2];
+	int			std_fd[2];
+	int			redi_fd[2];
 	//int			out_fd;
 }	t_cmd;
 
