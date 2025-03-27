@@ -55,7 +55,7 @@ int			is_invalid_identifier(char *identifier);
 
 //..... ERROR  && CLEANUP .....//
 void		free_env(t_env *env);
-int			exit_mshell(t_mshell *mshell);
+int			exit_mshell(t_mshell *mshell, int *status);
 int			cd_error(char **args, t_cd_error err);
 int			mshell_lvl_error(t_env **env, char *new_lvl);
 int			builtins_error(char *arg, char *err_msg, char *free_str);

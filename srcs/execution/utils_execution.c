@@ -78,7 +78,6 @@ int	wait_process(t_mshell *mshell, pid_t p_id)
     int wstatus;
     int  exit_status;
 
-    wstatus = 0;
     exit_status = 0;
 	if (ft_wait(mshell, p_id, &wstatus) == -1)
         exit_status = EXIT_FAILURE;

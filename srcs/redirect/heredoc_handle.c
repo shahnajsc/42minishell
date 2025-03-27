@@ -68,7 +68,13 @@ void get_hd_lines(t_mshell *mshell, t_redirect *rd_list, int i, int is_quote)
     {
         line = readline("> ");
         if (!line)
-            break;
+		{
+			ft_putstr_fd("minishell: warning: ", STDERR_FILENO);
+			ft_putstr_fd("here-document delimited by end-of-file (wanted `", STDERR_FILENO);
+			ft_putstr_fd(rd_list[i].file_deli, STDERR_FILENO);
+			ft_putendl_fd("')", STDERR_FILENO);
+			break;
+		}
         if (ft_strcmp(line, rd_list[i].file_deli) == 0)
         {
             free(line);
@@ -81,7 +87,10 @@ void get_hd_lines(t_mshell *mshell, t_redirect *rd_list, int i, int is_quote)
     if (!g_heredoc)
         rd_list[i].hd_lines = expand_heredoc(mshell, joined_lines, is_quote);
 	else
+	{
+		mshell->exit_code = 130;
 		free(joined_lines);
+	}
     g_heredoc = 0;
 }
 
