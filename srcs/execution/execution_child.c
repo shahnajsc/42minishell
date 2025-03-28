@@ -3,14 +3,7 @@
 int	external_in_child(t_mshell *mshell, t_cmd *cmd, char ***copy_env)
 {
 	char *cmd_path;
-	int len;
 
-	len = get_rd_list_len(cmd->token);
-	if (redirect_handle_cmd(mshell, cmd, len) == EXIT_FAILURE)
-	{
-		mshell->exit_code = 1;
-		return (EXIT_FAILURE);
-	}
 	cmd_path = get_command_path(mshell, cmd);
 	if (!cmd_path || !*cmd_path)
 	{
@@ -31,13 +24,6 @@ int	external_in_child(t_mshell *mshell, t_cmd *cmd, char ***copy_env)
 
 int	builtins_in_child(t_mshell *mshell, t_cmd *cmd, int *status)
 {
-	int len;
-
-	len = get_rd_list_len(cmd->token);
-	if (redirect_handle_cmd(mshell, cmd, len) == EXIT_FAILURE)
-	{
-		return (EXIT_FAILURE);
-	}
 	if (execute_builtins(mshell, cmd,status) > 0 )
 	{
 		return (EXIT_FAILURE);
@@ -49,8 +35,8 @@ int  check_command_exec(t_mshell *mshell, int i, int *status)
 {
     char 	**copy_env;
 
-	copy_env = NULL;
-    if (check_is_builtin(&mshell->cmds[i]))
+    copy_env = NULL;
+	if (check_is_builtin(&mshell->cmds[i]))
     {
 		if (builtins_in_child(mshell, &mshell->cmds[i], status) == EXIT_FAILURE)
 		{
@@ -69,13 +55,21 @@ int  check_command_exec(t_mshell *mshell, int i, int *status)
 
 void	child_process(t_mshell *mshell, int i, int *status)
 {
-    close(mshell->pipe_fd[0]);
+    int len;
+
+	len = get_rd_list_len(mshell->cmds[i].token);
+	close(mshell->pipe_fd[0]);
     if (mshell->prev_read_fd != STDIN_FILENO)
         redirect_fd(mshell->prev_read_fd, STDIN_FILENO);
     if (i < mshell->count_cmds - 1)
 		redirect_fd(mshell->pipe_fd[1], STDOUT_FILENO);
 	else
 		close(mshell->pipe_fd[1]);
+	if (redirect_handle_cmd(mshell, &mshell->cmds[i], len) == EXIT_FAILURE)
+	{
+		mshell->exit_code = 1;
+		return ;
+	}
 	check_command_exec(mshell, i, status);
 }
 

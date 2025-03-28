@@ -27,9 +27,7 @@ int  wait_all(t_mshell *mshell)
 
 int execute_child_cmds(t_mshell *mshell, int i, int *status)
 {
-	int	len;
 
-	len = get_rd_list_len(mshell->cmds[i].token);
 	if (allocate_pid(mshell) == -1)
         return (EXIT_FAILURE);
     while (mshell->cmds && i < mshell->count_cmds)
@@ -39,11 +37,6 @@ int execute_child_cmds(t_mshell *mshell, int i, int *status)
         mshell->p_id[i] = fork();
         if (create_child_process(mshell, mshell->p_id[i]) == -1)
             return (EXIT_FAILURE);
-		if (redirect_handle_cmd(mshell, &mshell->cmds[i], len) == EXIT_FAILURE)
-		{
-			*status = 1;
-			return (EXIT_FAILURE);
-		}
         if (mshell->p_id[i] == 0)
             child_process(mshell, i, status);
         else

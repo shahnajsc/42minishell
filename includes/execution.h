@@ -36,4 +36,7 @@ int		create_child_process(t_mshell *mshell, pid_t p_id);
 // char	**convert_env(t_env *env, char ***copy_env);
 // int 	wait_processes(pid_t pid);
 
+int	store_std_fd(t_mshell *mshell, t_cmd *cmd, int *status);
+int	restore_std_fd(t_mshell *mshell, t_cmd *cmd, int *status);
+
 #endif
