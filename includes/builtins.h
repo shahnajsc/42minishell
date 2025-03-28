@@ -35,7 +35,7 @@ int			ft_exit(t_mshell *mshell, char **args);
 int			ft_echo(t_mshell *mshell, char **args);
 int			ft_export(t_mshell *mshell, char **args);
 int			ft_unset(t_mshell *mshell, char **keys, int i, int index);
-int     execute_builtins(t_mshell *mshell, t_cmd *cmd, int *status);
+int     	execute_builtins(t_mshell *mshell, t_cmd *cmd, int *status);
 
 //........UTILS..........//
 int			env_size(t_env *env);
@@ -57,7 +57,7 @@ int			is_invalid_identifier(char *identifier);
 void		free_env(t_env *env);
 int			exit_mshell(t_mshell *mshell, int *status);
 int			cd_error(char **args, t_cd_error err);
-int			mshell_lvl_error(t_env **env, char *new_lvl);
+void		mshell_lvl_error(t_env **env, char *new_lvl, t_env *shlvl);
 int			builtins_error(char *arg, char *err_msg, char *free_str);
 
 #endif
