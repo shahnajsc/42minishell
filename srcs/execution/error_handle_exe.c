@@ -1,5 +1,17 @@
 #include "minishell.h"
 
+int	clean_and_exit(t_mshell *mshell, char ***env, char *msg, int status)
+{
+	if (mshell->cmds->cmd_name && ft_strchr(mshell->cmds->cmd_name, '/'))
+		ft_putstr_fd("minishell: ", STDERR_FILENO);
+	if (msg)
+		ft_putstr_fd(mshell->cmds->cmd_name, STDERR_FILENO);
+	ft_putstr_fd(msg, STDERR_FILENO);
+	ft_free_grid((void **)*env);
+	cleanup_mshell(mshell);
+	exit(status);
+}
+
 int 	allocate_pid(t_mshell *mshell)
 {
 	mshell->p_id = ft_calloc(mshell->count_cmds + 1, sizeof(pid_t));

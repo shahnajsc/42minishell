@@ -4,21 +4,15 @@ void 	 execute_external(t_mshell *mshell, t_cmd *cmd, char ***copy_env)
 {
 	char *cmd_path;
 
-	cmd_path = get_command_path(mshell, cmd);
+	cmd_path = get_command_path(mshell, cmd, copy_env);
 	if (!cmd_path)
-	{
-		ft_putstr_fd(cmd->cmd_name, STDERR_FILENO);
-		ft_putstr_fd(": command not found\n", STDERR_FILENO);
-		ft_free_grid((void **)*copy_env);
-		cleanup_mshell(mshell);
-		exit(127);
-	}
+        clean_and_exit(mshell, copy_env, ": command not found\n", 127);
 	execve(cmd_path, cmd->splitted_cmd, *copy_env);
-	perror("minishell");
-	ft_free_grid((void **)*copy_env);
-	cleanup_mshell(mshell);
-	free(cmd_path);
-	exit (EXIT_FAILURE);
+    {
+        perror("minishell: execve");
+        free(cmd_path);
+        clean_and_exit(mshell, copy_env, NULL, EXIT_FAILURE);
+    }
 }
 
 int  wait_all(t_mshell *mshell)

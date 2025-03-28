@@ -2,7 +2,7 @@
 
 void	error_return(t_mshell *mshell, char *err_in, char *msg_err, int ret_value)
 {
-	ft_putstr_fd("mshell: ", 2);
+	ft_putstr_fd("minishell: ", 2);
 	if (*err_in != '\0')
 	{
 		ft_putstr_fd(err_in, 2);
@@ -18,7 +18,7 @@ void	error_return(t_mshell *mshell, char *err_in, char *msg_err, int ret_value)
 		ft_putstr_fd(msg_err, 2);
 		ft_putstr_fd("\n", 2);
 	}
-	cleanup_on_loop(mshell);
+	cleanup_mshell(mshell);
 	exit(ret_value);
 }
 
@@ -30,7 +30,7 @@ static char	**get_envp_paths(t_mshell *mshell)
 	if (!mshell->env)
 		return (NULL);
 	i = 0;
-	while (mshell->env && mshell->env->key)
+	while (mshell->env && mshell->env[i].key)
 	{
 		if (ft_strcmp(mshell->env[i].key, "PATH") == 0)
 		{
@@ -78,17 +78,25 @@ static char	*get_path_cmd(char **env_paths, char *cmd_name)
 	return (NULL);
 }
 
-char	*get_command_path(t_mshell *mshell, t_cmd *cmd)
+char	*get_command_path(t_mshell *mshell, t_cmd *cmd, char ***env)
 {
 	char	*cmd_path;
 	char	**env_paths;
+	struct 	stat sb;
 
-	if (ft_strchr(cmd->cmd_name, '/'))
+	if (!*cmd->cmd_name)
+		clean_and_exit(mshell, env, "Command '' not found\n", 127);
+	if (cmd->cmd_name && ft_strchr(cmd->cmd_name, '/'))
 	{
-		if (access(cmd->cmd_name, F_OK) == 0)
-			return (cmd->cmd_name);
-		else
-			error_return(mshell, cmd->cmd_name, "", 127);
+		if (stat(cmd->cmd_name, &sb) == -1)
+            clean_and_exit(mshell, env, ": No such file or directory\n", 126);
+		if ((sb.st_mode & (S_IRUSR | S_IRGRP)) == 0
+		|| (sb.st_mode & (S_IWUSR | S_IWGRP)) == 0
+		|| (sb.st_mode & (S_IXUSR | S_IXGRP)) == 0)
+			clean_and_exit(mshell, env, ": Permission denied\n", 126);
+		if (S_ISDIR(sb.st_mode))
+            clean_and_exit(mshell, env, ": Is a directory\n", 126);
+		return(cmd->cmd_name);
 	}
 	env_paths = get_envp_paths(mshell);
 	if (!env_paths)
