@@ -46,8 +46,7 @@ static void	handle_exit(char **args, int *exit_status)
 	else if (!is_invalid_digit(args[1]) && args[2])
 	{
 		ft_putstr_fd("minishell: exit: ", 2);
-		ft_putstr_fd(args[1], 2);
-		ft_putstr_fd(": too many arguments\n", 2);
+		ft_putstr_fd("too many arguments\n", 2);
 		*exit_status = -1;
 	}
 	else if (!*args[1] || is_invalid_digit(args[1])
@@ -60,13 +59,12 @@ static void	handle_exit(char **args, int *exit_status)
 	}
 }
 
-int	exit_mshell(t_mshell *mshell)
+int	exit_mshell(t_mshell *mshell, int *status)
 {
-	int	status;
-
-	status = mshell->exit_code;
+	if (mshell->cmds && mshell->count_cmds == 1)
+		ft_putendl_fd("exit", STDOUT_FILENO);
 	cleanup_mshell(mshell);
-	exit(status);
+	exit(*status);
 }
 
 int	ft_exit(t_mshell *mshell, char **args)
@@ -75,10 +73,9 @@ int	ft_exit(t_mshell *mshell, char **args)
 
 	if (!mshell || !mshell->env || !args)
 		return (0);
-	ft_putendl_fd("exit", STDOUT_FILENO);
 	handle_exit(args, &exit_status);
 	if (exit_status != -1)
-		exit_mshell(mshell);
+		exit_mshell(mshell, &exit_status);
 	else
 		exit_status = 1;
 	return (exit_status);

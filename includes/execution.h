@@ -14,7 +14,7 @@ void	parent_process(t_mshell *mshell);
 int		wait_process(t_mshell *mshell, pid_t pid);
 int		wait_all(t_mshell *mshell);
 char	**convert_env(t_env *env, char ***copy_env);
-char	*get_command_path(t_mshell *mshell, t_cmd *cmd);
+char	*get_command_path(t_mshell *mshell, t_cmd *cmd, char ***env);
 void	child_process(t_mshell *mshell, int i, int *status);
 
 
@@ -23,6 +23,7 @@ void 	close_fds(t_mshell *mshell);
 int 	setup_pipe(t_mshell *mshell);
 int 	allocate_pid(t_mshell *mshell);
 int		create_child_process(t_mshell *mshell, pid_t p_id);
+int		clean_and_exit(t_mshell *mshell, char ***env, char *msg, int status);
 
 // //...............FUNCTIONS................//
 // void	execute_cmds(t_mshell *mshell);

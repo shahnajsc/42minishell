@@ -74,7 +74,7 @@ static void	mshell_level(t_env **env)
 		free(new_lvl);
 	}
 	else
-		mshell_lvl_error(env, new_lvl); // program should terminate
+		mshell_lvl_error(env, new_lvl, shlvl);
 }
 
 t_env	*init_env(char **envp)
