@@ -57,7 +57,7 @@ int	syntax_pre_error(t_mshell *mshell, t_syntax_err syn_err, char *err_value)
 		ft_putstr_fd("`\n", STDERR_FILENO);
 	}
 	mshell->exit_code = 2;
-	return (1);
+	return (EXIT_FAILURE);
 }
 
 // if >> or >>> error token '>' if more thn >>> error token '>>'

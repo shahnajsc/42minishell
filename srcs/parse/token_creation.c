@@ -94,9 +94,7 @@ t_token	*create_tokens_list(t_mshell *mshell, char *cmd_str, int cmd_id)
 	{
 		tok_type = get_token_type(cmd_str, i);
 		if (tok_type == CMD || tok_type == EMPTY)
-		{
 			new_token = create_str_token(cmd_str, &i, tok_type);
-		}
 		else
 			new_token = create_redirect_token(cmd_str, &i);
 		if (!new_token)
@@ -109,23 +107,4 @@ t_token	*create_tokens_list(t_mshell *mshell, char *cmd_str, int cmd_id)
 		return (NULL);
 	return (head_token);
 }
-//printf("segfault token\n");
-	//t_token	*temp_main_token;
-	//t_token	*temp;
-
-	// if (!main_token)
-	// 	return (NULL);
-	// temp_main_token = main_token;
-	// while (temp_main_token->next && (temp_main_token->next->tok_type != EMPTY
-	//	&& temp_main_token->tok_type != REDIRECT))
-	// {
-	// 	temp_main_token->tok_value =
-	//ft_strjoin(temp_main_token->tok_value, temp_main_token->next->tok_value);
-	// 	temp = temp_main_token->next;
-	// 	temp_main_value = temp_main_token->tok_value;
-	// 	temp_main_token->next = temp->next;
-	// 	free(temp_main_value);
-	// 	free(temp->tok_value);
-	// 	free(temp);
-	// 	temp_main_token = temp_main_token->next;
-	// }
+///  no error handle

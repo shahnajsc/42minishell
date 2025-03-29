@@ -38,23 +38,3 @@ t_token_type	get_token_type(char *cmd_str, int i)
 	else
 		return (CMD);
 }
-
-// char	*ft_strndup(char *src, size_t n)
-// {
-// 	size_t	i;
-// 	char	*dest;
-
-// 	if (!src)
-// 		return (NULL);
-// 	i = 0;
-// 	dest = malloc(sizeof(size_t) * (n + 1));
-// 	if (!dest)
-// 		return (NULL);
-// 	while (i < n && src[i] != '\0')
-// 	{
-// 		dest[i] = src[i];
-// 		i++;
-// 	}
-// 	dest[i] = '\0';
-// 	return (dest);
-// }
