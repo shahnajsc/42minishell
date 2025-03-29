@@ -62,7 +62,7 @@ MAN_SRCS		= main.c $(MAN_BUILT) $(DIR_PAR) $(DIR_REDI) $(DIR_EXE)
 #bonus : .bonus
 
 # valgrind:
-# 		valgrind --leak-check=full --show-leak-kinds=all ./minishell
+# 		valgrind --leak-check=full --show-leak-kinds=all  ./minishell
 
 valgrind:
 		valgrind --leak-check=full --show-reachable=yes --show-leak-kinds=all \
