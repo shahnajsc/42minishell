@@ -48,17 +48,7 @@ typedef struct s_cmd
 	char		**splitted_cmd;
 	int			std_fd[2];
 	int			redi_fd[2];
-	//int			out_fd;
 }	t_cmd;
-
-// typedef struct	s_mshell
-// {
-// 	char			**envp;
-// 	//char			*input;
-// 	int				count_cmds;
-// 	t_cmd			*cmds;
-// 	int				exit_code;
-// }	t_mshell;
 
 typedef enum e_mshell_err
 {
@@ -83,7 +73,7 @@ int			check_char_whitespaces(char c);
 int			check_str_whitespaces(char *input_str);
 char		*skip_quoted_part(char *input_str);
 char		*skip_unquoted_part(char *input_str);
-int			input_pre_validation(t_mshell *mshell, char *input_str);
+int			pre_validation_input(t_mshell *mshell, char *input_str);
 
 //...... PARSE .....////
 int			parse_input(t_mshell *mshell, char *input_str);

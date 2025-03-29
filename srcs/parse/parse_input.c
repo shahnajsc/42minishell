@@ -4,13 +4,12 @@
 int	parse_input(t_mshell *mshell, char *input_str)
 {
 	if (!input_str)
-		return (1);
-	if (input_pre_validation(mshell, input_str))
-		return (1);
+		return (EXIT_FAILURE);
+	if (input_str && !*input_str)
+		return (EXIT_SUCCESS);
+	if (pre_validation_input(mshell, input_str) == EXIT_FAILURE)
+		return (EXIT_FAILURE);
 	if (tokenize_input(mshell, input_str))
-	{
-		//printf("in count %d\n", mshell->count_cmds);
-		return (1);
-	}
-	return (0);
+		return (EXIT_FAILURE);
+	return (EXIT_SUCCESS);
 }
