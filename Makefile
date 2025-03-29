@@ -50,7 +50,7 @@ MAN_BUILT  		= srcs/builtins/ft_pwd.c \
 				srcs/builtins/env_init.c  srcs/builtins/utils_export.c \
 				srcs/builtins/utils_builtins.c \
 				srcs/builtins/ft_exit.c \
-				srcs/signals/signals.c \
+				srcs/signals/signals.c      srcs/signals/utils_signals.c \
 				#srcs/minishell/minishell_initiate.c
 
 # Source path
