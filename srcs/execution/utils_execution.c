@@ -40,26 +40,6 @@ char **convert_env(t_env *env, char ***copy_env)
     return (*copy_env);
 }
 
-void child_redirection(t_mshell *mshell, int i, int *status)
-{
-    close(mshell->pipe_fd[0]);
-    if (mshell->prev_read_fd != STDIN_FILENO)
-        redirect_fd(mshell->prev_read_fd, STDIN_FILENO);
-    if (i < mshell->count_cmds - 1)
-		redirect_fd(mshell->pipe_fd[1], STDOUT_FILENO);
-	else
-		close(mshell->pipe_fd[1]);
-	check_command_exec(mshell, i, status);
-}
-
-void parent_redirecton(t_mshell *mshell)
-{
-	close(mshell->pipe_fd[1]);
-    if (mshell->prev_read_fd != STDIN_FILENO)
-		close(mshell->prev_read_fd);
-    mshell->prev_read_fd = mshell->pipe_fd[0];
-}
-
 int	wait_process(t_mshell *mshell, pid_t pid)
 {
 	int	wstatus;

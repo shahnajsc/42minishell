@@ -20,10 +20,10 @@ static int	init_cmds(t_mshell*mshell, char *input_str)
 		mshell->cmds[i].cmd_str = ft_strdup(cmds_temp[i]);
 		mshell->cmds[i].cmd_name = NULL;
 		mshell->cmds[i].splitted_cmd = NULL;
-		mshell->cmds[i].i_o_fd[0] = -2;
-		mshell->cmds[i].i_o_fd[1] = -2;
-		mshell->cmds[i].rd_fd[0] = -2;
-		mshell->cmds[i].rd_fd[1] = -2;
+		mshell->cmds[i].std_fd[0] = -1;
+		mshell->cmds[i].std_fd[1] = -1;
+		mshell->cmds[i].redi_fd[0] = -2;
+		mshell->cmds[i].redi_fd[1] = -2;
 		//mshell->cmds[i].out_fd = -1;
 		i++;
 	}

@@ -1,53 +1,57 @@
 #include "minishell.h"
 
-static int	mem_alloc_failed(char **hd, char *line)
+static int	mem_alloc_failed(char **joined_lines, char *line)
 {
-	if (hd && *hd)
+	if (joined_lines && *joined_lines)
 	{
-		free(*hd);
-		*hd = NULL;
+		free(*joined_lines);
+		*joined_lines = NULL;
 	}
 	if (line)
+	{
 		free(line);
+		line = NULL;
+	}
+
 	ft_putstr_fd("minishell: memory allocation failed for heredoc!\n", STDERR_FILENO);
 	return (1);
 }
 
-int	heredoc_join(char **hd, char *line)
+int	heredoc_join(char **joined_lines, char *line)
 {
 	char			*ptr;
 	char			*ptrcat;
 	int				i;
 
-	ptr = (char *)malloc(sizeof(char) * (ft_strlen(*hd) + ft_strlen(line) + 2));
+	ptr = (char *)malloc(sizeof(char) * (ft_strlen(*joined_lines) + ft_strlen(line) + 2));
 	if (!ptr)
-		return(mem_alloc_failed(hd, line));
+		return(mem_alloc_failed(joined_lines, line));
 	ptrcat = ptr;
 	i = 0;
-	while (*hd && (*hd)[i])
-		*ptr++ = (*hd)[i++];
+	while (*joined_lines && (*joined_lines)[i])
+		*ptr++ = (*joined_lines)[i++];
 	i = 0;
 	while (line && line[i])
 		*ptr++ = line[i++];
 	*ptr++ = '\n';
 	*ptr = '\0';
-	if (*hd)
-		free(*hd);
+	if (*joined_lines)
+		free(*joined_lines);
 	if (line)
 		free(line);
-	*hd = ptrcat;
+	*joined_lines = ptrcat;
 	return (0);
 }
 
 void	get_hd_lines(t_mshell *mshell, t_redirect *rd_list, int i, int is_quote)
 {
 	char *line;
-	char *hd_lines;
+	char *joined_lines;
 
 	if (!mshell || !rd_list)
 		return ;
-	hd_lines = ft_strdup("");
-	if (!hd_lines)
+	joined_lines = ft_strdup("");
+	if (!joined_lines)
 		return ;
 	while (1)
 	{
@@ -59,10 +63,14 @@ void	get_hd_lines(t_mshell *mshell, t_redirect *rd_list, int i, int is_quote)
 			free(line);
 			break ;
 		}
-		if (heredoc_join(&hd_lines, line))
+		if (heredoc_join(&joined_lines, line))
+		{
+			free(joined_lines);
 			return ;
+		}
 	}
-	rd_list[i].hd_lines = expand_heredoc(mshell, hd_lines, is_quote);
+	rd_list[i].hd_lines = expand_heredoc(mshell, joined_lines, is_quote);
+	//printf("hd: %s", rd_list[i].hd_lines);
 	//mshell->exit_code = 112;
 }
 

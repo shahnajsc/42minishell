@@ -6,15 +6,16 @@ typedef struct s_redirect t_redirect;
 
 //...............EXECUTION................//
 int		check_is_builtin(t_cmd *cmd);
-void    handle_command_execution(t_mshell *mshell);
+void    execute_cmds(t_mshell *mshell);
 int  	check_command_exec(t_mshell *mshell, int i, int *status);
 
 //...............UTILS................//
-void 	parent_redirecton(t_mshell *mshell);
+void	parent_process(t_mshell *mshell);
 int		wait_process(t_mshell *mshell, pid_t pid);
-char 	**convert_env(t_env *env, char ***copy_env);
-char    *get_command_path(t_mshell *mshell, t_cmd *cmd);
-void 	child_redirection(t_mshell *mshell, int i, int *status);
+int		wait_all(t_mshell *mshell);
+char	**convert_env(t_env *env, char ***copy_env);
+char	*get_command_path(t_mshell *mshell, t_cmd *cmd);
+void	child_process(t_mshell *mshell, int i, int *status);
 
 
 //..... ERROR  && CLEANUP .....//
@@ -34,5 +35,8 @@ int		create_child_process(t_mshell *mshell, pid_t p_id);
 // int		check_is_builtin(t_cmd *cmd);
 // char	**convert_env(t_env *env, char ***copy_env);
 // int 	wait_processes(pid_t pid);
+
+int	store_std_fd(t_mshell *mshell, t_cmd *cmd, int *status);
+int	restore_std_fd(t_mshell *mshell, t_cmd *cmd, int *status);
 
 #endif

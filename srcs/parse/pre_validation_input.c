@@ -11,7 +11,7 @@ int	check_backslash(t_mshell *mshell, char *input_str)
 		else
 			input_str++;
 	}
-	mshell->exit_code = 0;
+	//mshell->exit_code = 144;
 	return (0);
 }
 
@@ -40,7 +40,7 @@ int	check_invalid_redirection(t_mshell *mshell, char *input_str)
 		else
 			input_str++;
 	}
-	mshell->exit_code = 0;
+	//mshell->exit_code = 144;
 	return (0);
 }
 //cat <>  fff
@@ -70,7 +70,7 @@ int	check_invalid_pipe(t_mshell *mshell, char *input_str)
 				return (syntax_pre_error(mshell, ERR_P, (input_str + 1)));
 		}
 	}
-	mshell->exit_code = 0;
+	//mshell->exit_code = 144;
 	return (0);
 }
 
@@ -92,7 +92,7 @@ int	check_missing_quotes(t_mshell *mshell, char *input_str)
 	}
 	if (quote != 0)
 		return (syntax_pre_error(mshell, ERR_Q, &quote));
-	mshell->exit_code = 0;
+	//mshell->exit_code = 144;
 	return (0);
 }
 
@@ -108,7 +108,7 @@ int	input_pre_validation(t_mshell *mshell, char *input_str)
 		return (1);
 	if (check_invalid_redirection(mshell, input_str))
 		return (1);
-	mshell->exit_code = 0;// check is it needed???
+	//mshell->exit_code = 144;// check is it needed???
 	return (0);
 }
 

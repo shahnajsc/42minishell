@@ -36,3 +36,5 @@ int	main(int argc, char **argv, char **envp)
 	minishell(&mshell);
 	cleanup_mshell(&mshell);
 }
+
+// bash -c "$(curl -fsSL https://raw.githubusercontent.com/zstenger93/42_minishell_tester/master/install.sh)" 

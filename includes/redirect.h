@@ -15,7 +15,7 @@ int		get_file_fd(t_mshell *mshell, char *path, t_redirect_type rd_type);
 
 //........... REDIRECTs.............//
 int		redirect_handle_cmd(t_mshell *mshell, t_cmd *cmd, int len);
-void	redirect_fd(int from_fd, int to_fd);
+int	redirect_fd(int from_fd, int to_fd);
 
 //.........HEREDOC.............//
 int		heredoc_handle(t_mshell *mshell);
