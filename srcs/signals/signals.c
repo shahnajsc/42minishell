@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-void 	reset_prompt(int sigint)
+static void 	reset_prompt(int sigint)
 {
 	(void)sigint;
 	ft_putchar_fd('\n', STDERR_FILENO);
@@ -9,7 +9,7 @@ void 	reset_prompt(int sigint)
 	rl_redisplay();
 }
 
-void 	reset_sigint()
+static void 	reset_sigint()
 {
 	struct sigaction sa;
 
@@ -19,7 +19,8 @@ void 	reset_sigint()
 	if (sigaction(SIGINT, &sa, NULL) == -1)
 		return ;
 }
-void  ignore_sigquit()
+
+static void  ignore_sigquit()
 {
 	struct sigaction sa;
 
@@ -30,7 +31,7 @@ void  ignore_sigquit()
 		return ;
 }
 
-void    setup_terminal(void)
+static void    setup_terminal(void)
 {
     int             fd;
     struct termios terminal;
@@ -42,7 +43,8 @@ void    setup_terminal(void)
     if (tcsetattr(fd, TCSANOW, &terminal) == -1)
         return ;
 }
-void    setup_signal_handlers(void)
+
+void    setup_signal_handlers()
 {
     setup_terminal();
     ignore_sigquit();

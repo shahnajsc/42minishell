@@ -64,14 +64,17 @@ int	is_invalid_identifier(char *identifier)
 	return (0);
 }
 
-int	mshell_lvl_error(t_env **env, char *new_lvl)
+void	mshell_lvl_error(t_env **env, char *new_lvl, t_env *shlvl)
 {
-	ft_putstr_fd("minishell: warning: mshell level (", STDERR_FILENO);
+	(void)env;
+	ft_putstr_fd("minishell: warning: shell level (", STDERR_FILENO);
 	ft_putstr_fd(new_lvl, STDERR_FILENO);
 	ft_putendl_fd(") too high, resetting to 1", STDERR_FILENO);
 	free(new_lvl);
-	free_env(*env);
-	exit(EXIT_FAILURE);
+	free(shlvl->value);
+	shlvl->value = ft_strdup("1");
+	if (!shlvl->value)
+		return ;
 }
 void	free_env(t_env *env)
 {

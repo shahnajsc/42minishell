@@ -47,9 +47,20 @@ typedef struct	s_mshell
 }	t_mshell;
 
 
-//FUNCTIONS
+extern volatile sig_atomic_t g_heredoc;
 
 int		minishell(t_mshell *mshell);
 void	cleanup_mshell(t_mshell *mshell);
+
+//........DEFAULT MINISHELL SIGNALS..........//
+void    setup_signal_handlers();
+void 	ignore_parent_signals();
+
+//........ HEREDOC SIGNALS..........//
+void 	setup_heredoc_signals(struct sigaction *sa_old);
+int 	heredoc_event_hook(void);
+
+//........CHILD SIGNALS..........//
+void    setup_child_signals();
 
 #endif
