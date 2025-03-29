@@ -4,8 +4,10 @@ void 	 execute_external(t_mshell *mshell, t_cmd *cmd, char ***copy_env)
 {
 	char *cmd_path;
 
+    if (ft_strcmp(cmd->cmd_name, ".") == 0)
+     {   clean_and_exit(mshell, copy_env, ": filename argument required\n", 2);}
 	cmd_path = get_command_path(mshell, cmd, copy_env);
-	if (!cmd_path)
+	if (!cmd_path || ft_strcmp(cmd->cmd_name, "..") == 0)
         clean_and_exit(mshell, copy_env, ": command not found\n", 127);
 	execve(cmd_path, cmd->splitted_cmd, *copy_env);
     {
