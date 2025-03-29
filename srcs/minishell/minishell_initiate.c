@@ -43,7 +43,6 @@ int	minishell(t_mshell *mshell)
 {
 	char	*input_str;
 
-	// int status = 0;
 	setup_signal_handlers();
 	while (1) // need signal handle for exit
 	{
@@ -61,9 +60,7 @@ int	minishell(t_mshell *mshell)
 			free(input_str);
 			if (mshell->cmds)
 				execute_cmds(mshell);
-			//printf("before mini: %d\n", mshell->exit_code);
 			cleanup_on_loop(mshell);
-			//printf("after mini: %d\n", mshell->exit_code);
 		}
 	}
 	rl_clear_history();
