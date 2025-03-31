@@ -19,7 +19,7 @@ static int	set_key_value(t_env *env, char *envp, char **sign)
 		key_len = *sign - envp;
 		(*env).key = ft_strndup(envp, key_len);
 		if (!(*env).key)
-			return (FAILURE);
+			return (EXIT_FAILURE);
 		(*env).value = ft_strdup(*sign + 1);
 		if (!(*env).value)
 			return (free((*env).key), 1);
@@ -29,9 +29,9 @@ static int	set_key_value(t_env *env, char *envp, char **sign)
 		(*env).key = ft_strdup(envp);
 		(*env).value = NULL;
 		if (!(*env).key)
-			return (FAILURE);
+			return (EXIT_FAILURE);
 	}
-	return (0);
+	return (EXIT_SUCCESS);
 }
 
 static int	env_duplicate(t_env **env, char **envp)
@@ -49,7 +49,7 @@ static int	env_duplicate(t_env **env, char **envp)
 	}
 	(*env)[i].key = NULL;
 	(*env)[i].value = NULL;
-	return (SUCSSES);
+	return (EXIT_SUCCESS);
 }
 
 static void	mshell_level(t_env **env)

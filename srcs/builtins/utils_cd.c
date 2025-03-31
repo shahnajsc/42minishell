@@ -73,14 +73,14 @@ int	update_env_state(t_mshell *mshell, char *current_pwd)
 
 	prev_pwd = get_env_var(mshell->env, "OLDPWD");
 	if (!prev_pwd || !prev_pwd->value)
-		return (1);
+		return (EXIT_FAILURE);
 	current_env_pwd = get_env_var(mshell->env, "PWD");
 	if (!current_env_pwd || !current_env_pwd->value)
-		return (1);
+		return (EXIT_FAILURE);
 	update_cd(&mshell->env, "OLDPWD", current_env_pwd->value);
 	update_cd(&mshell->env, "PWD", current_pwd);
 	// if (shell_state(mshell, prev_pwd->value, current_pwd))
 	// 	return (1);
 	free(current_pwd);
-	return (0);
+	return (EXIT_SUCCESS);
 }

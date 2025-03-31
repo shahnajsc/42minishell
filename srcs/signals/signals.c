@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-static void 	reset_prompt(int sigint)
+static void	reset_prompt(int sigint)
 {
 	(void)sigint;
 	ft_putchar_fd('\n', STDERR_FILENO);
@@ -9,44 +9,44 @@ static void 	reset_prompt(int sigint)
 	rl_redisplay();
 }
 
-static void 	reset_sigint()
+static void	reset_sigint(void)
 {
-	struct sigaction sa;
+	struct sigaction	sa;
 
 	ft_memset(&sa, 0, sizeof(sa));
 	sa.sa_handler = reset_prompt;
-	sigemptyset(&sa.sa_mask); 
+	sigemptyset(&sa.sa_mask);
 	if (sigaction(SIGINT, &sa, NULL) == -1)
 		return ;
 }
 
-static void  ignore_sigquit()
+static void	ignore_sigquit(void)
 {
-	struct sigaction sa;
+	struct sigaction	sa;
 
 	ft_memset(&sa, 0, sizeof(sa));
 	sa.sa_handler = SIG_IGN;
-	sigemptyset(&sa.sa_mask); 
-	if (sigaction(SIGQUIT, &sa, NULL) == -1 )
+	sigemptyset(&sa.sa_mask);
+	if (sigaction(SIGQUIT, &sa, NULL) == -1)
 		return ;
 }
 
-static void    setup_terminal(void)
+static void	setup_terminal(void)
 {
-    int             fd;
-    struct termios terminal;
+	int				fd;
+	struct termios	terminal;
 
-    fd = STDIN_FILENO;
-    if (tcgetattr(fd, &terminal) == -1)
-        return ;
-    terminal.c_lflag &= ~ECHOCTL;
-    if (tcsetattr(fd, TCSANOW, &terminal) == -1)
-        return ;
+	fd = STDIN_FILENO;
+	if (tcgetattr(fd, &terminal) == -1)
+		return ;
+	terminal.c_lflag &= ~ECHOCTL;
+	if (tcsetattr(fd, TCSANOW, &terminal) == -1)
+		return ;
 }
 
-void    setup_signal_handlers()
+void	setup_signal_handlers(void)
 {
-    setup_terminal();
-    ignore_sigquit();
-    reset_sigint();
+	setup_terminal();
+	ignore_sigquit();
+	reset_sigint();
 }
