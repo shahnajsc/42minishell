@@ -25,7 +25,7 @@ int	cd_error(char **args, t_cd_error err)
 		ft_putendl_fd("No such file or directory", STDERR_FILENO);
 		return (0);
 	}
-	return (1);
+	return (EXIT_FAILURE);
 }
 int	builtins_error(char *arg, char *err_msg, char *free_str)
 {
@@ -35,7 +35,7 @@ int	builtins_error(char *arg, char *err_msg, char *free_str)
 	ft_putendl_fd(err_msg, STDERR_FILENO);
 	if (free_str)
 		free(free_str);
-	return (1);
+	return (EXIT_FAILURE);
 }
 
 int	is_invalid_identifier(char *identifier)
@@ -47,7 +47,7 @@ int	is_invalid_identifier(char *identifier)
 		ft_putstr_fd("minishell: export: `", STDERR_FILENO);
 		ft_putstr_fd(identifier, STDERR_FILENO);
 		ft_putendl_fd("`: not a valid identifier", STDERR_FILENO);
-		return (1);
+		return (EXIT_FAILURE);
 	}
 	i = 1;
 	while (identifier[i] != '\0' && identifier[i] != '=')
@@ -57,11 +57,11 @@ int	is_invalid_identifier(char *identifier)
 			ft_putstr_fd("minishell: export: `", STDERR_FILENO);
 			ft_putstr_fd(identifier, STDERR_FILENO);
 			ft_putendl_fd("`: not a valid identifier", STDERR_FILENO);
-			return (1);
+			return (EXIT_FAILURE);
 		}
 		i++;
 	}
-	return (0);
+	return (EXIT_SUCCESS);
 }
 
 void	mshell_lvl_error(t_env **env, char *new_lvl, t_env *shlvl)

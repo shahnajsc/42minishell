@@ -44,6 +44,7 @@ char		*ft_strndup(char *src, size_t n);
 t_env  		*allocate_new_env(t_env *old_env);
 t_env		*get_env_var(t_env *env, char *key);
 void		process_without_sign(t_env **env, char *arg);
+int			compare_keys(const char *a, const char *b);
 void		add_env_var(t_env **old_env, char *key, char *value);
 void		process_with_sign(t_env **env, char *arg, char *sign);
 int			update_env_state(t_mshell *mshell, char *current_pwd);

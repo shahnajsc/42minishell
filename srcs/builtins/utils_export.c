@@ -29,11 +29,12 @@ static int copy_env(t_env *old_env, t_env *new_env)
         if (!new_env[i].key || (!new_env[i].value && old_env[i].value))
 		{
 			free_env(new_env);
-			return(free(new_env[i].key), 1);
+			free(new_env[i].key);
+			return (EXIT_FAILURE);
 		}
         i++;
     }
-	return (0);
+	return (EXIT_SUCCESS);
 }
 
 void   add_env_var(t_env **old_env, char *key, char *value)

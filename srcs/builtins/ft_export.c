@@ -1,5 +1,36 @@
 #include "minishell.h"
 
+void	swap_env(t_env *a, t_env *b)
+{
+	t_env	temp;
+
+	temp = *a;
+	*a = *b;
+	*b = temp;
+}
+
+void	sort_env(t_env *env)
+{
+	int	swapped;
+	int	i;
+
+	swapped = 1;
+	while (swapped)
+	{
+		swapped = 0;
+		i = 0;
+		while (env[i].key != NULL && env[i + 1].key != NULL)
+		{
+			if (compare_keys(env[i].key, env[i + 1].key) > 0)
+			{
+				swap_env(&env[i], &env[i + 1]);
+				swapped = 1;
+			}
+			i++;
+		}
+	}
+}
+
 static void	set_env_var(t_mshell *mshell, char **args, int *status_code)
 {
 	char	*sign;
@@ -26,6 +57,7 @@ static void	print_export(t_env *env)
 {
 	int	i;
 
+	sort_env(env);
 	i = 0;
 	while (env[i].key != NULL)
 	{
@@ -44,7 +76,7 @@ static void	print_export(t_env *env)
 
 int	ft_export(t_mshell *mshell, char **args)
 {
-	int status;
+	int	status;
 
 	if (!mshell || !mshell->env || !args)
 		return (0);

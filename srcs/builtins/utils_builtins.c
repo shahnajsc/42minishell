@@ -36,6 +36,11 @@ t_env	*get_env_var(t_env *env, char *key)
 	return (NULL);
 }
 
+int	compare_keys(const char *a, const char *b)
+{
+	return (strcmp(a, b));
+}
+
 int	env_size(t_env *env)
 {
 	int	i;

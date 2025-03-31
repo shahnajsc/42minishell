@@ -29,7 +29,7 @@ static int	is_invalid_directory(char **args, char *file)
 	if (args[1] && args[2])
 		return (MANY_ARGS);
 	if (!*file)
-		return (SUCSSES);
+		return (EXIT_SUCCESS);
 	if (stat(file, &sb) == -1)
 		return (NO_FILE);
 	if (!S_ISDIR(sb.st_mode))
@@ -38,7 +38,7 @@ static int	is_invalid_directory(char **args, char *file)
 		|| (sb.st_mode & (S_IWUSR | S_IWGRP)) == 0
 		|| (sb.st_mode & (S_IXUSR | S_IXGRP)) == 0)
 		return (NO_PERM);
-	return (SUCSSES);
+	return (EXIT_SUCCESS);
 }
 
 static int	handle_cd(t_mshell *mshell, char **args)
@@ -51,7 +51,7 @@ static int	handle_cd(t_mshell *mshell, char **args)
 	if (!target)
 		return (cd_error(args, HOME_UNSET));
 	error_code = is_invalid_directory(args, target);
-	if (error_code != SUCSSES)
+	if (error_code != EXIT_SUCCESS)
 		return (free(target), cd_error(args, error_code));
 	if (chdir(target) == -1)
 		return (free(target), 0);
@@ -59,7 +59,7 @@ static int	handle_cd(t_mshell *mshell, char **args)
 	new_pwd = getcwd(NULL, 0);
 	if (!new_pwd)
 		return (cd_error(args, GETCWD));
-	if (update_env_state(mshell, new_pwd) != SUCSSES)
+	if (update_env_state(mshell, new_pwd) != EXIT_SUCCESS)
 		return (free(new_pwd), 0);
 	return (EXIT_SUCCESS);
 }
