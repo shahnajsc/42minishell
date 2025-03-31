@@ -27,11 +27,24 @@ static long long	ft_atoll(const char *str, long long number, long long check)
 static int	process_exit_code(char *arg, int *exit_status)
 {
 	long long	exit_nbr;
+	const char	*ptr;
 
-	exit_nbr = ft_atoll(arg, 0, 0);
-	if (exit_nbr == LLONG_MAX || exit_nbr == LLONG_MIN)
-		return (EXIT_FAILURE);
-	else if (exit_nbr < 0)
+	ptr = arg;
+	if (*ptr == '-' || *ptr == '+')
+		ptr++;
+	if (strcmp(ptr, "9223372036854775807") == 0)
+		exit_nbr = LLONG_MAX;
+	else if (strcmp(ptr, "9223372036854775808") == 0 && *arg == '-')
+		exit_nbr = LLONG_MIN;
+	else
+	{
+		exit_nbr = ft_atoll(arg, 0, 0);
+		if ((exit_nbr == LLONG_MAX && strcmp(arg, "9223372036854775807") != 0)
+			|| (exit_nbr == LLONG_MIN && strcmp(arg,
+					"-9223372036854775808") != 0))
+			return (EXIT_FAILURE);
+	}
+	if (exit_nbr < 0)
 		exit_nbr = (exit_nbr % 256 + 256) % 256;
 	else if (exit_nbr > 255)
 		exit_nbr = exit_nbr % 256;
