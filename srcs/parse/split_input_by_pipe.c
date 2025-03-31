@@ -45,7 +45,8 @@ static char	*get_end_point(char *input_str)
 	return (input_str);
 }
 
-static char	**splitted_by_pipe(char *input_str, char **cmds_temp, int cmd_count, int i)
+static char	**splitted_by_pipe(char *input_str, char **cmds_temp,
+	int cmd_count, int i)
 {
 	char	*start;
 	char	*end;

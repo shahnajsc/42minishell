@@ -14,30 +14,30 @@ int	check_backslash(t_mshell *mshell, char *input_str)
 	return (EXIT_SUCCESS);
 }
 
-int	check_invalid_redirection(t_mshell *mshell, char *input_str)
+int	check_invalid_redirection(t_mshell *mshell, char *input)
 {
 	char	rd_current;
 	int		rd_count;
 
-	while (*input_str != '\0')
+	while (*input != '\0')
 	{
-		if (*input_str == '\'' || *input_str == '"')
-			input_str = skip_quoted_part(input_str);
-		else if (*input_str == '<' || *input_str == '>')
+		if (*input == '\'' || *input == '"')
+			input = skip_quoted_part(input);
+		else if (*input == '<' || *input == '>')
 		{
-			rd_current = *input_str;
+			rd_current = *input;
 			rd_count = 0;
-			while (*input_str == rd_current && ++rd_count)
-				input_str++;
+			while (*input == rd_current && ++rd_count)
+				input++;
 			if (rd_count > 2)
-				return (syntax_pre_error(mshell, ERR_RD, (input_str - rd_count)));
-			while (*input_str && check_char_whitespaces(*input_str))
-				input_str++;
-			if (!*input_str || *input_str == '\n' || ft_strchr("<>|", *input_str))
-				return (syntax_pre_error(mshell, ERR_RD, input_str));
+				return (syntax_pre_error(mshell, ERR_RD, (input - rd_count)));
+			while (*input && check_char_whitespaces(*input))
+				input++;
+			if (!*input || *input == '\n' || ft_strchr("<>|", *input))
+				return (syntax_pre_error(mshell, ERR_RD, input));
 		}
 		else
-			input_str++;
+			input++;
 	}
 	return (EXIT_SUCCESS);
 }

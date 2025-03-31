@@ -22,7 +22,6 @@ void	setup_heredoc_signals(struct sigaction *sa_old)
 {
 	struct sigaction	new_sa;
 
-	printf("heredoc catches the signal ..\n");
 	ft_memset(&new_sa, 0, sizeof(new_sa));
 	new_sa.sa_handler = handle_heredoc_signals;
 	new_sa.sa_flags = SA_RESTART; // Important for proper readline behavior

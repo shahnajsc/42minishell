@@ -13,7 +13,7 @@ static int	init_cmds(t_mshell*mshell, char *input_str)
 	{
 		mshell->cmds[i].token = NULL; // make token
 		mshell->cmds[i].redirects = NULL;
-		mshell->cmds[i].is_hd_quote = -1;
+		mshell->cmds[i].is_hd_quote = 0;
 		mshell->cmds[i].cmd_str = ft_strdup(cmds_temp[i]);
 		if (!mshell->cmds[i].cmd_str)
 			return (EXIT_FAILURE);

@@ -13,7 +13,7 @@ static int	mem_alloc_failed(char **joined_lines, char *line)
 		line = NULL;
 	}
 
-	ft_putstr_fd("minishell: memory allocation failed for heredoc!\n", STDERR_FILENO);
+	ft_putstr_fd("minishell: malloc failed for heredoc!\n", STDERR_FILENO);
 	return (1);
 }
 
@@ -22,8 +22,10 @@ int	heredoc_join(char **joined_lines, char *line)
 	char			*ptr;
 	char			*ptrcat;
 	int				i;
+	int				len;
 
-	ptr = (char *)malloc(sizeof(char) * (ft_strlen(*joined_lines) + ft_strlen(line) + 2));
+	len = ft_strlen(*joined_lines) + ft_strlen(line);
+	ptr = (char *)malloc(sizeof(char) * (len + 2));
 	if (!ptr)
 		return(mem_alloc_failed(joined_lines, line));
 	ptrcat = ptr;
@@ -82,7 +84,7 @@ void get_hd_lines(t_mshell *mshell, t_redirect *rd_list, int i, int is_quote)
         if (!line)
 		{
 			ft_putstr_fd("minishell: warning: ", STDERR_FILENO);
-			ft_putstr_fd("here-document delimited by end-of-file (wanted `", STDERR_FILENO);
+			ft_putstr_fd("here-document delimited by end-of-file (wanted `", 2);
 			ft_putstr_fd(rd_list[i].file_deli, STDERR_FILENO);
 			ft_putendl_fd("')", STDERR_FILENO);
 			break;
