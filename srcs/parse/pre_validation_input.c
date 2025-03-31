@@ -94,7 +94,7 @@ int	check_missing_quotes(t_mshell *mshell, char *input_str)
 int	pre_validation_input(t_mshell *mshell, char *input_str)
 {
 	if (check_str_whitespaces(input_str))
-		return (syntax_pre_error(mshell, ERR_COMN, NULL)); // check for actual error mg
+		return (EXIT_FAILURE); // check for actual error mg
 	if (check_missing_quotes(mshell, input_str))
 		return (EXIT_FAILURE);
 	if (check_invalid_pipe(mshell, input_str))

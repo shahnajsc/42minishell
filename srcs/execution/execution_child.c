@@ -27,7 +27,7 @@ int	external_in_child(t_mshell *mshell, t_cmd *cmd, char ***copy_env)
 
 int	builtins_in_child(t_mshell *mshell, t_cmd *cmd, int *status)
 {
-	if (execute_builtins(mshell, cmd,status) > 0 )
+	if (execute_builtins(mshell, cmd,status) != EXIT_SUCCESS )
 	{
 		return (EXIT_FAILURE);
 	}
@@ -70,8 +70,9 @@ void	child_process(t_mshell *mshell, int i, int *status)
 		close(mshell->pipe_fd[1]);
 	if (redirect_handle_cmd(mshell, &mshell->cmds[i], len) == EXIT_FAILURE)
 	{
-		mshell->exit_code = 1;
-		return ;
+		*status = mshell->exit_code;
+		cleanup_mshell(mshell);
+		exit(EXIT_FAILURE);
 	}
 	check_command_exec(mshell, i, status);
 }

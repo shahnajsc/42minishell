@@ -15,7 +15,7 @@ int redirect_fd(int from_fd, int to_fd)
 	return (EXIT_SUCCESS);
 }
 
-int	set_rd_fds(t_cmd *cmd, int new_in_fd, int new_out_fd)
+int	set_rd_fds(t_mshell *mshell, t_cmd *cmd, int new_in_fd, int new_out_fd)
 {
 	if (new_in_fd != -2)
 	{
@@ -30,7 +30,10 @@ int	set_rd_fds(t_cmd *cmd, int new_in_fd, int new_out_fd)
 		cmd->redi_fd[1] = new_out_fd;
 	}
 	if (new_in_fd == -1 || new_out_fd == -1)
+	{
+		mshell->exit_code = 1;
 		return (EXIT_FAILURE);
+	}
 	return (EXIT_SUCCESS);
 }
 
@@ -70,7 +73,7 @@ int	redirect_handle_cmd(t_mshell *mshell, t_cmd *cmd, int len)
 			fd[1] = get_file_fd(mshell, rds[i].file_deli, rds[i].rd_type);
 		else if (rds[i].rd_type ==  RD_APPEND)
 			fd[1] = get_file_fd(mshell, rds[i].file_deli, rds[i].rd_type);
-		if (set_rd_fds(cmd, fd[0], fd[1]) == EXIT_FAILURE)
+		if (set_rd_fds(mshell, cmd, fd[0], fd[1]) == EXIT_FAILURE)
 			return (EXIT_FAILURE);
 		i++;
 	}
