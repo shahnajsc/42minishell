@@ -42,7 +42,7 @@ typedef struct s_cmd
 {
 	t_token		*token;
 	t_redirect	*redirects;
-	int			is_hd_quote;;
+	int			is_hd_quote;
 	char		*cmd_str;
 	char		*cmd_name;
 	char		**splitted_cmd;
@@ -86,7 +86,6 @@ t_token		*create_str_token(char *cmd_str, int *i, t_token_type t_type);
 t_token		*create_redirect_token(char *cmd_str, int *i);
 char		*get_redir_token_value(char *cmd_str, int *i);
 void		add_new_token(t_token **head_token, t_token *new_token);
-t_token		*delete_empty_token(t_token *head_token);
 t_token		*create_tokens_list(t_mshell *mshell, char *cmd_str, int cmd_id);
 t_token		*post_process_token(t_mshell *mshell, t_token *head_token, int cmd_id);
 t_token		*expand_token_values(t_mshell *mshell, t_token *head_token);

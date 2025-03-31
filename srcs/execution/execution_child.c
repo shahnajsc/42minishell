@@ -77,18 +77,6 @@ void	child_process(t_mshell *mshell, int i, int *status)
 	check_command_exec(mshell, i, status);
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
 void	parent_process(t_mshell *mshell)
 {
 	close(mshell->pipe_fd[1]);
