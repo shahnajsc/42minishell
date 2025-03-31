@@ -4,6 +4,8 @@ int	external_in_child(t_mshell *mshell, t_cmd *cmd, char ***copy_env)
 {
 	char *cmd_path;
 
+	if (!*cmd->cmd_name && cmd->redirects)
+		clean_and_exit(mshell, copy_env, NULL, 0);
     if (ft_strcmp(cmd->cmd_name, ".") == 0)
     {   clean_and_exit(mshell, copy_env, ": filename argument required\n", 2);}
 	cmd_path = get_command_path(mshell, cmd, copy_env);

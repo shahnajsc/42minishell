@@ -139,6 +139,5 @@ void	execute_cmds(t_mshell *mshell)
 	else
 		execute_child_cmds(mshell, 0, &status);
 	mshell->exit_code = status;
-	printf("status: %d\n", status);
 }
 
