@@ -53,7 +53,7 @@ int  check_command_exec(t_mshell *mshell, int i, int *status)
         convert_env(mshell->env, &copy_env);
         external_in_child(mshell, &mshell->cmds[i], &copy_env);
     }
-	exit(254);
+	exit(EXIT_SUCCESS);
 }
 
 void	child_process(t_mshell *mshell, int i, int *status)
