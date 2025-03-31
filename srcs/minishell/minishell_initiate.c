@@ -18,7 +18,11 @@ int	minishell(t_mshell *mshell)
 			free(line);
 		}
 		if (!input_str)
+		{
+			ft_putstr_fd("exit\n", STDOUT_FILENO);
 			break ;
+		}
+
 		else
 		{
 			add_history(input_str);
@@ -48,7 +52,11 @@ int	minishell(t_mshell *mshell)
 // 	{
 // 		input_str = readline(PROMPT);
 // 		if (!input_str)
-// 			break ;
+		// {
+		// 	ft_putstr_fd("exit\n", STDOUT_FILENO);
+			//break ;
+		// }
+//
 // 		else
 // 		{
 // 			add_history(input_str);

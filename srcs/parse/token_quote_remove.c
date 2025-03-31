@@ -36,6 +36,11 @@ t_token	*remove_token_quotes(t_mshell *mshell, t_token *head_token, int cmd_id)
 				mshell->cmds[cmd_id].is_hd_quote = 1;
 			current_token->tok_value = remove_quote(current_token->tok_value);
 		}
+		else
+		{
+			if (current_token->tok_type == DELIMETER)
+				mshell->cmds[cmd_id].is_hd_quote = 0;
+		}
 		if (!current_token->tok_value)
 			return (NULL);
 		current_token = current_token->next;

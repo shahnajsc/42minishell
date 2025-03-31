@@ -45,7 +45,7 @@ int	heredoc_join(char **joined_lines, char *line)
 
 void restore_signals(struct sigaction *old_sa)
 {
-    if (old_sa) 
+    if (old_sa)
         sigaction(SIGINT, old_sa, NULL);
     rl_catch_signals = 1;  // Restore readline's default signal handling
 	rl_event_hook = NULL;
@@ -56,7 +56,7 @@ void get_hd_lines(t_mshell *mshell, t_redirect *rd_list, int i, int is_quote)
 	struct sigaction sa_old;
 	char 			*joined_lines;
     char 			*line;
-	
+
 	if (!mshell || !rd_list)
 		return ;
 	setup_heredoc_signals(&sa_old);
@@ -115,8 +115,8 @@ int	heredoc_handle(t_mshell *mshell)
 			{
 				get_hd_lines(mshell, mshell->cmds[i].redirects, j, \
 				mshell->cmds[i].is_hd_quote);
-				if (!mshell->cmds[i].redirects[j].hd_lines)
-					return (EXIT_FAILURE);
+				// if (!mshell->cmds[i].redirects[j].hd_lines)
+				// 	return (EXIT_FAILURE);
 			}
 			j++;
 		}
