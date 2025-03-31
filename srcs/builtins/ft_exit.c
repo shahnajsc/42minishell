@@ -30,13 +30,13 @@ static int	process_exit_code(char *arg, int *exit_status)
 
 	exit_nbr = ft_atoll(arg, 0, 0);
 	if (exit_nbr == LLONG_MAX || exit_nbr == LLONG_MIN)
-		return (1);
+		return (EXIT_FAILURE);
 	else if (exit_nbr < 0)
 		exit_nbr = (exit_nbr % 256 + 256) % 256;
 	else if (exit_nbr > 255)
 		exit_nbr = exit_nbr % 256;
 	*exit_status = (int)exit_nbr;
-	return (0);
+	return (EXIT_SUCCESS);
 }
 
 static void	handle_exit(char **args, int *exit_status)
