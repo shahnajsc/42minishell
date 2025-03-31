@@ -30,7 +30,7 @@ int	get_file_fd(t_mshell *mshell, char *path, t_redirect_type rd_type)
 			file_fd = open(path, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	}
 	if (file_fd == -1)
-		return(file_error(mshell, path, strerror(errno), 111));
+		return(file_error(mshell, path, strerror(errno), 1));
 	return (file_fd);
 }
 

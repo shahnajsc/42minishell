@@ -57,7 +57,7 @@ static void	print_export(t_env *env)
 {
 	int	i;
 
-	sort_env(env);
+	// sort_env(env);
 	i = 0;
 	while (env[i].key != NULL)
 	{

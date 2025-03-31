@@ -70,7 +70,15 @@ void get_hd_lines(t_mshell *mshell, t_redirect *rd_list, int i, int is_quote)
         return;
     while (!g_heredoc)
     {
-        line = readline("> ");
+		if (isatty(fileno(stdin)))
+	    	line = readline("> ");
+		else
+		{
+			char	*line;
+			line = get_next_line(fileno(stdin));
+			line = ft_strtrim(line, "\n");
+			free(line);
+		}
         if (!line)
 		{
 			ft_putstr_fd("minishell: warning: ", STDERR_FILENO);

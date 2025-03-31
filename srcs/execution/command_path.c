@@ -85,7 +85,7 @@ char	*get_command_path(t_mshell *mshell, t_cmd *cmd, char ***env)
 	char		**env_paths;
 	struct stat	sb;
 
-	if (!*cmd->cmd_name && cmd->is_hd_quote != -1)
+	if (!*cmd->cmd_name && cmd->redirects)
 		clean_and_exit(mshell, env, "", 0);
 	else if (!*cmd->cmd_name)
 		clean_and_exit(mshell, env, "Command '' not found\n", 127);
@@ -93,7 +93,7 @@ char	*get_command_path(t_mshell *mshell, t_cmd *cmd, char ***env)
 	{
 		if (stat(cmd->cmd_name, &sb) == -1)
 			clean_and_exit(mshell, env, ": No such file or directory\n", 126);
-		
+
 		if (stat(cmd->cmd_name, &sb) == -1)
 			clean_and_exit(mshell, env, ": No such file or directory\n", 126);
 		if ((sb.st_mode & (S_IRUSR | S_IRGRP)) == 0
