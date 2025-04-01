@@ -5,24 +5,25 @@ int	external_in_child(t_mshell *mshell, t_cmd *cmd, char ***copy_env)
 	char *cmd_path;
 
 	if (!*cmd->cmd_name && cmd->redirects)
-		clean_and_exit(mshell, copy_env, NULL, 0);
+		clean_and_exit(mshell, NULL, 0);
     if (ft_strcmp(cmd->cmd_name, ".") == 0)
-    {   clean_and_exit(mshell, copy_env, ": filename argument required\n", 2);}
-	cmd_path = get_command_path(mshell, cmd, copy_env);
+    {   clean_and_exit(mshell, ": filename argument required\n", 2);}
+	cmd_path = get_command_path(mshell, cmd);
 	if (!cmd_path || ft_strcmp(cmd->cmd_name, "..") == 0)
 	{
 		ft_putstr_fd(cmd->cmd_name, STDERR_FILENO);
 		ft_putstr_fd(": command not found\n", STDERR_FILENO);
-		ft_free_grid((void **)*copy_env);
 		cleanup_mshell(mshell);
 		mshell->exit_code = 127;
 		exit(mshell->exit_code);
 	}
+	convert_env(mshell->env, copy_env);
 	execve(cmd_path, cmd->splitted_cmd, *copy_env);
     {
         perror("minishell: execve");
         free(cmd_path);
-        clean_and_exit(mshell, copy_env, NULL, EXIT_FAILURE);
+		ft_free_grid((void **)*copy_env);
+        clean_and_exit(mshell, NULL, EXIT_FAILURE);
     }
 	return (0);
 }
@@ -51,10 +52,7 @@ int  check_command_exec(t_mshell *mshell, int i, int *status)
 		cleanup_mshell(mshell);
     }
     else
-    {
-        convert_env(mshell->env, &copy_env);
-        external_in_child(mshell, &mshell->cmds[i], &copy_env);
-    }
+    {    external_in_child(mshell, &mshell->cmds[i], &copy_env);}
 	exit(EXIT_SUCCESS);
 }
 

@@ -61,7 +61,10 @@ static void	mshell_level(t_env **env)
 	new_lvl = ft_strdup("1");
 	shlvl = get_env_var(*env, "SHLVL");
 	if (!shlvl || !shlvl->value)
-		return (add_env_var(env, "SHLVL", new_lvl));
+	{
+		add_env_var(env, "SHLVL", new_lvl);
+		return (free(new_lvl));
+	}
 	free(new_lvl);
 	nbr = ft_atoi(shlvl->value);
 	new_lvl = ft_itoa(nbr + 1);

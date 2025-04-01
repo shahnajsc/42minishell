@@ -1,13 +1,12 @@
 #include "minishell.h"
 
-int	clean_and_exit(t_mshell *mshell, char ***env, char *msg, int status)
+int	clean_and_exit(t_mshell *mshell, char *msg, int status)
 {
 	if ( ft_strchr(mshell->cmds->cmd_name, '/'))
 		ft_putstr_fd("minishell: ", STDERR_FILENO);
 	if (msg)
 		ft_putstr_fd(mshell->cmds->cmd_name, STDERR_FILENO);
 	ft_putstr_fd(msg, STDERR_FILENO);
-	ft_free_grid((void **)*env);
 	cleanup_mshell(mshell);
 	exit(status);
 }

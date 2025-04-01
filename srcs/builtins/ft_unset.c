@@ -20,10 +20,10 @@ static int	should_unset_var(t_env *env_var, char **keys)
 	while (keys[i] != NULL)
 	{
 		if (strcmp(env_var->key, keys[i]) == 0)
-			return (1); // unset if there's a match
+			return (1);
 		i++;
 	}
-	return (0); // No match found
+	return (0);
 }
 
 static int	count_keys(t_env *env, char **keys)

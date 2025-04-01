@@ -6,6 +6,8 @@ char	*expand_heredoc(t_mshell *mshell, char *joined_lines, int is_quote)
 
 	if (!joined_lines || !mshell)
 		return (NULL);
+	if (*joined_lines == '\0')
+		return (joined_lines);
 	expanded_hd = NULL;
 	if (is_quote)
 	{

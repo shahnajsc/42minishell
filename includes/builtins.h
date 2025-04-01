@@ -49,6 +49,7 @@ void		add_env_var(t_env **old_env, char *key, char *value);
 void		process_with_sign(t_env **env, char *arg, char *sign);
 int			update_env_state(t_mshell *mshell, char *current_pwd);
 void		update_cd(t_env **env, const char *key, const char *set_path);
+long long	ft_atoll(const char *str, long long number, long long check);
 
 //........VALIDATION.........//
 int			is_invalid_digit(char *arg);

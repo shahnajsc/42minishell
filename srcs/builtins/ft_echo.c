@@ -40,7 +40,7 @@ int	ft_echo(t_mshell *mshell, char **args)
 		while (args[i] && args[i][0] == '-' && is_n(args[i]))
 			i++;
 	}
-	while (args[i] != NULL)
+	while (args[i] != NULL && *args[i])
 	{
 		ft_putstr_fd(args[i], STDOUT_FILENO);
 		if (args[i + 1] != NULL)
