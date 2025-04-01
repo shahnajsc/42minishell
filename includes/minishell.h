@@ -8,7 +8,6 @@
 // errno: strerrno
 
 // header files
-# include "pipe.h"
 # include "envp.h"
 # include "parse.h"
 # include "builtins.h"
