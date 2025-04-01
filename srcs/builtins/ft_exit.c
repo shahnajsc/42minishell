@@ -1,29 +1,14 @@
 #include "minishell.h"
 
-static long long	ft_atoll(const char *str, long long number, long long check)
+
+static void convert_status (long long exit_nbr, int *exit_status)
 {
-	int	signcount;
-
-	signcount = 1;
-	if (*str == '-' || *str == '+')
-	{
-		if (*str == '-')
-			signcount = -1;
-		str++;
-	}
-	while (*str >= '0' && *str <= '9')
-	{
-		check = (number * 10) + (*str - '0');
-		if (check / 10 != number && signcount == 1)
-			return (LLONG_MAX);
-		if (check / 10 != number && signcount == -1)
-			return (LLONG_MIN);
-		number = check;
-		str++;
-	}
-	return (number * signcount);
+	if (exit_nbr < 0)
+		exit_nbr = (exit_nbr % 256 + 256) % 256;
+	else if (exit_nbr > 255)
+		exit_nbr = exit_nbr % 256;
+	*exit_status = (int)exit_nbr;
 }
-
 static int	process_exit_code(char *arg, int *exit_status)
 {
 	long long	exit_nbr;
@@ -33,7 +18,12 @@ static int	process_exit_code(char *arg, int *exit_status)
 	if (*ptr == '-' || *ptr == '+')
 		ptr++;
 	if (strcmp(ptr, "9223372036854775807") == 0)
-		exit_nbr = LLONG_MAX;
+	{
+		if (*arg == '-')
+			exit_nbr = -LLONG_MAX;
+		else
+			exit_nbr = LLONG_MAX;
+	}
 	else if (strcmp(ptr, "9223372036854775808") == 0 && *arg == '-')
 		exit_nbr = LLONG_MIN;
 	else
@@ -44,11 +34,7 @@ static int	process_exit_code(char *arg, int *exit_status)
 					"-9223372036854775808") != 0))
 			return (EXIT_FAILURE);
 	}
-	if (exit_nbr < 0)
-		exit_nbr = (exit_nbr % 256 + 256) % 256;
-	else if (exit_nbr > 255)
-		exit_nbr = exit_nbr % 256;
-	*exit_status = (int)exit_nbr;
+	convert_status(exit_nbr, exit_status);
 	return (EXIT_SUCCESS);
 }
 
