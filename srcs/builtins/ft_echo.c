@@ -34,13 +34,18 @@ int	ft_echo(t_mshell *mshell, char **args)
 	new_line = 1;
 	if (!mshell || !mshell->env || !args)
 		return (0);
+	// if (!*args)
+	// {
+	// 	ft_putchar_fd('\n', STDOUT_FILENO);
+	// 	return (0);
+	// }
 	if (args[i] && is_newline(args[i], &new_line))
 	{
 		i++;
 		while (args[i] && args[i][0] == '-' && is_n(args[i]))
 			i++;
 	}
-	while (args[i] != NULL)
+	while (args[i] != NULL && *args[i])
 	{
 		ft_putstr_fd(args[i], STDOUT_FILENO);
 		if (args[i + 1] != NULL)
