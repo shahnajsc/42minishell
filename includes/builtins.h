@@ -1,19 +1,14 @@
 #ifndef BUILTINS_H
 # define BUILTINS_H
 
+# include <stdlib.h>
+
 typedef struct s_env
 {
 	char	*key;
 	char	*value;
 
 }			t_env;
-
-// typedef struct s_built_state {
-// 	char 		*pwd;
-// 	char 		*old_pwd;
-// 	int 		pwd_exec;
-// 	int 		oldpwd_exec;
-// } t_built_state;
 
 typedef enum s_cd_error
 {
@@ -35,13 +30,13 @@ int			ft_exit(t_mshell *mshell, char **args);
 int			ft_echo(t_mshell *mshell, char **args);
 int			ft_export(t_mshell *mshell, char **args);
 int			ft_unset(t_mshell *mshell, char **keys, int i, int index);
-int     	execute_builtins(t_mshell *mshell, t_cmd *cmd, int *status);
+int			execute_builtins(t_mshell *mshell, t_cmd *cmd, int *status);
 
 //........UTILS..........//
 int			env_size(t_env *env);
 t_env		*init_env(char **envp);
 char		*ft_strndup(char *src, size_t n);
-t_env  		*allocate_new_env(t_env *old_env);
+t_env		*allocate_new_env(t_env *old_env);
 t_env		*get_env_var(t_env *env, char *key);
 void		process_without_sign(t_env **env, char *arg);
 int			compare_keys(const char *a, const char *b);

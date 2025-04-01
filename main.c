@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: shachowd <shachowd@student.hive.fi>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/04/01 19:19:35 by shachowd          #+#    #+#             */
+/*   Updated: 2025/04/01 19:20:30 by shachowd         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 static int	mshell_data_init(t_mshell *mshell, char **envp)
@@ -17,7 +29,7 @@ static int	mshell_data_init(t_mshell *mshell, char **envp)
 
 int	main(int argc, char **argv, char **envp)
 {
-	t_mshell mshell;
+	t_mshell	mshell;
 
 	(void)argv;
 	if (argc != 1)
@@ -31,5 +43,3 @@ int	main(int argc, char **argv, char **envp)
 	cleanup_mshell(&mshell);
 	exit(mshell.exit_code);
 }
-
-// bash -c "$(curl -fsSL https://raw.githubusercontent.com/zstenger93/42_minishell_tester/master/install.sh)"

@@ -46,9 +46,9 @@ int	tokenize_input(t_mshell *mshell, char *input_str)
 
 	i = 0;
 	if (!mshell || !input_str || !*input_str)
-		return (syntax_pre_error(mshell, ERR_COMN, "Tokenization failed")); //check for actual  bash error code
+		return (syntax_pre_error(mshell, ERR_COMN, "Tokenization failed"));
 	if (update_mshell(mshell, input_str))
-		return (syntax_pre_error(mshell, ERR_COMN, "Tokenization failed")); //check for actual  bash error code
+		return (syntax_pre_error(mshell, ERR_COMN, "Tokenization failed"));
 	if (init_cmds(mshell, input_str))
 		return (syntax_pre_error(mshell, ERR_COMN, "Tokenization failed"));
 	while (i < mshell->count_cmds)
@@ -66,6 +66,6 @@ int	tokenize_input(t_mshell *mshell, char *input_str)
 			return (EXIT_FAILURE);
 		i++;
 	}
-	//print_command_list(mshell);
+//	print_command_list(mshell);
 	return (EXIT_SUCCESS);
 }

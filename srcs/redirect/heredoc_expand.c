@@ -4,10 +4,12 @@ char	*expand_heredoc(t_mshell *mshell, char *joined_lines, int is_quote)
 {
 	char	*expanded_hd;
 
-	if (!joined_lines || !mshell)
+	if (!joined_lines || !mshell || *joined_lines == '\0')
+	{
+		if (joined_lines)
+			free(joined_lines);
 		return (NULL);
-	if (*joined_lines == '\0')
-		return (joined_lines);
+	}
 	expanded_hd = NULL;
 	if (is_quote)
 	{

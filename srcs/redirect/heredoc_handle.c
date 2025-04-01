@@ -12,22 +12,21 @@ static int	mem_alloc_failed(char **joined_lines, char *line)
 		free(line);
 		line = NULL;
 	}
-
 	ft_putstr_fd("minishell: malloc failed for heredoc!\n", STDERR_FILENO);
 	return (1);
 }
 
 int	heredoc_join(char **joined_lines, char *line)
 {
-	char			*ptr;
-	char			*ptrcat;
-	int				i;
-	int				len;
+	char	*ptr;
+	char	*ptrcat;
+	int		i;
+	int		len;
 
 	len = ft_strlen(*joined_lines) + ft_strlen(line);
 	ptr = (char *)malloc(sizeof(char) * (len + 2));
 	if (!ptr)
-		return(mem_alloc_failed(joined_lines, line));
+		return (mem_alloc_failed(joined_lines, line));
 	ptrcat = ptr;
 	i = 0;
 	while (*joined_lines && (*joined_lines)[i])
@@ -45,65 +44,68 @@ int	heredoc_join(char **joined_lines, char *line)
 	return (0);
 }
 
-void restore_signals(struct sigaction *old_sa)
+void	restore_signals(struct sigaction *old_sa)
 {
-    if (old_sa)
-        sigaction(SIGINT, old_sa, NULL);
-    rl_catch_signals = 1;
+	if (old_sa)
+		sigaction(SIGINT, old_sa, NULL);
+	rl_catch_signals = 1;
 	rl_event_hook = NULL;
 }
-void 	heredoc_warning(char *delimeter)
+
+void	heredoc_warning(char *delimeter)
 {
 	ft_putstr_fd("minishell: warning: ", STDERR_FILENO);
 	ft_putstr_fd("here-document delimited by end-of-file (wanted `", 2);
 	ft_putstr_fd(delimeter, STDERR_FILENO);
 	ft_putendl_fd("')", STDERR_FILENO);
 }
-int 	heredoc_input(char **joined_lines,char *delimeter)
+
+int	heredoc_input(char **joined_lines, char *delimeter)
 {
-	char *line;
+	char	*line;
 
 	line = readline("> ");
-        if (!line)
-		{
-			heredoc_warning(delimeter);
-			return (1);
-		}
-        if (ft_strcmp(line, delimeter) == 0)
-        {
-            free(line);
-            return (1);
-        }
-        if (heredoc_join(joined_lines, line))
-            return (1);
-		return (0);
+	if (!line)
+	{
+		heredoc_warning(delimeter);
+		return (1);
+	}
+	if (ft_strcmp(line, delimeter) == 0)
+	{
+		free(line);
+		return (1);
+	}
+	if (heredoc_join(joined_lines, line))
+		return (1);
+	return (0);
 }
-void get_hd_lines(t_mshell *mshell, t_redirect *rd_list, int i, int is_quote)
+
+void	get_hd_lines(t_mshell *mshell, t_redirect *rd_list, int i, int is_quote)
 {
-	struct sigaction sa_old;
-	char 			*joined_lines;
+	struct sigaction	sa_old;
+	char				*joined_lines;
 
 	if (!mshell || !rd_list)
 		return ;
 	setup_heredoc_signals(&sa_old);
-    rl_event_hook = heredoc_event_hook;
-    rl_catch_signals = 0; 
-    if (!(joined_lines = ft_strdup("")))
-        return;
-    while (!g_heredoc)
-    {
+	rl_event_hook = heredoc_event_hook;
+	rl_catch_signals = 0;
+	if (!(joined_lines = ft_strdup("")))
+		return ;
+	while (!g_heredoc)
+	{
 		if (heredoc_input(&joined_lines, rd_list[i].file_deli))
-			break;
-    }
-    restore_signals(&sa_old);
-    if (!g_heredoc)
-        rd_list[i].hd_lines = expand_heredoc(mshell, joined_lines, is_quote);
+			break ;
+	}
+	restore_signals(&sa_old);
+	if (!g_heredoc)
+		rd_list[i].hd_lines = expand_heredoc(mshell, joined_lines, is_quote);
 	else
 	{
 		mshell->exit_code = 130;
 		free(joined_lines);
 	}
-    g_heredoc = 0;
+	g_heredoc = 0;
 }
 
 int	heredoc_handle(t_mshell *mshell)
@@ -121,10 +123,8 @@ int	heredoc_handle(t_mshell *mshell)
 		{
 			if (mshell->cmds[i].redirects[j].rd_type == RD_HEREDOC)
 			{
-				get_hd_lines(mshell, mshell->cmds[i].redirects, j, \
-				mshell->cmds[i].is_hd_quote);
-				// if (!mshell->cmds[i].redirects[j].hd_lines)
-				// 	return (EXIT_FAILURE);
+				get_hd_lines(mshell, mshell->cmds[i].redirects, j,
+					mshell->cmds[i].is_hd_quote);
 			}
 			j++;
 		}

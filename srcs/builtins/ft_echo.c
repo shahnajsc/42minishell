@@ -34,6 +34,11 @@ int	ft_echo(t_mshell *mshell, char **args)
 	new_line = 1;
 	if (!mshell || !mshell->env || !args)
 		return (0);
+	// if (!*args)
+	// {
+	// 	ft_putchar_fd('\n', STDOUT_FILENO);
+	// 	return (0);
+	// }
 	if (args[i] && is_newline(args[i], &new_line))
 	{
 		i++;

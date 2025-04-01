@@ -62,7 +62,6 @@ int	redirect_handle_cmd(t_mshell *mshell, t_cmd *cmd, int len)
 	{
 		fd[0] = -2;
 		fd[1] = -2;
-		// check ambigous redirect
 		if (rds[i].rd_type == RD_HEREDOC)
 			fd[0] = get_heredoc_fd(mshell, rds, i); //use HD open
 		else if (rds[i].rd_type == RD_IN)

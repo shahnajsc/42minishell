@@ -49,7 +49,6 @@ static char	**get_envp_paths(t_mshell *mshell, int i)
 	return (env_paths);
 }
 
-
 static char	*combine_path_cmd(char *env_path, char *cmd_name)
 {
 	char	*combined_path;
@@ -67,22 +66,23 @@ static char	*combine_path_cmd(char *env_path, char *cmd_name)
 	return (combined_path);
 }
 
-static char *get_path_cmd(char **env_paths, char *cmd_name)
+static char	*get_path_cmd(char **env_paths, char *cmd_name)
 {
-    char *final_path;
-    int i = 0;
-    
-    while (env_paths[i] != NULL)
-    {
-        final_path = combine_path_cmd(env_paths[i], cmd_name);
-        if (!final_path)
-            return (NULL);
-        if (access(final_path, F_OK) == 0)
-            return (final_path);
-        free(final_path);
-        i++;
-    }
-    return (NULL);
+	char	*final_path;
+	int		i;
+
+	i = 0;
+	while (env_paths[i] != NULL)
+	{
+		final_path = combine_path_cmd(env_paths[i], cmd_name);
+		if (!final_path)
+			return (NULL);
+		if (access(final_path, F_OK) == 0)
+			return (final_path);
+		free(final_path);
+		i++;
+	}
+	return (NULL);
 }
 
 char	*get_command_path(t_mshell *mshell, t_cmd *cmd)
