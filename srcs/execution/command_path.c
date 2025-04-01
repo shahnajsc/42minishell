@@ -92,7 +92,7 @@ char	*get_command_path(t_mshell *mshell, t_cmd *cmd)
 	struct stat	sb;
 
 	if (!*cmd->cmd_name)
-		clean_and_exit(mshell, "Command '' not found\n", 127);
+		clean_and_exit(mshell, NULL, 127);
 	if (cmd->cmd_name && ft_strchr(cmd->cmd_name, '/'))
 	{
 		if (stat(cmd->cmd_name, &sb) == -1)

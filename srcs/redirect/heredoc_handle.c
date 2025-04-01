@@ -49,53 +49,51 @@ void restore_signals(struct sigaction *old_sa)
 {
     if (old_sa)
         sigaction(SIGINT, old_sa, NULL);
-    rl_catch_signals = 1;  // Restore readline's default signal handling
+    rl_catch_signals = 1;
 	rl_event_hook = NULL;
 }
+void 	heredoc_warning(char *delimeter)
+{
+	ft_putstr_fd("minishell: warning: ", STDERR_FILENO);
+	ft_putstr_fd("here-document delimited by end-of-file (wanted `", 2);
+	ft_putstr_fd(delimeter, STDERR_FILENO);
+	ft_putendl_fd("')", STDERR_FILENO);
+}
+int 	heredoc_input(char **joined_lines,char *delimeter)
+{
+	char *line;
 
+	line = readline("> ");
+        if (!line)
+		{
+			heredoc_warning(delimeter);
+			return (1);
+		}
+        if (ft_strcmp(line, delimeter) == 0)
+        {
+            free(line);
+            return (1);
+        }
+        if (heredoc_join(joined_lines, line))
+            return (1);
+		return (0);
+}
 void get_hd_lines(t_mshell *mshell, t_redirect *rd_list, int i, int is_quote)
 {
 	struct sigaction sa_old;
 	char 			*joined_lines;
-    char 			*line;
 
 	if (!mshell || !rd_list)
 		return ;
 	setup_heredoc_signals(&sa_old);
-    /* Configure readline for immediate response */
     rl_event_hook = heredoc_event_hook;
-    rl_catch_signals = 0;  // Let our handler manage signals
-    g_heredoc = 0;
-
-
+    rl_catch_signals = 0; 
     if (!(joined_lines = ft_strdup("")))
         return;
     while (!g_heredoc)
     {
-		if (isatty(fileno(stdin)))
-	    	line = readline("> ");
-		else
-		{
-			char	*line;
-			line = get_next_line(fileno(stdin));
-			line = ft_strtrim(line, "\n");
-			free(line);
-		}
-        if (!line)
-		{
-			ft_putstr_fd("minishell: warning: ", STDERR_FILENO);
-			ft_putstr_fd("here-document delimited by end-of-file (wanted `", 2);
-			ft_putstr_fd(rd_list[i].file_deli, STDERR_FILENO);
-			ft_putendl_fd("')", STDERR_FILENO);
+		if (heredoc_input(&joined_lines, rd_list[i].file_deli))
 			break;
-		}
-        if (ft_strcmp(line, rd_list[i].file_deli) == 0)
-        {
-            free(line);
-            break;
-        }
-        if (heredoc_join(&joined_lines, line))
-            break;
     }
     restore_signals(&sa_old);
     if (!g_heredoc)
