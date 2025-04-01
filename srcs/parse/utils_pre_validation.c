@@ -22,7 +22,8 @@ char	*skip_quoted_part(char *input_str)
 
 char	*skip_unquoted_part(char *input_str)
 {
-	while (*input_str && (*input_str != '\'' && *input_str != '"' && *input_str != '|'))
+	while (*input_str && (*input_str != '\'' && *input_str != '"'
+		&& *input_str != '|'))
 		input_str++;
 	return (input_str);
 }

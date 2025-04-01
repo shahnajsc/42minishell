@@ -1,14 +1,12 @@
 #include "minishell.h"
 
-void	error_return(t_mshell *mshell, char *err_in, char *msg_err,
-		int ret_value)
+void	error_return_path(t_mshell *mshell, char *err_in, char *msg, int status,
+		char ***env)
 {
 	ft_putstr_fd("minishell: ", 2);
 	if (*err_in != '\0')
-	{
 		ft_putstr_fd(err_in, 2);
-	}
-	if (*msg_err == '\0' || !msg_err)
+	if (*msg == '\0' || !msg)
 	{
 		ft_putstr_fd(": ", 2);
 		perror("");
@@ -16,33 +14,41 @@ void	error_return(t_mshell *mshell, char *err_in, char *msg_err,
 	else
 	{
 		ft_putstr_fd(": ", 2);
-		ft_putstr_fd(msg_err, 2);
+		ft_putstr_fd(msg, 2);
 		ft_putstr_fd("\n", 2);
 	}
-	cleanup_on_loop(mshell);
-	exit(ret_value);
+	ft_free_grid((void **)*env);
+	cleanup_mshell(mshell);
+	exit(status);
 }
 
-static char	**get_envp_paths(t_mshell *mshell)
+static char	**get_envp_paths(t_mshell *mshell, char ***env_copy, int i)
 {
 	char	**env_paths;
-	int		i;
 
 	if (!mshell->env)
 		return (NULL);
-	i = 0;
 	while (mshell->env && mshell->env[i].key)
 	{
 		if (ft_strcmp(mshell->env[i].key, "PATH") == 0)
 		{
 			env_paths = ft_split(mshell->env[i].value, ':');
 			if (!env_paths)
-				error_return(mshell, "ft_split()", "", 1);
+				error_return_path(mshell, "ft_split()", "", 1, env_copy);
 			return (env_paths);
 		}
 		i++;
 	}
-	return (NULL);
+	env_paths = (char **)ft_calloc(2, sizeof(char *));
+	if (!env_paths)
+		error_return_path(mshell, "ft_split()", "", 1, env_copy);
+	env_paths[0] = getcwd(NULL, 0);
+	if (!env_paths[0])
+	{
+		ft_free_grid((void **)env_paths);
+		error_return_path(mshell, "getcwd()", "", 1, env_copy);
+	}
+	return (env_paths);
 }
 
 static char	*combine_path_cmd(char *env_path, char *cmd_name)
@@ -79,34 +85,29 @@ static char	*get_path_cmd(char **env_paths, char *cmd_name)
 	return (NULL);
 }
 
-char	*get_command_path(t_mshell *mshell, t_cmd *cmd, char ***env)
+char	*get_command_path(t_mshell *mshell, t_cmd *cmd, char ***copy_env)
 {
 	char		*cmd_path;
 	char		**env_paths;
 	struct stat	sb;
 
-	if (!*cmd->cmd_name && cmd->is_hd_quote != -1)
-		clean_and_exit(mshell, env, "", 0);
-	else if (!*cmd->cmd_name)
-		clean_and_exit(mshell, env, "Command '' not found\n", 127);
+	if (!*cmd->cmd_name)
+		clean_and_exit(mshell, copy_env, "Command '' not found\n", 127);
 	if (cmd->cmd_name && ft_strchr(cmd->cmd_name, '/'))
 	{
 		if (stat(cmd->cmd_name, &sb) == -1)
-			clean_and_exit(mshell, env, ": No such file or directory\n", 126);
-		
-		if (stat(cmd->cmd_name, &sb) == -1)
-			clean_and_exit(mshell, env, ": No such file or directory\n", 126);
+			clean_and_exit(mshell, copy_env, ": No such file or directory\n", 127);
 		if ((sb.st_mode & (S_IRUSR | S_IRGRP)) == 0
 			|| (sb.st_mode & (S_IWUSR | S_IWGRP)) == 0
 			|| (sb.st_mode & (S_IXUSR | S_IXGRP)) == 0)
-			clean_and_exit(mshell, env, ": Permission denied\n", 126);
+			clean_and_exit(mshell, copy_env, ": Permission denied\n", 126);
 		if (S_ISDIR(sb.st_mode))
-			clean_and_exit(mshell, env, ": Is a directory\n", 126);
+			clean_and_exit(mshell, copy_env, ": Is a directory\n", 126);
 		return (cmd->cmd_name);
 	}
-	env_paths = get_envp_paths(mshell);
+	env_paths = get_envp_paths(mshell, copy_env, 0);
 	if (!env_paths)
-		error_return(mshell, cmd->cmd_name, "No such file or directory", 127);
+		clean_and_exit(mshell, copy_env, ": No such file or directory\n", 127);
 	cmd_path = get_path_cmd(env_paths, cmd->cmd_name);
 	ft_free_grid((void **)env_paths);
 	return (cmd_path);

@@ -18,8 +18,6 @@ int	get_file_fd(t_mshell *mshell, char *path, t_redirect_type rd_type)
 	int	file_fd;
 
 	file_fd = -2;
-	// if (check_is_dir(path) == -1)
-	// 	return(file_error(mshell, path, "Is a directory", 111));
 	if (rd_type == RD_IN)
 		file_fd = open(path, O_RDONLY, 0444);
 	else
@@ -30,9 +28,6 @@ int	get_file_fd(t_mshell *mshell, char *path, t_redirect_type rd_type)
 			file_fd = open(path, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	}
 	if (file_fd == -1)
-		return(file_error(mshell, path, strerror(errno), 111));
+		return(file_error(mshell, path, strerror(errno), 1));
 	return (file_fd);
 }
-
-//return(file_error(mshell, path, "No such file or directory", 111));
-

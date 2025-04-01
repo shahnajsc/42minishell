@@ -51,24 +51,24 @@ void	add_new_token(t_token **head_token, t_token *new_token)
 
 char	*get_redir_token_value(char *cmd_str, int *i)
 {
-	char	*token_value;
+	char	*tok_val;
 
-	token_value = NULL;
+	tok_val = NULL;
 	if (cmd_str[*i] == '<' && cmd_str[*i + 1] == '<')
-		token_value = ft_strdup("<<");
+		tok_val = ft_strdup("<<");
 	else if (cmd_str[*i] == '<')
-		token_value = ft_strdup("<");
+		tok_val = ft_strdup("<");
 	else if (cmd_str[*i] == '>' && cmd_str[*i + 1] == '>')
-		token_value = ft_strdup(">>");
+		tok_val = ft_strdup(">>");
 	else if (cmd_str[*i] == '>')
-		token_value = ft_strdup(">");
-	if (!token_value)
+		tok_val = ft_strdup(">");
+	if (!tok_val)
 		return (NULL);
-	if (ft_strcmp(token_value, "<") == 0 || ft_strcmp(token_value, ">") == 0)
+	if (ft_strcmp(tok_val, "<") == 0 || ft_strcmp(tok_val, ">") == 0)
 		(*i)++;
-	else if (ft_strcmp(token_value, "<<") == 0 || ft_strcmp(token_value, ">>") == 0)
+	else if (ft_strcmp(tok_val, "<<") == 0 || ft_strcmp(tok_val, ">>") == 0)
 		(*i) = *i + 2;
-	return (token_value);
+	return (tok_val);
 }
 
 // t_token *delete_empty_token(t_token *head_token)

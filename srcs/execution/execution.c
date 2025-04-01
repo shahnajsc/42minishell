@@ -123,7 +123,7 @@ void	execute_cmds(t_mshell *mshell)
 {
 	int 	status;
 
-	//status = mshell->exit_code;
+	status = mshell->exit_code;
 	if (!mshell->cmds || mshell->count_cmds == 0)
 		return ;
 	if (heredoc_handle(mshell) == EXIT_FAILURE)
@@ -139,6 +139,5 @@ void	execute_cmds(t_mshell *mshell)
 	else
 		execute_child_cmds(mshell, 0, &status);
 	mshell->exit_code = status;
-	printf("status: %d\n", status);
 }
 

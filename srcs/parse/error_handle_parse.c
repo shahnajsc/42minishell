@@ -10,29 +10,29 @@ void	quote_err_print(char *err_value)
 
 void	pipe_err_print(char *err_value)
 {
-	ft_putstr_fd("minishell: ", STDERR_FILENO);
+	ft_putstr_fd("minishell: syntax error", STDERR_FILENO);
 	if (*err_value == '|')
-		ft_putstr_fd("syntax error near unexpected token '||'\n", STDERR_FILENO);
+		ft_putstr_fd("near unexpected token '||'\n", STDERR_FILENO);
 	else
-		ft_putstr_fd("syntax error near unexpected token '|'\n", STDERR_FILENO);
+		ft_putstr_fd("near unexpected token '|'\n", STDERR_FILENO);
 }
 
 void	rd_err_print(char *err_value)
 {
-	ft_putstr_fd("minishell: ", STDERR_FILENO);
+	ft_putstr_fd("minishell: syntax error ", STDERR_FILENO);
 	if (!*err_value || *err_value == '\n')
-		ft_putstr_fd("syntax error near unexpected token 'newline'\n", STDERR_FILENO);
+		ft_putstr_fd("near unexpected token 'newline'\n", STDERR_FILENO);
 	else if (*err_value == '<' && *(err_value + 1) != '<')
-		ft_putstr_fd("syntax error near unexpected token '<'\n", STDERR_FILENO);
+		ft_putstr_fd("near unexpected token '<'\n", STDERR_FILENO);
 	else if (*err_value == '<' && *(err_value + 1) == '<')
-		ft_putstr_fd("syntax error near unexpected token '<<'\n", STDERR_FILENO);
+		ft_putstr_fd("near unexpected token '<<'\n", STDERR_FILENO);
 	else if (*err_value == '>' && *(err_value + 1) != '>')
-		ft_putstr_fd("syntax error near unexpected token '>'\n", STDERR_FILENO);
+		ft_putstr_fd("near unexpected token '>'\n", STDERR_FILENO);
 	else if (*err_value == '>' && *(err_value + 1) == '>')
-		ft_putstr_fd("syntax error near unexpected token '>>'\n", STDERR_FILENO);
+		ft_putstr_fd("near unexpected token '>>'\n", STDERR_FILENO);
 	else
 	{
-		ft_putstr_fd("syntax error near unexpected token '", STDERR_FILENO);
+		ft_putstr_fd("near unexpected token '", STDERR_FILENO);
 		ft_putchar_fd(*err_value, STDERR_FILENO);
 		ft_putstr_fd("'\n", STDERR_FILENO);
 	}

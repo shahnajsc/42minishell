@@ -52,18 +52,9 @@ t_redirect	*get_redirect_list(t_token *token, int rd_len, int i)
 			while (temp && temp->tok_type == EMPTY)
 				temp = temp->next;
 			if (temp && (temp->tok_type == DELIMETER || temp->tok_type == FILENAME))
-			{
-				// if (rd_list[i].file_deli)
-				// 	free(rd_list[i].file_deli);
 				rd_list[i].file_deli = ft_strdup(temp->tok_value);
-			}
 			else
-			{
-				// if (rd_list[i].file_deli)
-				// 	free(rd_list[i].file_deli);
-				rd_list[i].file_deli = ft_strdup("");
-			}
-				//rd_list[i].file_deli = ft_strdup(""); // empty str or NULL
+				rd_list[i].file_deli = ft_strdup(""); // check is it "" or NULL
 			i++;
 		}
 		temp = temp->next;

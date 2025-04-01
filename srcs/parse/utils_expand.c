@@ -14,25 +14,25 @@ int	check_char_is_dollar(char c)
 	return (0);
 }
 
-char	*get_token_envkey(char *token_value, int i)
+char	*get_token_envkey(char *tok_val, int i)
 {
 	char	*env_key;
 	int		key_end;
 	int		key_start;
 
-	if (!token_value)
+	if (!tok_val)
 		return (NULL);
 	i++;
 	key_start = i;
 	key_end = 0;
 	env_key = NULL;
-	while (token_value[i + key_end] && !check_char_whitespaces(token_value[i + key_end])
-		&& !ft_strchr("$?\"'/\\\n", token_value[i + key_end]))
+	while (tok_val[i + key_end] && !check_char_whitespaces(tok_val[i + key_end])
+		&& !ft_strchr("$?\"'/\\\n", tok_val[i + key_end]))
 	{
 		key_end++;
 	}
 	if ((key_start + key_end) > key_start)
-		env_key = ft_substr(token_value, key_start, key_end);
+		env_key = ft_substr(tok_val, key_start, key_end);
 	if (!env_key)
 		return (NULL);
 	return (env_key);

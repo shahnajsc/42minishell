@@ -2,8 +2,6 @@
 
 int redirect_fd(int from_fd, int to_fd)
 {
-	// if (from_fd == to_fd)
-	// 	return;
 	if (dup2(from_fd, to_fd) == -1)
 	{
 		close(from_fd);
@@ -39,7 +37,7 @@ int	set_rd_fds(t_mshell *mshell, t_cmd *cmd, int new_in_fd, int new_out_fd)
 
 int	rd_fd_redirect(t_cmd *cmd)
 {
-	if (cmd->redi_fd[0] != -1 && cmd->redi_fd[0] != -2) // fd[0] = -2 fd[1] = -2 from prev func
+	if (cmd->redi_fd[0] != -1 && cmd->redi_fd[0] != -2)
 	{
 		if (redirect_fd(cmd->redi_fd[0], STDIN_FILENO) == EXIT_FAILURE)
 			return (EXIT_FAILURE);

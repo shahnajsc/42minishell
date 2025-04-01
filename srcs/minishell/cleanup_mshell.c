@@ -8,5 +8,4 @@ void	cleanup_mshell(t_mshell *mshell)
 		free_env(mshell->env);
 	if (mshell->cmds)
 		cleanup_on_loop(mshell);
-	//exit(mshell->exit_code);
 }
