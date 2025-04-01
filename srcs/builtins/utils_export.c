@@ -19,7 +19,7 @@ static int copy_env(t_env *old_env, t_env *new_env)
     int 	i;
 
 	i = 0;
-    while (old_env[i].key != NULL) 
+    while (old_env[i].key != NULL)
     {
         new_env[i].key = ft_strdup(old_env[i].key);
 		if (old_env[i].value)
@@ -41,7 +41,7 @@ void   add_env_var(t_env **old_env, char *key, char *value)
 {
 	t_env 	*new_env;
 	int 	i;
-	
+
 	new_env = allocate_new_env(*old_env);
 	if (!new_env)
 		return ;
@@ -76,7 +76,7 @@ void 	process_with_sign(t_env **env, char *arg, char *sign)
 	if (!key || !value)
 		return (free(key));
 	variable = get_env_var(*env, key);
-	if (variable && variable->value)
+	if (variable)
 	{
 		free(variable->value);
 		variable->value = value;

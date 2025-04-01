@@ -2,8 +2,6 @@
 
 int redirect_fd(int from_fd, int to_fd)
 {
-	// if (from_fd == to_fd)
-	// 	return;
 	if (dup2(from_fd, to_fd) == -1)
 	{
 		close(from_fd);
