@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: shachowd <shachowd@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: hahamdan <hahamdan@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 19:22:29 by shachowd          #+#    #+#             */
-/*   Updated: 2025/04/01 19:51:08 by shachowd         ###   ########.fr       */
+/*   Updated: 2025/04/02 16:57:37 by hahamdan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int								restore_std_fd(t_mshell *mshell, t_cmd *cmd,
 //...............UTILS................//
 void							parent_process(t_mshell *mshell);
 int								wait_process(t_mshell *mshell, pid_t pid);
-int								wait_all(t_mshell *mshell);
+int								wait_all(t_mshell *mshell, int i);
 char							**convert_env(t_env *env, char ***copy_env);
 char							*get_command_path(t_mshell *mshell, t_cmd *cmd);
 void							child_process(t_mshell *mshell, int i,

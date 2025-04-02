@@ -1,12 +1,10 @@
 #include "minishell.h"
 
-int	wait_all(t_mshell *mshell)
+int	wait_all(t_mshell *mshell, int i)
 {
-	int	i;
 	int	child_status;
 	int	last_status;
 
-	i = 0;
 	child_status = 0;
 	last_status = 0;
 	if (!mshell->p_id)
@@ -19,6 +17,8 @@ int	wait_all(t_mshell *mshell)
 		last_status = child_status;
 		i++;
 	}
+	if (child_status == 131)
+            ft_putstr_fd("Quit (core dumped)\n", STDERR_FILENO);
 	if (mshell->p_id)
 	{
 		free(mshell->p_id);
@@ -51,7 +51,7 @@ int	execute_child_cmds(t_mshell *mshell, int i, int *status)
 		i++;
 	}
 	close_fds(mshell);
-	*status = wait_all(mshell);
+	*status = wait_all(mshell, 0);
 	return (*status);
 }
 

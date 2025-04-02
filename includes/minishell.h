@@ -43,6 +43,7 @@ typedef struct	s_mshell
 	int 			prev_read_fd;
 	pid_t 			*p_id;
 	int				exit_code;
+	int 			flag_path;
 }	t_mshell;
 
 

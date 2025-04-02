@@ -67,11 +67,7 @@ int	wait_process(t_mshell *mshell, pid_t p_id)
 	if (WIFEXITED(wstatus))
 	    exit_status = WEXITSTATUS(wstatus);
     else if (WIFSIGNALED(wstatus))
-    {
-        exit_status = 128 + WTERMSIG(wstatus);
-        if (WTERMSIG(wstatus) == SIGQUIT)
-            ft_putstr_fd("Quit (core dumped)\n", STDERR_FILENO);
-    }
+        exit_status = 128 + WTERMSIG(wstatus);  
     else
     {    exit_status = EXIT_FAILURE;}
 	return (exit_status);
