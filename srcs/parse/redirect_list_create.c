@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   redirect_list_create.c                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: shachowd <shachowd@student.hive.fi>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/04/01 20:53:00 by shachowd          #+#    #+#             */
+/*   Updated: 2025/04/02 13:52:52 by shachowd         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 t_redirect_type	get_redirect_type(char *rd_value)
@@ -27,7 +39,7 @@ int	get_rd_list_len(t_token *token)
 	{
 		if (temp->tok_type == REDIRECT)
 			len++;
-		temp= temp->next;
+		temp = temp->next;
 	}
 	return (len);
 }
@@ -53,8 +65,6 @@ t_redirect	*get_redirect_list(t_token *token, int rd_len, int i)
 				temp = temp->next;
 			if (temp && (temp->tok_type == DELIMETER || temp->tok_type == FILENAME))
 				rd_list[i].file_deli = ft_strdup(temp->tok_value);
-			else
-				rd_list[i].file_deli = ft_strdup(""); // check is it "" or NULL
 			i++;
 		}
 		temp = temp->next;

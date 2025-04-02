@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_cd.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: shachowd <shachowd@student.hive.fi>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/04/01 20:48:49 by shachowd          #+#    #+#             */
+/*   Updated: 2025/04/01 20:59:32 by shachowd         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <minishell.h>
 
 static char	*home_directory(t_env **env, char **dir)
@@ -12,6 +24,7 @@ static char	*home_directory(t_env **env, char **dir)
 		return (NULL);
 	return (*dir);
 }
+
 static char	*get_target_directory(t_env **env, char *directory_arg)
 {
 	char	*target;
@@ -22,6 +35,7 @@ static char	*get_target_directory(t_env **env, char *directory_arg)
 		target = ft_strdup(directory_arg);
 	return (target);
 }
+
 static int	is_invalid_directory(char **args, char *file)
 {
 	struct stat	sb;
@@ -63,6 +77,7 @@ static int	handle_cd(t_mshell *mshell, char **args)
 		return (free(new_pwd), 0);
 	return (EXIT_SUCCESS);
 }
+
 int	ft_cd(t_mshell *mshell, char **args)
 {
 	int	status;

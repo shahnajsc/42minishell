@@ -1,48 +1,16 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   heredoc_handle.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: shachowd <shachowd@student.hive.fi>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/04/01 20:55:10 by shachowd          #+#    #+#             */
+/*   Updated: 2025/04/01 21:07:51 by shachowd         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
-
-static int	mem_alloc_failed(char **joined_lines, char *line)
-{
-	if (joined_lines && *joined_lines)
-	{
-		free(*joined_lines);
-		*joined_lines = NULL;
-	}
-	if (line)
-	{
-		free(line);
-		line = NULL;
-	}
-	ft_putstr_fd("minishell: malloc failed for heredoc!\n", STDERR_FILENO);
-	return (1);
-}
-
-int	heredoc_join(char **joined_lines, char *line)
-{
-	char	*ptr;
-	char	*ptrcat;
-	int		i;
-	int		len;
-
-	len = ft_strlen(*joined_lines) + ft_strlen(line);
-	ptr = (char *)malloc(sizeof(char) * (len + 2));
-	if (!ptr)
-		return (mem_alloc_failed(joined_lines, line));
-	ptrcat = ptr;
-	i = 0;
-	while (*joined_lines && (*joined_lines)[i])
-		*ptr++ = (*joined_lines)[i++];
-	i = 0;
-	while (line && line[i])
-		*ptr++ = line[i++];
-	*ptr++ = '\n';
-	*ptr = '\0';
-	if (*joined_lines)
-		free(*joined_lines);
-	if (line)
-		free(line);
-	*joined_lines = ptrcat;
-	return (0);
-}
 
 void	restore_signals(struct sigaction *old_sa)
 {
@@ -90,7 +58,8 @@ void	get_hd_lines(t_mshell *mshell, t_redirect *rd_list, int i, int is_quote)
 	setup_heredoc_signals(&sa_old);
 	rl_event_hook = heredoc_event_hook;
 	rl_catch_signals = 0;
-	if (!(joined_lines = ft_strdup("")))
+	joined_lines = ft_strdup("");
+	if (!joined_lines)
 		return ;
 	while (!g_heredoc)
 	{

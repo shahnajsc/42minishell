@@ -1,7 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_exit.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: shachowd <shachowd@student.hive.fi>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/04/01 20:49:10 by shachowd          #+#    #+#             */
+/*   Updated: 2025/04/01 21:00:03 by shachowd         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
-
-static void convert_status (long long exit_nbr, int *exit_status)
+static void	convert_status(long long exit_nbr, int *exit_status)
 {
 	if (exit_nbr < 0)
 		exit_nbr = (exit_nbr % 256 + 256) % 256;
@@ -9,6 +20,7 @@ static void convert_status (long long exit_nbr, int *exit_status)
 		exit_nbr = exit_nbr % 256;
 	*exit_status = (int)exit_nbr;
 }
+
 static int	process_exit_code(char *arg, int *exit_status)
 {
 	long long	exit_nbr;

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   heredoc_expand.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: shachowd <shachowd@student.hive.fi>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/04/01 20:55:00 by shachowd          #+#    #+#             */
+/*   Updated: 2025/04/01 21:50:10 by shachowd         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 char	*expand_heredoc(t_mshell *mshell, char *joined_lines, int is_quote)
@@ -18,12 +30,12 @@ char	*expand_heredoc(t_mshell *mshell, char *joined_lines, int is_quote)
 			free(joined_lines);
 	}
 	else
-		expanded_hd = expand_text_token(mshell, joined_lines);
+		expanded_hd = expand_text_token(mshell, joined_lines, 0);
 	if (!expanded_hd)
 	{
 		if (joined_lines)
 			free(joined_lines);
 		return (NULL);
 	}
-	return(expanded_hd);
+	return (expanded_hd);
 }

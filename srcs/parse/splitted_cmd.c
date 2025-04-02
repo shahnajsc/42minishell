@@ -1,4 +1,16 @@
-#include  "minishell.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   splitted_cmd.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: shachowd <shachowd@student.hive.fi>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/04/01 20:53:15 by shachowd          #+#    #+#             */
+/*   Updated: 2025/04/02 16:03:00 by shachowd         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "minishell.h"
 
 static int	get_splitted_cmd_len(t_token *token_list)
 {
@@ -9,7 +21,7 @@ static int	get_splitted_cmd_len(t_token *token_list)
 	current_token = token_list;
 	while (current_token)
 	{
-		if (current_token->tok_type == CMD)
+		if (current_token->tok_type == CMD && current_token->tok_value)
 			len++;
 		current_token = current_token->next;
 	}
@@ -27,12 +39,11 @@ static char	**create_splitted_cmd(char **splitted_cmd, t_token *token_list)
 	current_token = token_list;
 	while (current_token)
 	{
-		if (current_token->tok_type == CMD)
+		if (current_token->tok_type == CMD && current_token->tok_value)
 		{
 			splitted_cmd[i] = ft_strdup(current_token->tok_value);
 			if (!splitted_cmd[i])
 			{
-				//ft_free_grid((void **)splitted_cmd);
 				while (i > 0)
 					free(splitted_cmd[--i]);
 				free(splitted_cmd);
@@ -42,6 +53,11 @@ static char	**create_splitted_cmd(char **splitted_cmd, t_token *token_list)
 		current_token = current_token->next;
 	}
 	splitted_cmd[i] = NULL;
+	// if (splitted_cmd[0] == NULL)
+	// {
+	// 	ft_free_grid((void **)splitted_cmd);
+	// 	return (NULL);
+	// }
 	return (splitted_cmd);
 }
 

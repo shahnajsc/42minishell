@@ -1,31 +1,16 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   execution.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: shachowd <shachowd@student.hive.fi>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/04/01 20:51:57 by shachowd          #+#    #+#             */
+/*   Updated: 2025/04/02 17:08:24 by shachowd         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
-
-int	wait_all(t_mshell *mshell)
-{
-	int	i;
-	int	child_status;
-	int	last_status;
-
-	i = 0;
-	child_status = 0;
-	last_status = 0;
-	if (!mshell->p_id)
-		return (EXIT_FAILURE);
-	while (mshell->cmds && i < mshell->count_cmds)
-	{
-		child_status = wait_process(mshell, mshell->p_id[i]);
-		if (child_status == -1)
-			child_status = 1;
-		last_status = child_status;
-		i++;
-	}
-	if (mshell->p_id)
-	{
-		free(mshell->p_id);
-		mshell->p_id = NULL;
-	}
-	return (last_status);
-}
 
 int	execute_child_cmds(t_mshell *mshell, int i, int *status)
 {
@@ -51,7 +36,7 @@ int	execute_child_cmds(t_mshell *mshell, int i, int *status)
 		i++;
 	}
 	close_fds(mshell);
-	*status = wait_all(mshell);
+	*status = wait_all(mshell, 0);
 	return (*status);
 }
 
@@ -96,6 +81,7 @@ int	restore_std_fd(t_mshell *mshell, t_cmd *cmd, int *status)
 	cmd->std_fd[0] = -1;
 	return (EXIT_SUCCESS);
 }
+
 int	builtins_in_parent(t_mshell *mshell, t_cmd *cmd, int *status)
 {
 	int	len;

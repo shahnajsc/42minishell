@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   signals.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: shachowd <shachowd@student.hive.fi>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/04/01 20:55:34 by shachowd          #+#    #+#             */
+/*   Updated: 2025/04/01 22:57:47 by shachowd         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 static void	reset_prompt(int sigint)
@@ -9,7 +21,7 @@ static void	reset_prompt(int sigint)
 	rl_redisplay();
 }
 
-static void	reset_sigint(void)
+static void	reset_sigint(t_mshell *mshell)
 {
 	struct sigaction	sa;
 
@@ -18,6 +30,7 @@ static void	reset_sigint(void)
 	sigemptyset(&sa.sa_mask);
 	if (sigaction(SIGINT, &sa, NULL) == -1)
 		return ;
+	mshell->exit_code = 130;
 }
 
 static void	ignore_sigquit(void)
@@ -44,9 +57,9 @@ static void	setup_terminal(void)
 		return ;
 }
 
-void	setup_signal_handlers(void)
+void	setup_signal_handlers(t_mshell *mshell)
 {
 	setup_terminal();
 	ignore_sigquit();
-	reset_sigint();
+	reset_sigint(mshell);
 }

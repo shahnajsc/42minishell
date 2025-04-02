@@ -18,26 +18,25 @@ RM 				= rm -f
 LIBFT	 		= ./libft/libft.a
 
 # Source files by directory
-DIR_PAR 		= srcs/envp/envp_duplicate.c	\
-				srcs/minishell/minishell_initiate.c	\
+DIR_PAR 		= srcs/minishell/minishell_initiate.c	\
 				srcs/minishell/cleanup_mshell.c	\
 				srcs/parse/pre_validation_input.c	srcs/parse/utils_pre_validation.c	\
 				srcs/parse/error_handle_parse.c	srcs/parse/parse_input.c\
 				srcs/parse/split_input_by_pipe.c	srcs/parse/tokenize_input.c\
 				srcs/parse/utils_tokenize.c		srcs/parse/utils_expand.c\
 				srcs/parse/token_creation.c		srcs/parse/utils_token_creation.c\
-				srcs/parse/test_parse.c		srcs/parse/splitted_cmd.c	\
+				srcs/parse/splitted_cmd.c	\
 				srcs/parse/token_post_process.c		srcs/parse/token_expand.c	\
-				srcs/parse/token_quote_remove.c		srcs/parse/token_merge.c	\
-				srcs/parse/redirect_list_create.c	srcs/parse/cleanup_input.c\
+				srcs/parse/token_quote_remove.c		srcs/parse/token_merge_delete.c	\
+				srcs/parse/redirect_list_create.c	srcs/parse/cleanup_input.c srcs/parse/test_parse.c\
 
 DIR_REDI 		= srcs/redirect/redirect_fds.c	srcs/redirect/redirect_handle.c\
 				srcs/redirect/error_handle_file.c	srcs/redirect/heredoc_handle.c	\
-				srcs/redirect/heredoc_expand.c	\
+				srcs/redirect/heredoc_expand.c	srcs/redirect/utils_heredoc.c\
 
 DIR_EXE 		= srcs/execution/command_path.c	srcs/execution/execution.c\
-				srcs/execution/utils_execution.c	srcs/execution/error_handle_exe.c	\
-				srcs/execution/execution_child.c	\
+				srcs/execution/utils_execution1.c	srcs/execution/error_handle_exe.c	\
+				srcs/execution/execution_child.c	srcs/execution/utils_execution2.c\
 
 # DIR_EXE 		= srcs/execution/command_path.c	srcs/execution/execution.c\
 # 				srcs/execution/utils_execution.c	srcs/execution/execution_child.c	\
@@ -67,7 +66,7 @@ MAN_SRCS		= main.c $(MAN_BUILT) $(DIR_PAR) $(DIR_REDI) $(DIR_EXE)
 valgrind:
 		valgrind --leak-check=full --show-reachable=yes --show-leak-kinds=all \
 		--track-origins=yes --track-fds=yes --trace-children=yes \
-		--suppressions=readline.supp -s ./minishell
+		--suppressions=/home/shachowd/42minishell/readline.supp -s ./minishell
 
 all: mandatory
 

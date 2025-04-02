@@ -1,4 +1,16 @@
-#include  "minishell.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   error_handle_file.c                                :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: shachowd <shachowd@student.hive.fi>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/04/01 20:54:54 by shachowd          #+#    #+#             */
+/*   Updated: 2025/04/01 20:54:56 by shachowd         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "minishell.h"
 
 int	file_error(t_mshell *mshell, char *err_value, char *err_msg, int err_code)
 {

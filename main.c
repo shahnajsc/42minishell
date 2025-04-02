@@ -6,7 +6,7 @@
 /*   By: shachowd <shachowd@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 19:19:35 by shachowd          #+#    #+#             */
-/*   Updated: 2025/04/01 19:20:30 by shachowd         ###   ########.fr       */
+/*   Updated: 2025/04/02 17:06:48 by shachowd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ static int	mshell_data_init(t_mshell *mshell, char **envp)
 	mshell->prev_read_fd = STDIN_FILENO;
 	mshell->p_id = NULL;
 	mshell->exit_code = 0;
+	mshell->flag_path = 0;
 	return (0);
 }
 

@@ -1,8 +1,20 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   split_input_by_pipe.c                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: shachowd <shachowd@student.hive.fi>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/04/01 20:53:07 by shachowd          #+#    #+#             */
+/*   Updated: 2025/04/01 20:53:09 by shachowd         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 static int	get_cmd_len(char *start, char *end)
 {
-	int		len;
+	int	len;
 
 	len = 0;
 	while (start < end)
@@ -45,8 +57,8 @@ static char	*get_end_point(char *input_str)
 	return (input_str);
 }
 
-static char	**splitted_by_pipe(char *input_str, char **cmds_temp,
-	int cmd_count, int i)
+static char	**splitted_by_pipe(char *input_str, char **cmds_temp, int cmd_count,
+		int i)
 {
 	char	*start;
 	char	*end;

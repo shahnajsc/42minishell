@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   utils_signals.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: shachowd <shachowd@student.hive.fi>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/04/01 20:55:42 by shachowd          #+#    #+#             */
+/*   Updated: 2025/04/01 21:03:41 by shachowd         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 volatile sig_atomic_t	g_heredoc = 0;
@@ -45,7 +57,7 @@ void	ignore_parent_signals(void)
 
 void	setup_child_signals(void)
 {
-	struct sigaction sa;
+	struct sigaction	sa;
 
 	sa.sa_handler = SIG_DFL;
 	sigemptyset(&sa.sa_mask);

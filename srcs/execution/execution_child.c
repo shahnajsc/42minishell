@@ -1,11 +1,21 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   execution_child.c                                  :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: shachowd <shachowd@student.hive.fi>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/04/01 20:51:49 by shachowd          #+#    #+#             */
+/*   Updated: 2025/04/02 18:10:14 by shachowd         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 void	external_in_child(t_mshell *mshell, t_cmd *cmd, char ***copy_env)
 {
 	char	*cmd_path;
 
-	if (!*cmd->cmd_name && cmd->redirects)
-		clean_and_exit(mshell, NULL, 0);
 	if (ft_strcmp(cmd->cmd_name, ".") == 0)
 		clean_and_exit(mshell, ": filename argument required\n", 2);
 	cmd_path = get_command_path(mshell, cmd);
@@ -41,6 +51,12 @@ int	check_command_exec(t_mshell *mshell, int i, int *status)
 	char	**copy_env;
 
 	copy_env = NULL;
+	// if (!mshell->cmds[i].splitted_cmd[0] && mshell->cmds[i].redirects)
+	// 	clean_and_exit(mshell, "test\n", 0);
+	// // if (!mshell->cmds[i].cmd_name && !*mshell->cmds[i].cmd_name)
+	// // 	clean_and_exit(mshell, "command '' not found\n", 127);
+	// if  (!mshell->cmds[i].splitted_cmd || !mshell->cmds[i].splitted_cmd[0])
+	// 	clean_and_exit(mshell, "command 'abc' not found\n", 127);
 	if (check_is_builtin(&mshell->cmds[i]))
 	{
 		if (builtins_in_child(mshell, &mshell->cmds[i], status) == EXIT_FAILURE)
@@ -89,12 +105,4 @@ void	child_process(t_mshell *mshell, int i, int *status)
 		exit(EXIT_FAILURE);
 	}
 	check_command_exec(mshell, i, status);
-}
-
-void	parent_process(t_mshell *mshell)
-{
-	close(mshell->pipe_fd[1]);
-	if (mshell->prev_read_fd != STDIN_FILENO)
-		close(mshell->prev_read_fd);
-	mshell->prev_read_fd = mshell->pipe_fd[0];
 }

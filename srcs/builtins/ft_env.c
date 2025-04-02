@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_env.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: shachowd <shachowd@student.hive.fi>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/04/01 20:49:04 by shachowd          #+#    #+#             */
+/*   Updated: 2025/04/01 20:59:02 by shachowd         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 static void	print_env(t_env *env)
@@ -18,9 +30,10 @@ static void	print_env(t_env *env)
 		}
 	}
 }
+
 int	ft_env(t_mshell *mshell, char **args)
 {
-	int status;
+	int	status;
 
 	status = 0;
 	if (!mshell || !mshell->env || !args)
