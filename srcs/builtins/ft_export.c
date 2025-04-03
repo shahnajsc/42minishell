@@ -53,25 +53,84 @@ static void	set_env_var(t_mshell *mshell, char **args, int *status_code)
 	}
 }
 
-static void	print_export(t_env *env)
+static int	export_copy(t_env *dest, t_env *src)
 {
+	if (!src || !dest)
+		return (EXIT_FAILURE);
+	if (src->key)
+	{
+		dest->key = ft_strdup(src->key);
+		if (!dest->key)
+			return (EXIT_FAILURE);
+	}
+	else
+		dest->key = NULL;
+	if (src->value)
+	{
+		dest->value = ft_strdup(src->value);
+		if (!dest->value)
+		{
+			free(dest->key);
+			return (EXIT_FAILURE);
+		}
+	}
+	else
+		dest->value = NULL;
+	return (EXIT_SUCCESS);
+}
+
+static int	export_duplicate(t_env **copy_env, t_env *env)
+{
+	int	count;
 	int	i;
 
-	sort_env(env);
+	count = 0;
+	while (env[count].key != NULL)
+		count++;
+	*copy_env = malloc(sizeof(t_env) * (count + 1));
+	if (!*copy_env)
+		return (EXIT_FAILURE);
 	i = 0;
-	while (env[i].key != NULL)
+	while (i < count)
 	{
-		ft_putstr_fd("declare -x ", 1);
-		ft_putstr_fd(env[i].key, 1);
-		if (env[i].value)
+		if (export_copy(&(*copy_env)[i], &env[i]))
 		{
-			ft_putstr_fd("=\"", 1);
-			ft_putstr_fd(env[i].value, 1);
-			ft_putstr_fd("\"", 1);
+			free_env(*copy_env);
+			return (EXIT_FAILURE);
 		}
-		ft_putstr_fd("\n", 1);
 		i++;
 	}
+	(*copy_env)[count].key = NULL;
+	(*copy_env)[count].value = NULL;
+	return (EXIT_SUCCESS);
+}
+
+static void	print_export(t_env *env)
+{
+	t_env	*copy_env;
+	int		i;
+
+	if (export_duplicate(&copy_env, env) != EXIT_SUCCESS)
+		return ;
+	sort_env(copy_env);
+	i = 0;
+	while (copy_env[i].key != NULL)
+	{
+        if (ft_strcmp(copy_env[i].key, "_") != 0)
+		{
+			ft_putstr_fd("declare -x ", STDOUT_FILENO);
+			ft_putstr_fd(copy_env[i].key, STDOUT_FILENO);
+			if (copy_env[i].value)
+			{
+				ft_putstr_fd("=\"", STDOUT_FILENO);
+				ft_putstr_fd(copy_env[i].value, STDOUT_FILENO);
+				ft_putstr_fd("\"", STDOUT_FILENO);
+			}
+			ft_putstr_fd("\n", STDOUT_FILENO);
+		}
+		i++;	
+	}
+	free_env(copy_env);
 }
 
 int	ft_export(t_mshell *mshell, char **args)
