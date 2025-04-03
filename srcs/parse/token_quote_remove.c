@@ -6,13 +6,13 @@
 /*   By: shachowd <shachowd@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 20:54:08 by shachowd          #+#    #+#             */
-/*   Updated: 2025/04/02 12:12:50 by shachowd         ###   ########.fr       */
+/*   Updated: 2025/04/03 13:49:17 by shachowd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*remove_quote(char *tok_value)
+static char	*remove_quote(char *tok_value)
 {
 	int		i;
 	int		len;

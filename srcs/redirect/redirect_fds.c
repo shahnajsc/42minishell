@@ -6,7 +6,7 @@
 /*   By: shachowd <shachowd@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 20:55:15 by shachowd          #+#    #+#             */
-/*   Updated: 2025/04/01 20:55:16 by shachowd         ###   ########.fr       */
+/*   Updated: 2025/04/03 18:46:12 by shachowd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,9 @@ int	get_heredoc_fd(t_mshell *mshell, t_redirect *rd_list, int i)
 
 	if (pipe(pipe_fd) == -1)
 	{
-		return (file_error(mshell, NULL, "Pipe open failed", 111));
+		close(pipe_fd[0]);
+		close(pipe_fd[1]);
+		return (file_error(mshell, NULL, "Pipe open failed", 1));
 	}
 	ft_putstr_fd(rd_list[i].hd_lines, pipe_fd[1]);
 	close(pipe_fd[1]);

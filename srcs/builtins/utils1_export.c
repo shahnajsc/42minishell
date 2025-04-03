@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils_export.c                                     :+:      :+:    :+:   */
+/*   utils1_export.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: shachowd <shachowd@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 20:50:28 by shachowd          #+#    #+#             */
-/*   Updated: 2025/04/01 20:50:33 by shachowd         ###   ########.fr       */
+/*   Updated: 2025/04/03 20:17:36 by shachowd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_env	*allocate_new_env(t_env *old_env)
+static t_env	*allocate_new_env(t_env *old_env)
 {
 	t_env	*new_env;
 	int		i;

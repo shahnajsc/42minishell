@@ -4,13 +4,7 @@ NAME 			= minishell
 # Compiler and flags
 CC 				= cc
 CFLAGS 			= -Wall -Wextra -Werror -g
-#RLFLAGS			= -lreadline -L /opt/homebrew/opt/readline/lib -I /opt/homebrew/opt/readline/include
 LDFLAGS			 = -lreadline -L /opt/homebrew/opt/readline/lib -I /opt/homebrew/opt/readline/include
-
-#-L ~/.brew/opt/readline/lib -I ~/.brew/opt/readline/include
-#CFLAGS 			= -Wall -Wextra -Werror -g
-#RLFLAGS			= -lreadline -L ~/.brew/opt/readline/lib -I ~/.brew/opt/readline/include
-#LDFLAGS 		= -fsanitize=address  -fsanitize=address -g
 INCLUDES 		= -I./includes -I./libft/includes
 RM 				= rm -f
 
@@ -38,35 +32,31 @@ DIR_EXE 		= srcs/execution/command_path.c	srcs/execution/execution.c\
 				srcs/execution/utils_execution1.c	srcs/execution/error_handle_exe.c	\
 				srcs/execution/execution_child.c	srcs/execution/utils_execution2.c\
 
-# DIR_EXE 		= srcs/execution/command_path.c	srcs/execution/execution.c\
-# 				srcs/execution/utils_execution.c	srcs/execution/execution_child.c	\
-
 MAN_BUILT  		= srcs/builtins/ft_pwd.c \
 				srcs/builtins/ft_env.c 	srcs/builtins/ft_export.c \
 				srcs/builtins/ft_cd.c 	srcs/builtins/ft_echo.c \
 				srcs/builtins/ft_unset.c srcs/builtins/builtins_error_handle.c \
 				srcs/builtins/builtins.c srcs/builtins/utils_cd.c \
-				srcs/builtins/env_init.c  srcs/builtins/utils_export.c \
-				srcs/builtins/utils_builtins.c \
-				srcs/builtins/ft_exit.c    srcs/builtins/utils2_builtins.c\
-				srcs/signals/signals.c      srcs/signals/utils_signals.c \
-				#srcs/minishell/minishell_initiate.c
+				srcs/builtins/env_init.c  srcs/builtins/utils1_export.c \
+				srcs/builtins/utils1_builtins.c	srcs/builtins/ft_exit.c	\
+				srcs/builtins/utils2_builtins.c	srcs/builtins/utils2_export.c	\
+				srcs/signals/signals.c	srcs/signals/utils_signals.c \
+
 
 # Source path
 
 MAN_SRCS		= main.c $(MAN_BUILT) $(DIR_PAR) $(DIR_REDI) $(DIR_EXE)
 
-# Marker files to track which version is built
-#mandatory : .mandatory
-#bonus : .bonus
+#.....................
+valgrind:
+		valgrind --leak-check=full --show-leak-kinds=all  \
+		--suppressions=/home/shachowd/42minishell/readline.supp -s ./minishell
 
 # valgrind:
-# 		valgrind --leak-check=full --show-leak-kinds=all  ./minishell
-
-valgrind:
-		valgrind --leak-check=full --show-reachable=yes --show-leak-kinds=all \
-		--track-origins=yes --track-fds=yes --trace-children=yes \
-		--suppressions=/home/shachowd/42minishell/readline.supp -s ./minishell
+# 		valgrind --leak-check=full --show-reachable=yes --show-leak-kinds=all \
+# 		--track-origins=yes --track-fds=yes --trace-children=yes \
+# 		--suppressions=/home/shachowd/42minishell/readline.supp -s ./minishell
+#...................
 
 all: mandatory
 

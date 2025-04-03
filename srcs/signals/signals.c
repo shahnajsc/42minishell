@@ -6,7 +6,7 @@
 /*   By: shachowd <shachowd@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 20:55:34 by shachowd          #+#    #+#             */
-/*   Updated: 2025/04/01 22:57:47 by shachowd         ###   ########.fr       */
+/*   Updated: 2025/04/03 16:58:57 by shachowd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,17 @@
 
 static void	reset_prompt(int sigint)
 {
-	(void)sigint;
-	ft_putchar_fd('\n', STDERR_FILENO);
-	rl_replace_line("", 0);
-	rl_on_new_line();
-	rl_redisplay();
+	if (sigint == SIGINT)
+	{
+		g_heredoc = SIGINT;
+		ft_putchar_fd('\n', STDOUT_FILENO);
+		rl_replace_line("", 0);
+		rl_on_new_line();
+		rl_redisplay();
+	}
 }
 
-static void	reset_sigint(t_mshell *mshell)
+static void	reset_sigint()
 {
 	struct sigaction	sa;
 
@@ -30,7 +33,7 @@ static void	reset_sigint(t_mshell *mshell)
 	sigemptyset(&sa.sa_mask);
 	if (sigaction(SIGINT, &sa, NULL) == -1)
 		return ;
-	mshell->exit_code = 130;
+	// mshell->exit_code = 130;
 }
 
 static void	ignore_sigquit(void)
@@ -57,9 +60,9 @@ static void	setup_terminal(void)
 		return ;
 }
 
-void	setup_signal_handlers(t_mshell *mshell)
+void	setup_signal_handlers()
 {
 	setup_terminal();
 	ignore_sigquit();
-	reset_sigint(mshell);
+	reset_sigint();
 }

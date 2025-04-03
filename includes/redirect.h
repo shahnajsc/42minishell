@@ -6,7 +6,7 @@
 /*   By: shachowd <shachowd@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 20:46:48 by shachowd          #+#    #+#             */
-/*   Updated: 2025/04/01 21:53:29 by shachowd         ###   ########.fr       */
+/*   Updated: 2025/04/03 23:31:45 by shachowd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,13 +36,13 @@ int								redirect_handle_cmd(t_mshell *mshell,
 int								redirect_fd(int from_fd, int to_fd);
 
 //.........HEREDOC.............//
-int								heredoc_handle(t_mshell *mshell);
+int								heredoc_handle(t_mshell *mshell, int *status);
 char							*expand_heredoc(t_mshell *mshell,
 									char *hd_lines, int is_quote);
 
 //...........UTILS..........//
-int								mem_alloc_failed(char **joined_lines,
-									char *line);
+// int								mem_alloc_failed(char **joined_lines,
+// 									char *line);
 int								heredoc_join(char **joined_lines, char *line);
 
 #endif

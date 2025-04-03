@@ -6,7 +6,7 @@
 /*   By: shachowd <shachowd@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 20:52:05 by shachowd          #+#    #+#             */
-/*   Updated: 2025/04/02 17:08:44 by shachowd         ###   ########.fr       */
+/*   Updated: 2025/04/03 19:09:23 by shachowd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 
 int	check_is_builtin(t_cmd *cmd)
 {
+	if (cmd && (!cmd->cmd_name || !cmd->splitted_cmd))
+		return (0);
 	if (ft_strcmp(cmd->cmd_name, "env") == 0 || ft_strcmp(cmd->cmd_name,
 			"pwd") == 0 || ft_strcmp(cmd->cmd_name, "export") == 0
 		|| ft_strcmp(cmd->cmd_name, "cd") == 0 || ft_strcmp(cmd->cmd_name,
@@ -50,36 +52,10 @@ char	**convert_env(t_env *env, char ***copy_env)
 	return (*copy_env);
 }
 
-int	ft_wait(t_mshell *mshell, pid_t pid, int *wstatus)
+void	parent_process(t_mshell *mshell)
 {
-	if (waitpid(pid, wstatus, 0) == -1)
-	{
-		perror("minishell: waitpid");
-		if (mshell->p_id)
-		{
-			free(mshell->p_id);
-			mshell->p_id = NULL;
-		}
-		return (-1);
-	}
-	return (0);
-}
-
-int	wait_process(t_mshell *mshell, pid_t p_id)
-{
-	int	wstatus;
-	int	exit_status;
-
-	wstatus = 0;
-	exit_status = EXIT_SUCCESS;
-	if (ft_wait(mshell, p_id, &wstatus) == -1)
-		exit_status = EXIT_FAILURE;
-	setup_signal_handlers(mshell);
-	if (WIFEXITED(wstatus))
-		exit_status = WEXITSTATUS(wstatus);
-	else if (WIFSIGNALED(wstatus))
-		exit_status = 128 + WTERMSIG(wstatus);
-	else
-		exit_status = EXIT_FAILURE;
-	return (exit_status);
+	close(mshell->pipe_fd[1]);
+	if (mshell->prev_read_fd != STDIN_FILENO)
+		close(mshell->prev_read_fd);
+	mshell->prev_read_fd = mshell->pipe_fd[0];
 }

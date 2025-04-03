@@ -6,13 +6,38 @@
 /*   By: shachowd <shachowd@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 20:51:57 by shachowd          #+#    #+#             */
-/*   Updated: 2025/04/02 17:08:24 by shachowd         ###   ########.fr       */
+/*   Updated: 2025/04/03 23:36:11 by shachowd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	execute_child_cmds(t_mshell *mshell, int i, int *status)
+void	update_env_cmd(t_mshell *mshell, int j)
+{
+	int i;
+	char *cmd_value;
+	int	len;
+
+	i = 0;
+	len = ft_grid_rows(mshell->cmds[j].splitted_cmd);
+	if (&mshell->cmds[j])
+		cmd_value = ft_strdup(mshell->cmds[j].splitted_cmd[len -1]);
+	else
+		cmd_value = NULL;
+	while (mshell->env[i].key != NULL)
+	{
+		if (ft_strcmp(mshell->env[i].key, "_") == 0)
+		{
+			if (mshell->env[i].value)
+				free(mshell->env[i].value);
+			mshell->env[i].value  = ft_strdup(cmd_value);
+			free(cmd_value);
+		}
+		i++;
+	}
+}
+
+static int	execute_child_cmds(t_mshell *mshell, int i, int *status)
 {
 	if (allocate_pid(mshell) == -1)
 		return (EXIT_FAILURE);
@@ -25,6 +50,7 @@ int	execute_child_cmds(t_mshell *mshell, int i, int *status)
 			return (EXIT_FAILURE);
 		if (mshell->p_id[i] == 0)
 		{
+			// update_env_cmd(mshell, i);
 			setup_child_signals();
 			child_process(mshell, i, status);
 		}
@@ -40,7 +66,7 @@ int	execute_child_cmds(t_mshell *mshell, int i, int *status)
 	return (*status);
 }
 
-int	store_std_fd(t_mshell *mshell, t_cmd *cmd, int *status)
+static int	store_std_fd(t_cmd *cmd, int *status)
 {
 	cmd->std_fd[0] = dup(STDIN_FILENO);
 	if (cmd->std_fd[0] == -1)
@@ -54,13 +80,12 @@ int	store_std_fd(t_mshell *mshell, t_cmd *cmd, int *status)
 	{
 		ft_putstr_fd("minishell: STDOUT setting failed\n", 2);
 		*status = 1;
-		mshell->exit_code = *status;
 		return (EXIT_FAILURE);
 	}
 	return (EXIT_SUCCESS);
 }
 
-int	restore_std_fd(t_mshell *mshell, t_cmd *cmd, int *status)
+static int	restore_std_fd(t_cmd *cmd, int *status)
 {
 	if (redirect_fd(cmd->std_fd[0], STDIN_FILENO) == EXIT_FAILURE)
 	{
@@ -75,34 +100,35 @@ int	restore_std_fd(t_mshell *mshell, t_cmd *cmd, int *status)
 		ft_putstr_fd("minishell: STDOUT resetting failed\n", 2);
 		*status = 1;
 		cmd->std_fd[1] = -1;
-		mshell->exit_code = *status;
 		return (EXIT_FAILURE);
 	}
 	cmd->std_fd[0] = -1;
 	return (EXIT_SUCCESS);
 }
 
-int	builtins_in_parent(t_mshell *mshell, t_cmd *cmd, int *status)
+static int	builtins_in_parent(t_mshell *mshell, t_cmd *cmd, int *status)
 {
 	int	len;
 
 	len = get_rd_list_len(cmd->token);
-	if (store_std_fd(mshell, cmd, status) == EXIT_FAILURE)
+	if (store_std_fd(cmd, status) == EXIT_FAILURE)
 		return (EXIT_FAILURE);
 	if (redirect_handle_cmd(mshell, cmd, len) == EXIT_FAILURE)
 	{
-		restore_std_fd(mshell, cmd, status);
+		*status = mshell->exit_code;
+		restore_std_fd(cmd, status);
 		return (EXIT_FAILURE);
 	}
 	if (execute_builtins(mshell, cmd, status) != EXIT_SUCCESS)
 	{
-		restore_std_fd(mshell, cmd, status);
+		restore_std_fd(cmd, status);
 		return (EXIT_FAILURE);
 	}
-	if (restore_std_fd(mshell, cmd, status) == EXIT_FAILURE)
+	if (restore_std_fd(cmd, status) == EXIT_FAILURE)
 		return (EXIT_FAILURE);
 	return (EXIT_SUCCESS);
 }
+
 
 void	execute_cmds(t_mshell *mshell)
 {
@@ -111,10 +137,22 @@ void	execute_cmds(t_mshell *mshell)
 	status = mshell->exit_code;
 	if (!mshell->cmds || mshell->count_cmds == 0)
 		return ;
-	if (heredoc_handle(mshell) == EXIT_FAILURE)
+	g_heredoc = 0;
+	status = heredoc_handle(mshell, &status);
+	printf("heredoc satus: %d", status);
+	if (g_heredoc == SIGINT)
+	{
+		g_heredoc = 0;
+		printf("heredoc erro\n");
+		mshell->exit_code =  130;
 		return ;
+	}
+	else if (status == 1)
+		return ;
+	// update_env_cmd(mshell, 0);
 	if (check_is_builtin(&mshell->cmds[0]) && mshell->count_cmds == 1)
 	{
+
 		if (builtins_in_parent(mshell, &mshell->cmds[0],
 				&status) == EXIT_FAILURE)
 		{

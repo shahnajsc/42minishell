@@ -6,7 +6,7 @@
 /*   By: shachowd <shachowd@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 20:54:15 by shachowd          #+#    #+#             */
-/*   Updated: 2025/04/02 17:52:03 by shachowd         ###   ########.fr       */
+/*   Updated: 2025/04/03 11:16:28 by shachowd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,11 +67,11 @@ int	tokenize_input(t_mshell *mshell, char *input_str)
 	{
 		mshell->cmds[i].token = create_tokens_list(mshell,
 				mshell->cmds[i].cmd_str, i);
-		if (!mshell->cmds[i].token)
-			return (EXIT_FAILURE);
+		// if (!mshell->cmds[i].token)
+		// 	return (EXIT_FAILURE);
 		mshell->cmds[i].splitted_cmd = splitted_cmd(mshell, i);
-		if (!mshell->cmds[i].splitted_cmd)
-			return (EXIT_FAILURE);
+		// if (!mshell->cmds[i].splitted_cmd)
+		// 	return (EXIT_FAILURE);
 		mshell->cmds[i].redirects = create_redirects_list(mshell, i);
 		if (!mshell->cmds[i].redirects
 			&& get_rd_list_len(mshell->cmds[i].token) > 0)

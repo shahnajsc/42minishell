@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   token_merge.c                                      :+:      :+:    :+:   */
+/*   token_merge_delete.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: shachowd <shachowd@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 20:53:47 by shachowd          #+#    #+#             */
-/*   Updated: 2025/04/02 12:38:31 by shachowd         ###   ########.fr       */
+/*   Updated: 2025/04/03 13:48:25 by shachowd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ t_token	*delete_empty_token(t_token *head_token)
 	return (head_token);
 }
 
-t_token	*merge_tokens(t_token *main_tok, t_token *to_merge)
+static t_token	*merge_tokens(t_token *main_tok, t_token *to_merge)
 {
 	char	*temp_main_value;
 

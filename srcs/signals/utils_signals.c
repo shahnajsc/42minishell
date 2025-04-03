@@ -6,18 +6,21 @@
 /*   By: shachowd <shachowd@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 20:55:42 by shachowd          #+#    #+#             */
-/*   Updated: 2025/04/01 21:03:41 by shachowd         ###   ########.fr       */
+/*   Updated: 2025/04/03 16:56:12 by shachowd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-volatile sig_atomic_t	g_heredoc = 0;
+
 
 static void	handle_heredoc_signals(int sig)
 {
-	(void)sig;
-	g_heredoc = 1;
+	// (void)sig;
+	if (sig == SIGINT)
+	{
+		g_heredoc = SIGINT;
+	}
 }
 
 int	heredoc_event_hook(void)

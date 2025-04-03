@@ -6,13 +6,13 @@
 /*   By: shachowd <shachowd@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 21:06:37 by shachowd          #+#    #+#             */
-/*   Updated: 2025/04/01 21:48:32 by shachowd         ###   ########.fr       */
+/*   Updated: 2025/04/03 19:16:46 by shachowd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	mem_alloc_failed(char **joined_lines, char *line)
+static int	mem_alloc_failed(char **joined_lines, char *line)
 {
 	if (joined_lines && *joined_lines)
 	{

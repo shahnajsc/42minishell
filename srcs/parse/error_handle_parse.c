@@ -6,13 +6,13 @@
 /*   By: shachowd <shachowd@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 20:52:36 by shachowd          #+#    #+#             */
-/*   Updated: 2025/04/01 20:52:37 by shachowd         ###   ########.fr       */
+/*   Updated: 2025/04/03 13:41:52 by shachowd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	quote_err_print(char *err_value)
+static void	quote_err_print(char *err_value)
 {
 	ft_putstr_fd("minishell: unexpected EOF while ", STDERR_FILENO);
 	ft_putstr_fd("looking for matching `", STDERR_FILENO);
@@ -20,7 +20,7 @@ void	quote_err_print(char *err_value)
 	ft_putstr_fd("`\n", STDERR_FILENO);
 }
 
-void	pipe_err_print(char *err_value)
+static void	pipe_err_print(char *err_value)
 {
 	ft_putstr_fd("minishell: syntax error", STDERR_FILENO);
 	if (*err_value == '|')
@@ -29,7 +29,7 @@ void	pipe_err_print(char *err_value)
 		ft_putstr_fd("near unexpected token '|'\n", STDERR_FILENO);
 }
 
-void	rd_err_print(char *err_value)
+static void	rd_err_print(char *err_value)
 {
 	ft_putstr_fd("minishell: syntax error ", STDERR_FILENO);
 	if (!*err_value || *err_value == '\n')
@@ -71,5 +71,3 @@ int	syntax_pre_error(t_mshell *mshell, t_syntax_err syn_err, char *err_value)
 	mshell->exit_code = 2;
 	return (EXIT_FAILURE);
 }
-
-// if >> or >>> error token '>' if more thn >>> error token '>>'

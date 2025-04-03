@@ -6,13 +6,13 @@
 /*   By: shachowd <shachowd@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 20:53:00 by shachowd          #+#    #+#             */
-/*   Updated: 2025/04/02 13:52:52 by shachowd         ###   ########.fr       */
+/*   Updated: 2025/04/03 13:42:58 by shachowd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_redirect_type	get_redirect_type(char *rd_value)
+static t_redirect_type	get_redirect_type(char *rd_value)
 {
 	t_redirect_type	type;
 
@@ -44,7 +44,7 @@ int	get_rd_list_len(t_token *token)
 	return (len);
 }
 
-t_redirect	*get_redirect_list(t_token *token, int rd_len, int i)
+static t_redirect	*get_redirect_list(t_token *token, int rd_len, int i)
 {
 	t_token		*temp;
 	t_redirect	*rd_list;

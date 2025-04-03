@@ -6,13 +6,13 @@
 /*   By: shachowd <shachowd@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 20:53:23 by shachowd          #+#    #+#             */
-/*   Updated: 2025/04/01 20:53:25 by shachowd         ###   ########.fr       */
+/*   Updated: 2025/04/03 13:43:59 by shachowd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*get_quoted_token_value(char *cmd_str, int *i)
+static char	*get_quoted_token_value(char *cmd_str, int *i)
 {
 	char	*token_value;
 	int		temp_i;
@@ -32,7 +32,7 @@ char	*get_quoted_token_value(char *cmd_str, int *i)
 	return (token_value);
 }
 
-char	*get_unquoted_token_value(char *cmd_str, int *i)
+static char	*get_unquoted_token_value(char *cmd_str, int *i)
 {
 	char	*token_value;
 	int		temp_i;
@@ -60,7 +60,7 @@ char	*get_unquoted_token_value(char *cmd_str, int *i)
 	return (token_value);
 }
 
-t_token	*create_redirect_token(char *cmd_str, int *i)
+static t_token	*create_redirect_token(char *cmd_str, int *i)
 {
 	t_token	*new_token;
 
@@ -75,7 +75,7 @@ t_token	*create_redirect_token(char *cmd_str, int *i)
 	return (new_token);
 }
 
-t_token	*create_str_token(char *cmd_str, int *i, t_token_type t_type)
+static t_token	*create_str_token(char *cmd_str, int *i, t_token_type t_type)
 {
 	t_token	*new_token;
 

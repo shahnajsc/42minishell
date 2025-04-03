@@ -6,7 +6,7 @@
 /*   By: shachowd <shachowd@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 20:46:41 by shachowd          #+#    #+#             */
-/*   Updated: 2025/04/02 12:49:18 by shachowd         ###   ########.fr       */
+/*   Updated: 2025/04/03 20:03:09 by shachowd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ typedef enum e_token_type
 	REDIRECT,
 	FILENAME,
 	DELIMETER,
-}						t_token_type;
+}	t_token_type;
 
 typedef enum e_redirect_type
 {
@@ -31,40 +31,40 @@ typedef enum e_redirect_type
 	RD_OUT,
 	RD_APPEND,
 	NONE,
-}						t_redirect_type;
+}	t_redirect_type;
 
 typedef struct s_token
 {
-	t_token_type		tok_type;
-	char				*tok_value;
-	struct s_token		*next;
-}						t_token;
+	t_token_type	tok_type;
+	char			*tok_value;
+	struct s_token	*next;
+}	t_token;
 
 typedef struct s_redirect
 {
-	t_redirect_type		rd_type;
-	char				*file_deli;
-	char				*hd_lines;
-}						t_redirect;
+	t_redirect_type	rd_type;
+	char			*file_deli;
+	char			*hd_lines;
+}					t_redirect;
 
 typedef struct s_cmd
 {
-	t_token				*token;
-	t_redirect			*redirects;
-	int					is_hd_quote;
-	char				*cmd_str;
-	char				*cmd_name;
-	char				**splitted_cmd;
-	int					std_fd[2];
-	int					redi_fd[2];
-}						t_cmd;
+	t_token		*token;
+	t_redirect	*redirects;
+	int			is_hd_quote;
+	char		*cmd_str;
+	char		*cmd_name;
+	char		**splitted_cmd;
+	int			std_fd[2];
+	int			redi_fd[2];
+}	t_cmd;
 
 typedef enum e_mshell_err
 {
 	ERR_SYN,
 	ERR_BUILTIN,
 	ERR_EXEV,
-}						t_mshell_err;
+}	t_mshell_err;
 
 typedef enum e_syntax_err
 {
@@ -74,7 +74,7 @@ typedef enum e_syntax_err
 	ERR_WHITE_S,
 	ERR_RD,
 	ERR_COMN,
-}						t_syntax_err;
+}	t_syntax_err;
 
 //.......VALIDATION.....//////
 int						check_char_whitespaces(char c);
@@ -90,9 +90,9 @@ char					**splitted_cmd(t_mshell *mshell, int i);
 //...... TOKEN .....///
 int						tokenize_input(t_mshell *mshell, char *input_str);
 // t_token	*create_tokens_list(t_mshell *mshell, int index);
-t_token					*create_str_token(char *cmd_str, int *i,
-							t_token_type t_type);
-t_token					*create_redirect_token(char *cmd_str, int *i);
+// t_token					*create_str_token(char *cmd_str, int *i,
+// 							t_token_type t_type);
+// t_token					*create_redirect_token(char *cmd_str, int *i);
 char					*get_redir_token_value(char *cmd_str, int *i);
 void					add_new_token(t_token **head_token, t_token *new_token);
 t_token					*create_tokens_list(t_mshell *mshell, char *cmd_str,

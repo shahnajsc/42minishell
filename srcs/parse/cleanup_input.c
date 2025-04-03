@@ -6,7 +6,7 @@
 /*   By: shachowd <shachowd@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 20:52:26 by shachowd          #+#    #+#             */
-/*   Updated: 2025/04/01 21:22:26 by shachowd         ###   ########.fr       */
+/*   Updated: 2025/04/03 13:40:49 by shachowd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ static void	free_tokens(t_token *token)
 	token = NULL;
 }
 
-void	close_free_pipe(t_mshell *mshell)
+static void	close_free_pipe(t_mshell *mshell)
 {
 	if (!mshell)
 		return ;
@@ -73,7 +73,7 @@ void	close_free_pipe(t_mshell *mshell)
 	}
 }
 
-void	close_cmd_fds(t_cmd *cmd)
+static void	close_cmd_fds(t_cmd *cmd)
 {
 	if (cmd->std_fd[0] > -1)
 		close(cmd->std_fd[0]);

@@ -6,13 +6,13 @@
 /*   By: shachowd <shachowd@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 20:53:58 by shachowd          #+#    #+#             */
-/*   Updated: 2025/04/02 17:18:00 by shachowd         ###   ########.fr       */
+/*   Updated: 2025/04/03 13:48:56 by shachowd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_token	*update_file_deli_token(t_token *token_list, int is_heredoc)
+static t_token	*update_file_deli_token(t_token *token_list, int is_heredoc)
 {
 	t_token	*current_token;
 
@@ -30,7 +30,7 @@ t_token	*update_file_deli_token(t_token *token_list, int is_heredoc)
 	return (current_token);
 }
 
-t_token	*assign_file_deli_tokens(t_token *head_token)
+static t_token	*assign_file_deli_tokens(t_token *head_token)
 {
 	t_token	*current_token;
 	int		is_heredoc;

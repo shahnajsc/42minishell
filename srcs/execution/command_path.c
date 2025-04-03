@@ -6,13 +6,13 @@
 /*   By: shachowd <shachowd@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 20:51:30 by shachowd          #+#    #+#             */
-/*   Updated: 2025/04/02 18:08:57 by shachowd         ###   ########.fr       */
+/*   Updated: 2025/04/03 19:03:58 by shachowd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	error_return_path(t_mshell *mshell, char *err_in, char *msg, int status)
+static void	error_return_path(t_mshell *mshell, char *err_in, char *msg, int status)
 {
 	ft_putstr_fd("minishell: ", 2);
 	if (*err_in != '\0')
@@ -97,7 +97,7 @@ static char	*get_path_cmd(char **env_paths, char *cmd_name)
 	return (NULL);
 }
 
-int validate_command(t_mshell *mshell, t_cmd *cmd)
+static int validate_command(t_mshell *mshell, t_cmd *cmd)
 {
 	struct stat	sb;
 
@@ -117,10 +117,6 @@ char	*get_command_path(t_mshell *mshell, t_cmd *cmd)
 	char		*cmd_path;
 	char		**env_paths;
 
-	if (!cmd->splitted_cmd[0] && cmd->redirects)
-		clean_and_exit(mshell, "test\n", 0);
-	if (cmd->cmd_name && !*cmd->cmd_name)
-		clean_and_exit(mshell, "command 'def' not found\n", 127);
 	if (cmd->cmd_name && ft_strchr(cmd->cmd_name, '/'))
 	{
 		if (validate_command(mshell, cmd) == EXIT_SUCCESS)
