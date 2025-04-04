@@ -6,36 +6,11 @@
 /*   By: shachowd <shachowd@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 20:51:57 by shachowd          #+#    #+#             */
-/*   Updated: 2025/04/03 23:36:11 by shachowd         ###   ########.fr       */
+/*   Updated: 2025/04/04 13:48:06 by shachowd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-void	update_env_cmd(t_mshell *mshell, int j)
-{
-	int i;
-	char *cmd_value;
-	int	len;
-
-	i = 0;
-	len = ft_grid_rows(mshell->cmds[j].splitted_cmd);
-	if (&mshell->cmds[j])
-		cmd_value = ft_strdup(mshell->cmds[j].splitted_cmd[len -1]);
-	else
-		cmd_value = NULL;
-	while (mshell->env[i].key != NULL)
-	{
-		if (ft_strcmp(mshell->env[i].key, "_") == 0)
-		{
-			if (mshell->env[i].value)
-				free(mshell->env[i].value);
-			mshell->env[i].value  = ft_strdup(cmd_value);
-			free(cmd_value);
-		}
-		i++;
-	}
-}
 
 static int	execute_child_cmds(t_mshell *mshell, int i, int *status)
 {
@@ -130,6 +105,41 @@ static int	builtins_in_parent(t_mshell *mshell, t_cmd *cmd, int *status)
 }
 
 
+// void	execute_cmds(t_mshell *mshell)
+// {
+// 	int	status;
+
+// 	status = mshell->exit_code;
+// 	if (!mshell->cmds || mshell->count_cmds == 0)
+// 		return ;
+// 	g_heredoc = 0;
+// 	status = heredoc_handle(mshell, &status);
+// //	printf("heredoc satus: %d", status);
+// 	if (g_heredoc == SIGINT)
+// 	{
+// 		g_heredoc = 0;
+// 		//printf("heredoc erro\n");
+// 		mshell->exit_code =  130;
+// 		return ;
+// 	}
+// 	else if (status == 1)
+// 		return ;
+// 	update_env_underscore(mshell);
+// 	if (check_is_builtin(&mshell->cmds[0]) && mshell->count_cmds == 1)
+// 	{
+
+// 		if (builtins_in_parent(mshell, &mshell->cmds[0],
+// 				&status) == EXIT_FAILURE)
+// 		{
+// 			mshell->exit_code = status;
+// 			return ;
+// 		}
+// 	}
+// 	else
+// 		execute_child_cmds(mshell, 0, &status);
+// 	mshell->exit_code = status;
+// }
+
 void	execute_cmds(t_mshell *mshell)
 {
 	int	status;
@@ -138,18 +148,14 @@ void	execute_cmds(t_mshell *mshell)
 	if (!mshell->cmds || mshell->count_cmds == 0)
 		return ;
 	g_heredoc = 0;
-	status = heredoc_handle(mshell, &status);
-	printf("heredoc satus: %d", status);
+	heredoc_handle(mshell, &status);
 	if (g_heredoc == SIGINT)
 	{
 		g_heredoc = 0;
-		printf("heredoc erro\n");
-		mshell->exit_code =  130;
+		mshell->exit_code = 130;
 		return ;
 	}
-	else if (status == 1)
-		return ;
-	// update_env_cmd(mshell, 0);
+	update_env_underscore(mshell);
 	if (check_is_builtin(&mshell->cmds[0]) && mshell->count_cmds == 1)
 	{
 

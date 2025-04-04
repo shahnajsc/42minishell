@@ -6,7 +6,7 @@
 /*   By: shachowd <shachowd@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 20:52:05 by shachowd          #+#    #+#             */
-/*   Updated: 2025/04/03 19:09:23 by shachowd         ###   ########.fr       */
+/*   Updated: 2025/04/04 11:48:22 by shachowd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,4 +58,28 @@ void	parent_process(t_mshell *mshell)
 	if (mshell->prev_read_fd != STDIN_FILENO)
 		close(mshell->prev_read_fd);
 	mshell->prev_read_fd = mshell->pipe_fd[0];
+}
+
+void	update_env_underscore(t_mshell *mshell)
+{
+	int i;
+	char *cmd_value;
+	int	len;
+
+	i = 0;
+	len = ft_grid_rows(mshell->cmds[0].splitted_cmd);
+	if (&mshell->cmds[0] && mshell->cmds[0].splitted_cmd && len > 0)
+		cmd_value = ft_strdup(mshell->cmds[0].splitted_cmd[len -1]);
+	else
+		cmd_value = ft_strdup("");
+	while (mshell->env[i].key != NULL)
+	{
+		if (ft_strcmp(mshell->env[i].key, "_") == 0)
+		{
+			if (mshell->env[i].value)
+				free(mshell->env[i].value);
+			mshell->env[i].value  = cmd_value;
+		}
+		i++;
+	}
 }

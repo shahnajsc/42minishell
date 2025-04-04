@@ -6,7 +6,7 @@
 /*   By: shachowd <shachowd@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 20:46:41 by shachowd          #+#    #+#             */
-/*   Updated: 2025/04/03 20:03:09 by shachowd         ###   ########.fr       */
+/*   Updated: 2025/04/04 11:58:47 by shachowd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,65 +77,57 @@ typedef enum e_syntax_err
 }	t_syntax_err;
 
 //.......VALIDATION.....//////
-int						check_char_whitespaces(char c);
-int						check_str_whitespaces(char *input_str);
-char					*skip_quoted_part(char *input_str);
-char					*skip_unquoted_part(char *input_str);
-int						pre_validation_input(t_mshell *mshell, char *input_str);
+int				check_char_whitespaces(char c);
+int				check_str_whitespaces(char *input_str);
+char			*skip_quoted_part(char *input_str);
+char			*skip_unquoted_part(char *input_str);
+int				pre_validation_input(t_mshell *mshell, char *input_str);
 
 //...... PARSE .....////
-int						parse_input(t_mshell *mshell, char *input_str);
-char					**splitted_cmd(t_mshell *mshell, int i);
+int				parse_input(t_mshell *mshell, char *input_str);
+char			**splitted_cmd(t_mshell *mshell, int i);
 
 //...... TOKEN .....///
-int						tokenize_input(t_mshell *mshell, char *input_str);
-// t_token	*create_tokens_list(t_mshell *mshell, int index);
-// t_token					*create_str_token(char *cmd_str, int *i,
-// 							t_token_type t_type);
-// t_token					*create_redirect_token(char *cmd_str, int *i);
-char					*get_redir_token_value(char *cmd_str, int *i);
-void					add_new_token(t_token **head_token, t_token *new_token);
-t_token					*create_tokens_list(t_mshell *mshell, char *cmd_str,
-							int cmd_id);
-t_token					*post_process_token(t_mshell *mshell,
-							t_token *head_token, int cmd_id);
-t_token					*expand_token_values(t_mshell *mshell,
-							t_token *head_token);
-t_token					*remove_token_quotes(t_mshell *mshell,
-							t_token *head_token, int cmd_id);
-t_token					*merge_consequtive_token(t_token *head_token);
-char					*expand_text_token(t_mshell *mshell, char *tok_val,
-							int i);
-char					*replace_var(char *token, int *i);
-t_token					*delete_empty_token(t_token *head_token);
+int				tokenize_input(t_mshell *mshell, char *input_str);
+char			*get_redir_token_value(char *cmd_str, int *i);
+void			add_new_token(t_token **head_token, t_token *new_token);
+t_token			*create_tokens_list(t_mshell *mshell, char *cmd_str,
+					int cmd_id);
+t_token			*post_process_token(t_mshell *mshell, t_token *head_token,
+					int cmd_id);
+t_token			*expand_token_values(t_mshell *mshell, t_token *head_token);
+t_token			*remove_token_quotes(t_mshell *mshell,
+					t_token *head_token, int cmd_id);
+t_token			*merge_consequtive_token(t_token *head_token);
+char			*expand_text_token(t_mshell *mshell, char *tok_val, int i);
+char			*replace_var(char *token, int *i);
+t_token			*delete_empty_token(t_token *head_token);
 
 //........REDIRECT..........//
-int						get_rd_list_len(t_token *token);
-t_redirect				*create_redirects_list(t_mshell *mshell, int cmd_id);
+int				get_rd_list_len(t_token *token);
+t_redirect		*create_redirects_list(t_mshell *mshell, int cmd_id);
 
 //..... ERROR  && CLEANUP .....//
-int						syntax_pre_error(t_mshell *mshell, t_syntax_err syn_err,
-							char *err_value);
-void					cleanup_on_loop(t_mshell *mshell);
+int				syntax_pre_error(t_mshell *mshell, t_syntax_err syn_err,
+					char *err_value);
+void			cleanup_on_loop(t_mshell *mshell);
 // int		parse_error(char *err_msg, int err_ret);
 
 //......UTILS......////
-int						check_char_is_quote(char c);
-int						count_pipes(char *input_str);
-char					**split_input_by_pipes(int cmd_count, char *input_str);
-t_token_type			get_token_type(char *cmd_str, int i);
-int						check_char_is_redirect(char c);
-char					*get_token_envkey(char *token_value, int i);
-char					*get_env_key_value(t_mshell *mshell, char *env_key);
-void					clean_free_str(char *cmd_str);
+int				check_char_is_quote(char c);
+int				count_pipes(char *input_str);
+char			**split_input_by_pipes(int cmd_count, char *input_str);
+t_token_type	get_token_type(char *cmd_str, int i);
+int				check_char_is_redirect(char c);
+char			*get_token_envkey(char *token_value, int i);
+char			*get_env_key_value(t_mshell *mshell, char *env_key);
+void			clean_free_str(char *cmd_str);
 
 //......TEST FUNCTIONS.......///
-void					print_token_list(t_token *token_list);
-void					print_splitted_cmds(char **cmds);
-void					print_command_list(t_mshell *mshell);
+void			print_token_list(t_token *token_list);
+void			print_splitted_cmds(char **cmds);
+void			print_command_list(t_mshell *mshell);
 
-
-
-void print_command_list(t_mshell *mshell);
+void  print_command_list(t_mshell *mshell);
 
 #endif

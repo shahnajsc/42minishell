@@ -6,7 +6,7 @@
 /*   By: shachowd <shachowd@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 20:53:32 by shachowd          #+#    #+#             */
-/*   Updated: 2025/04/03 13:47:51 by shachowd         ###   ########.fr       */
+/*   Updated: 2025/04/04 12:37:03 by shachowd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,10 +75,26 @@ char	*expand_text_token(t_mshell *mshell, char *tok_val, int i)
 			else
 				tok_val = get_expanded_token(mshell, tok_val, &i);
 		}
-		else if (tok_val[i] == '$' && ft_strchr("\"'", tok_val[i + 1]))
-			tok_val = replace_var(tok_val, &i);
 		else
-			i++;
+		{
+			if (tok_val[i] == '$' && ft_strchr("\"'", tok_val[i + 1]))
+				tok_val = replace_var(tok_val, &i);
+			else
+				i++;
+		}
+		// else
+		// {
+		// 	if (tok_val[i] == '$' && ft_strchr("\"'", tok_val[i + 1]) && !tok_val[i + 2])
+		// 		i++;
+		// 	else if (tok_val[i] == '$' && ft_strchr("\"'", tok_val[i + 1]) && tok_val[i + 2])
+		// 		tok_val = replace_var(tok_val, &i);
+		// 	else
+		// 		i++;
+		// }.
+		// else if (tok_val[i] == '$' && ft_strchr("\"'", tok_val[i + 1]))
+		// 	tok_val = replace_var(tok_val, &i);
+		// else
+		// 	i++;
 	}
 	return (tok_val);
 }
@@ -109,3 +125,13 @@ t_token	*expand_token_values(t_mshell *mshell, t_token *head_token)
 	}
 	return (head_token);
 }
+
+		// else
+		// {
+		// 	if (tok_val[i] == '$' && ft_strchr("\"'", tok_val[i + 1]))
+		// 		tok_val = replace_var(tok_val, &i);
+		// 	else
+		// 		i++;
+		// }
+		// else if (tok_val[i] == '$' && ft_strchr("\"'", tok_val[i + 1]))
+		// 	tok_val = replace_var(tok_val, &i);

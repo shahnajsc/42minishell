@@ -6,7 +6,7 @@
 /*   By: shachowd <shachowd@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 19:22:29 by shachowd          #+#    #+#             */
-/*   Updated: 2025/04/03 19:59:20 by shachowd         ###   ########.fr       */
+/*   Updated: 2025/04/04 11:49:11 by shachowd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ int			wait_all(t_mshell *mshell, int i);
 char		**convert_env(t_env *env, char ***copy_env);
 char		*get_command_path(t_mshell *mshell, t_cmd *cmd);
 void		child_process(t_mshell *mshell, int i, int *status);
+void		update_env_underscore(t_mshell *mshell);
 
 //..... ERROR  && CLEANUP .....//
 void		close_fds(t_mshell *mshell);

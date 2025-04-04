@@ -6,7 +6,7 @@
 /*   By: shachowd <shachowd@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 20:55:10 by shachowd          #+#    #+#             */
-/*   Updated: 2025/04/03 23:32:26 by shachowd         ###   ########.fr       */
+/*   Updated: 2025/04/04 13:46:24 by shachowd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ static int	get_hd_lines(t_mshell *mshell, t_redirect *rd_list,
 	setup_heredoc_signals(&sa_old);
 	rl_event_hook = heredoc_event_hook;
 	rl_catch_signals = 0;
-	joined_lines = ft_strdup("");
+	joined_lines = NULL; //ft_strdup("");
 	if (!joined_lines)
 		return (1);
 	while (!g_heredoc)
@@ -71,11 +71,7 @@ static int	get_hd_lines(t_mshell *mshell, t_redirect *rd_list,
 	if (!g_heredoc)
 		rd_list[i].hd_lines = expand_heredoc(mshell, joined_lines, is_quote);
 	else
-	{
-		mshell->exit_code = 130;
 		free(joined_lines);
-		return (130);
-	}
 	return (0);
 }
 
@@ -101,9 +97,5 @@ int	heredoc_handle(t_mshell *mshell, int *status)
 		}
 		i++;
 	}
-	// if (g_heredoc == SIGINT)
-	// {
-	// 	mshell->exit_code = 130;
-	// }
-	return (*status);
+	return (EXIT_FAILURE);
 }

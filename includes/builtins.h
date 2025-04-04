@@ -6,7 +6,7 @@
 /*   By: shachowd <shachowd@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 20:46:22 by shachowd          #+#    #+#             */
-/*   Updated: 2025/04/03 20:18:27 by shachowd         ###   ########.fr       */
+/*   Updated: 2025/04/04 11:57:41 by shachowd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,21 +41,20 @@ typedef enum s_cd_error
 }	t_cd_error;
 
 //........BUILTINS..........//
-int		ft_pwd(t_mshell *mshell);
-int		ft_cd(t_mshell *mshell, char **args);
-int		ft_env(t_mshell *mshell, char **args);
-int		ft_exit(t_mshell *mshell, char **args);
-int		ft_echo(t_mshell *mshell, char **args);
-int		ft_export(t_mshell *mshell, char **args);
-int		ft_unset(t_mshell *mshell, char **keys, int i, int index);
-int		execute_builtins(t_mshell *mshell, t_cmd *cmd, int *status);
+int			ft_pwd(t_mshell *mshell);
+int			ft_cd(t_mshell *mshell, char **args);
+int			ft_env(t_mshell *mshell, char **args);
+int			ft_exit(t_mshell *mshell, char **args);
+int			ft_echo(t_mshell *mshell, char **args);
+int			ft_export(t_mshell *mshell, char **args);
+int			ft_unset(t_mshell *mshell, char **keys, int i, int index);
+int			execute_builtins(t_mshell *mshell, t_cmd *cmd, int *status);
 
 //........UTILS..........//
 int			env_size(t_env *env);
 void		sort_env(t_env *env);
 t_env		*init_env(char **envp);
 char		*ft_strndup(char *src, size_t n);
-// t_env		*allocate_new_env(t_env *old_env);
 t_env		*get_env_var(t_env *env, char *key);
 int			export_copy(t_env *dest, t_env *src);
 void		process_without_sign(t_env **env, char *arg);

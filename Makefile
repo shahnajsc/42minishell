@@ -48,15 +48,15 @@ MAN_BUILT  		= srcs/builtins/ft_pwd.c \
 MAN_SRCS		= main.c $(MAN_BUILT) $(DIR_PAR) $(DIR_REDI) $(DIR_EXE)
 
 #.....................
+# valgrind:
+# 		valgrind --leak-check=full --show-leak-kinds=all  \
+# 		--suppressions=/home/shachowd/42minishell/readline.supp -s ./minishell
+
 valgrind:
-		valgrind --leak-check=full --show-leak-kinds=all  \
+		valgrind --leak-check=full --show-reachable=yes --show-leak-kinds=all \
+		--track-origins=yes --track-fds=yes --trace-children=yes \
 		--suppressions=/home/shachowd/42minishell/readline.supp -s ./minishell
 
-# valgrind:
-# 		valgrind --leak-check=full --show-reachable=yes --show-leak-kinds=all \
-# 		--track-origins=yes --track-fds=yes --trace-children=yes \
-# 		--suppressions=/home/shachowd/42minishell/readline.supp -s ./minishell
-#...................
 
 all: mandatory
 
