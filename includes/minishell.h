@@ -6,7 +6,7 @@
 /*   By: shachowd <shachowd@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 20:46:33 by shachowd          #+#    #+#             */
-/*   Updated: 2025/04/03 20:01:06 by shachowd         ###   ########.fr       */
+/*   Updated: 2025/04/04 15:15:31 by shachowd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,8 @@ void	ignore_parent_signals(void);
 //........ HEREDOC SIGNALS..........//
 void	setup_heredoc_signals(struct sigaction *sa_old);
 int		heredoc_event_hook(void);
+int 	interrupt_input(t_mshell *mshell);
+
 
 //........CHILD SIGNALS..........//
 void	setup_child_signals(void);

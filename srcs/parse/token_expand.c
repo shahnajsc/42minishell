@@ -6,13 +6,13 @@
 /*   By: shachowd <shachowd@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 20:53:32 by shachowd          #+#    #+#             */
-/*   Updated: 2025/04/04 12:37:03 by shachowd         ###   ########.fr       */
+/*   Updated: 2025/04/04 20:16:53 by shachowd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static char	*get_var_expanded(char *token, char *env_value, char *env_key, int *i)
+char	*get_var_expanded(char *token, char *env_value, char *env_key, int *i)
 {
 	char	*new_token;
 	int		value_len;
@@ -37,7 +37,7 @@ static char	*get_var_expanded(char *token, char *env_value, char *env_key, int *
 	return (new_token);
 }
 
-static char	*get_expanded_token(t_mshell *mshell, char *token_value, int *i)
+char	*get_expanded_token(t_mshell *mshell, char *token_value, int *i)
 {
 	char	*env_key;
 	char	*env_key_value;
@@ -60,10 +60,11 @@ char	*expand_text_token(t_mshell *mshell, char *tok_val, int i)
 {
 	while (tok_val[i])
 	{
-		if (tok_val[i] == '$' && tok_val[i + 1] && tok_val[i + 1] == '$')
+		if (check_char_is_quote(tok_val[i]))
+			tok_val = expand_quoted_token(mshell, tok_val, &i);
+		else if (tok_val[i] == '$' && tok_val[i + 1] && tok_val[i + 1] == '$')
 			tok_val = get_var_expanded(tok_val, ft_itoa(getpid()), "&", &i);
-		else if (tok_val[i] == '$' && tok_val[i + 1]
-			&& !ft_strchr("$/\"'", tok_val[i + 1]))
+		else if (tok_val[i] == '$' && tok_val[i + 1] && !ft_strchr("$/", tok_val[i + 1]))
 		{
 			if (check_char_whitespaces(tok_val[i + 1]) || tok_val[i + 1] == '?')
 			{
@@ -73,28 +74,15 @@ char	*expand_text_token(t_mshell *mshell, char *tok_val, int i)
 					tok_val = get_var_expanded(tok_val, ft_itoa(mshell->exit_code), "?", &i);
 			}
 			else
-				tok_val = get_expanded_token(mshell, tok_val, &i);
+			{
+				if (tok_val[i + 1] && check_char_is_quote(tok_val[i +1]))
+					tok_val = replace_var(tok_val, &i);
+				else
+					tok_val = get_expanded_token(mshell, tok_val, &i);
+			}
 		}
 		else
-		{
-			if (tok_val[i] == '$' && ft_strchr("\"'", tok_val[i + 1]))
-				tok_val = replace_var(tok_val, &i);
-			else
-				i++;
-		}
-		// else
-		// {
-		// 	if (tok_val[i] == '$' && ft_strchr("\"'", tok_val[i + 1]) && !tok_val[i + 2])
-		// 		i++;
-		// 	else if (tok_val[i] == '$' && ft_strchr("\"'", tok_val[i + 1]) && tok_val[i + 2])
-		// 		tok_val = replace_var(tok_val, &i);
-		// 	else
-		// 		i++;
-		// }.
-		// else if (tok_val[i] == '$' && ft_strchr("\"'", tok_val[i + 1]))
-		// 	tok_val = replace_var(tok_val, &i);
-		// else
-		// 	i++;
+			i++;
 	}
 	return (tok_val);
 }
@@ -109,8 +97,7 @@ t_token	*expand_token_values(t_mshell *mshell, t_token *head_token)
 	cur_tok = head_token;
 	while (cur_tok)
 	{
-		if ((cur_tok->tok_type == CMD || cur_tok->tok_type == FILENAME)
-			&& (cur_tok->tok_value[0] != '\''))
+		if ((cur_tok->tok_type == CMD || cur_tok->tok_type == FILENAME))
 		{
 			temp_value = expand_text_token(mshell, cur_tok->tok_value, 0);
 			if (!*temp_value)
@@ -119,19 +106,9 @@ t_token	*expand_token_values(t_mshell *mshell, t_token *head_token)
 				cur_tok->tok_value = NULL;
 			}
 			else
-				cur_tok->tok_value = temp_value;
+			cur_tok->tok_value = temp_value;
 		}
 		cur_tok = cur_tok->next;
 	}
 	return (head_token);
 }
-
-		// else
-		// {
-		// 	if (tok_val[i] == '$' && ft_strchr("\"'", tok_val[i + 1]))
-		// 		tok_val = replace_var(tok_val, &i);
-		// 	else
-		// 		i++;
-		// }
-		// else if (tok_val[i] == '$' && ft_strchr("\"'", tok_val[i + 1]))
-		// 	tok_val = replace_var(tok_val, &i);

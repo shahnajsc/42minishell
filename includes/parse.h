@@ -6,7 +6,7 @@
 /*   By: shachowd <shachowd@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 20:46:41 by shachowd          #+#    #+#             */
-/*   Updated: 2025/04/04 11:58:47 by shachowd         ###   ########.fr       */
+/*   Updated: 2025/04/04 19:38:34 by shachowd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,8 +100,11 @@ t_token			*remove_token_quotes(t_mshell *mshell,
 					t_token *head_token, int cmd_id);
 t_token			*merge_consequtive_token(t_token *head_token);
 char			*expand_text_token(t_mshell *mshell, char *tok_val, int i);
+char			*get_var_expanded(char *token, char *env_value, char *env_key, int *i);
+char			*get_expanded_token(t_mshell *mshell, char *token_value, int *i);
 char			*replace_var(char *token, int *i);
 t_token			*delete_empty_token(t_token *head_token);
+char			*expand_quoted_token(t_mshell *mshell, char *tok_val, int *i);
 
 //........REDIRECT..........//
 int				get_rd_list_len(t_token *token);

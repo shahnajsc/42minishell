@@ -6,7 +6,7 @@
 /*   By: shachowd <shachowd@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 21:12:16 by shachowd          #+#    #+#             */
-/*   Updated: 2025/04/03 19:09:50 by shachowd         ###   ########.fr       */
+/*   Updated: 2025/04/04 15:10:11 by shachowd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ static int	wait_process(t_mshell *mshell, pid_t p_id)
 	exit_status = EXIT_SUCCESS;
 	if (ft_wait(mshell, p_id, &wstatus) == -1)
 		exit_status = EXIT_FAILURE;
-	setup_signal_handlers(mshell);
+	setup_signal_handlers();
 	if (WIFEXITED(wstatus))
 		exit_status = WEXITSTATUS(wstatus);
 	else if (WIFSIGNALED(wstatus))

@@ -6,7 +6,7 @@
 /*   By: shachowd <shachowd@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 20:51:57 by shachowd          #+#    #+#             */
-/*   Updated: 2025/04/04 13:48:06 by shachowd         ###   ########.fr       */
+/*   Updated: 2025/04/04 15:22:46 by shachowd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,12 +149,8 @@ void	execute_cmds(t_mshell *mshell)
 		return ;
 	g_heredoc = 0;
 	heredoc_handle(mshell, &status);
-	if (g_heredoc == SIGINT)
-	{
-		g_heredoc = 0;
-		mshell->exit_code = 130;
+	if (interrupt_input(mshell))
 		return ;
-	}
 	update_env_underscore(mshell);
 	if (check_is_builtin(&mshell->cmds[0]) && mshell->count_cmds == 1)
 	{

@@ -6,7 +6,7 @@
 /*   By: shachowd <shachowd@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 20:55:10 by shachowd          #+#    #+#             */
-/*   Updated: 2025/04/04 13:46:24 by shachowd         ###   ########.fr       */
+/*   Updated: 2025/04/04 14:38:55 by shachowd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ static int	get_hd_lines(t_mshell *mshell, t_redirect *rd_list,
 	setup_heredoc_signals(&sa_old);
 	rl_event_hook = heredoc_event_hook;
 	rl_catch_signals = 0;
-	joined_lines = NULL; //ft_strdup("");
+	joined_lines = ft_strdup("");
 	if (!joined_lines)
 		return (1);
 	while (!g_heredoc)

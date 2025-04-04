@@ -19,8 +19,8 @@ DIR_PAR 		= srcs/minishell/minishell_initiate.c	\
 				srcs/parse/split_input_by_pipe.c	srcs/parse/tokenize_input.c\
 				srcs/parse/utils_tokenize.c		srcs/parse/utils_expand.c\
 				srcs/parse/token_creation.c		srcs/parse/utils_token_creation.c\
-				srcs/parse/splitted_cmd.c	\
-				srcs/parse/token_post_process.c		srcs/parse/token_expand.c	\
+				srcs/parse/splitted_cmd.c	srcs/parse/token_expand.c\
+				srcs/parse/token_post_process.c		srcs/parse/token_expand_quoted.c	\
 				srcs/parse/token_quote_remove.c		srcs/parse/token_merge_delete.c	\
 				srcs/parse/redirect_list_create.c	srcs/parse/cleanup_input.c srcs/parse/test_parse.c\
 
@@ -48,14 +48,14 @@ MAN_BUILT  		= srcs/builtins/ft_pwd.c \
 MAN_SRCS		= main.c $(MAN_BUILT) $(DIR_PAR) $(DIR_REDI) $(DIR_EXE)
 
 #.....................
-# valgrind:
-# 		valgrind --leak-check=full --show-leak-kinds=all  \
-# 		--suppressions=/home/shachowd/42minishell/readline.supp -s ./minishell
-
 valgrind:
-		valgrind --leak-check=full --show-reachable=yes --show-leak-kinds=all \
-		--track-origins=yes --track-fds=yes --trace-children=yes \
+		valgrind --leak-check=full --show-leak-kinds=all  \
 		--suppressions=/home/shachowd/42minishell/readline.supp -s ./minishell
+
+# valgrind:
+# 		valgrind --leak-check=full --show-reachable=yes --show-leak-kinds=all \
+# 		--track-origins=yes --track-fds=yes --trace-children=yes \
+# 		--suppressions=/home/shachowd/42minishell/readline.supp -s ./minishell
 
 
 all: mandatory

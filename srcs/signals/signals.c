@@ -6,7 +6,7 @@
 /*   By: shachowd <shachowd@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 20:55:34 by shachowd          #+#    #+#             */
-/*   Updated: 2025/04/03 16:58:57 by shachowd         ###   ########.fr       */
+/*   Updated: 2025/04/04 15:10:01 by shachowd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,6 @@ static void	reset_sigint()
 	sigemptyset(&sa.sa_mask);
 	if (sigaction(SIGINT, &sa, NULL) == -1)
 		return ;
-	// mshell->exit_code = 130;
 }
 
 static void	ignore_sigquit(void)
@@ -47,22 +46,8 @@ static void	ignore_sigquit(void)
 		return ;
 }
 
-static void	setup_terminal(void)
-{
-	int				fd;
-	struct termios	terminal;
-
-	fd = STDIN_FILENO;
-	if (tcgetattr(fd, &terminal) == -1)
-		return ;
-	terminal.c_lflag &= ~ECHOCTL;
-	if (tcsetattr(fd, TCSANOW, &terminal) == -1)
-		return ;
-}
-
 void	setup_signal_handlers()
 {
-	setup_terminal();
 	ignore_sigquit();
 	reset_sigint();
 }

@@ -6,7 +6,7 @@
 /*   By: shachowd <shachowd@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 20:51:30 by shachowd          #+#    #+#             */
-/*   Updated: 2025/04/03 19:03:58 by shachowd         ###   ########.fr       */
+/*   Updated: 2025/04/04 15:11:11 by shachowd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,5 +132,3 @@ char	*get_command_path(t_mshell *mshell, t_cmd *cmd)
 	ft_free_grid((void **)env_paths);
 	return (cmd_path);
 }
-
-//

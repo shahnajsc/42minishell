@@ -6,24 +6,31 @@
 /*   By: shachowd <shachowd@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 20:52:21 by shachowd          #+#    #+#             */
-/*   Updated: 2025/04/04 13:51:11 by shachowd         ###   ########.fr       */
+/*   Updated: 2025/04/04 20:11:56 by shachowd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void interrupt_input(t_mshell *mshell)
+int interrupt_input(t_mshell *mshell)
 {
 	if (g_heredoc == SIGINT)
 	{
 		g_heredoc = 0;
 		mshell->exit_code = 130;
+		return (1);
 	}
+	return (0);
 }
-void handle_all(t_mshell *mshell, char *line)
+void initiate_minishell(t_mshell *mshell, char *input_str)
 {
-	if (*line)
-		add_history(line);
+	add_history(input_str);
+	if (parse_input(mshell, input_str))
+	{
+		free(input_str);
+		return ;
+	}
+	free(input_str);
 	if (mshell->cmds)
 		execute_cmds(mshell);
 	cleanup_on_loop(mshell);
@@ -44,12 +51,8 @@ int	minishell(t_mshell *mshell)
 			break ;
 		}
 		interrupt_input(mshell);
-		if (parse_input(mshell, input_str))
-		{
-			free(input_str);
-			continue ;
-		}
-		handle_all(mshell, input_str);
+		if (input_str && *input_str)
+			initiate_minishell(mshell, input_str);
 	}
 	rl_clear_history();
 	return (mshell->exit_code);

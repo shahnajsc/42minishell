@@ -6,7 +6,7 @@
 /*   By: shachowd <shachowd@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 20:54:15 by shachowd          #+#    #+#             */
-/*   Updated: 2025/04/03 11:16:28 by shachowd         ###   ########.fr       */
+/*   Updated: 2025/04/04 15:08:53 by shachowd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,6 @@ int	tokenize_input(t_mshell *mshell, char *input_str)
 			return (EXIT_FAILURE);
 		i++;
 	}
-	//print_command_list(mshell);
+	print_command_list(mshell);
 	return (EXIT_SUCCESS);
 }
