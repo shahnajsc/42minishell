@@ -2,11 +2,14 @@
 
 static void	reset_prompt(int sigint)
 {
-	(void)sigint;
-	ft_putchar_fd('\n', STDERR_FILENO);
-	rl_replace_line("", 0);
-	rl_on_new_line();
-	rl_redisplay();
+	if (sigint == SIGINT)
+	{
+		g_heredoc = SIGINT;
+		ft_putchar_fd('\n', STDERR_FILENO);
+		rl_replace_line("", 0);
+		rl_on_new_line();
+		rl_redisplay();
+	}
 }
 
 static void	reset_sigint(void)

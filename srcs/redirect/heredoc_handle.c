@@ -80,18 +80,20 @@ int	heredoc_input(char **joined_lines, char *delimeter)
 	return (0);
 }
 
-void	get_hd_lines(t_mshell *mshell, t_redirect *rd_list, int i, int is_quote)
+static int	get_hd_lines(t_mshell *mshell, t_redirect *rd_list,
+	int i, int is_quote)
 {
 	struct sigaction	sa_old;
 	char				*joined_lines;
 
 	if (!mshell || !rd_list)
-		return ;
+		return (1);
 	setup_heredoc_signals(&sa_old);
 	rl_event_hook = heredoc_event_hook;
 	rl_catch_signals = 0;
-	if (!(joined_lines = ft_strdup("")))
-		return ;
+	joined_lines = ft_strdup("");
+	if (!joined_lines)
+		return (1);
 	while (!g_heredoc)
 	{
 		if (heredoc_input(&joined_lines, rd_list[i].file_deli))
@@ -102,13 +104,13 @@ void	get_hd_lines(t_mshell *mshell, t_redirect *rd_list, int i, int is_quote)
 		rd_list[i].hd_lines = expand_heredoc(mshell, joined_lines, is_quote);
 	else
 	{
-		mshell->exit_code = 130;
 		free(joined_lines);
+		return (SIGINT);
 	}
-	g_heredoc = 0;
+	return (0);
 }
 
-int	heredoc_handle(t_mshell *mshell)
+int	heredoc_handle(t_mshell *mshell, int *status)
 {
 	int	i;
 	int	j;
@@ -123,12 +125,12 @@ int	heredoc_handle(t_mshell *mshell)
 		{
 			if (mshell->cmds[i].redirects[j].rd_type == RD_HEREDOC)
 			{
-				get_hd_lines(mshell, mshell->cmds[i].redirects, j,
+				*status = get_hd_lines(mshell, mshell->cmds[i].redirects, j,
 					mshell->cmds[i].is_hd_quote);
 			}
 			j++;
 		}
 		i++;
 	}
-	return (EXIT_SUCCESS);
+	return (*status);
 }

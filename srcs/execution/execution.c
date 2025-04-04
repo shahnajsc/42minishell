@@ -125,10 +125,18 @@ void	execute_cmds(t_mshell *mshell)
 	status = mshell->exit_code;
 	if (!mshell->cmds || mshell->count_cmds == 0)
 		return ;
-	if (heredoc_handle(mshell) == EXIT_FAILURE)
+	g_heredoc = 0;
+	heredoc_handle(mshell, &status);
+	if (status == SIGINT)
+	{
+		g_heredoc = 0;
+		mshell->exit_code =  130;
 		return ;
+	}
+	// update_env_cmd(mshell, 0);
 	if (check_is_builtin(&mshell->cmds[0]) && mshell->count_cmds == 1)
 	{
+
 		if (builtins_in_parent(mshell, &mshell->cmds[0],
 				&status) == EXIT_FAILURE)
 		{

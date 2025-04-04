@@ -18,7 +18,7 @@ int		redirect_handle_cmd(t_mshell *mshell, t_cmd *cmd, int len);
 int	redirect_fd(int from_fd, int to_fd);
 
 //.........HEREDOC.............//
-int		heredoc_handle(t_mshell *mshell);
+int		heredoc_handle(t_mshell *mshell, int *status);
 char	*expand_heredoc(t_mshell *mshell, char *hd_lines, int is_quote);
 
 
