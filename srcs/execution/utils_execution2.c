@@ -6,12 +6,11 @@
 /*   By: shachowd <shachowd@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 21:12:16 by shachowd          #+#    #+#             */
-/*   Updated: 2025/04/04 15:10:11 by shachowd         ###   ########.fr       */
+/*   Updated: 2025/04/05 16:47:08 by shachowd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
 
 static int	ft_wait(t_mshell *mshell, pid_t pid, int *wstatus)
 {
@@ -52,8 +51,8 @@ int	wait_all(t_mshell *mshell, int i)
 	int	child_status;
 	int	last_status;
 
-	child_status = 0;
-	last_status = 0;
+	child_status = EXIT_SUCCESS;
+	last_status = EXIT_SUCCESS;
 	if (!mshell->p_id)
 		return (EXIT_FAILURE);
 	while (mshell->cmds && i < mshell->count_cmds)
@@ -65,7 +64,7 @@ int	wait_all(t_mshell *mshell, int i)
 		i++;
 	}
 	if (child_status == 131)
-            ft_putstr_fd("Quit (core dumped)\n", STDERR_FILENO);
+		ft_putstr_fd("Quit (core dumped)\n", STDERR_FILENO);
 	if (mshell->p_id)
 	{
 		free(mshell->p_id);

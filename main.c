@@ -6,13 +6,13 @@
 /*   By: shachowd <shachowd@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 19:19:35 by shachowd          #+#    #+#             */
-/*   Updated: 2025/04/03 17:04:56 by shachowd         ###   ########.fr       */
+/*   Updated: 2025/04/05 15:11:26 by shachowd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-volatile sig_atomic_t	g_heredoc = 0;
+volatile sig_atomic_t	g_store_sigint = 0;
 
 static int	mshell_data_init(t_mshell *mshell, char **envp)
 {

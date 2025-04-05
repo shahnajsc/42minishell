@@ -6,7 +6,7 @@
 /*   By: shachowd <shachowd@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 20:49:38 by shachowd          #+#    #+#             */
-/*   Updated: 2025/04/03 20:11:33 by shachowd         ###   ########.fr       */
+/*   Updated: 2025/04/05 16:43:48 by shachowd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ static void	print_export(t_env *env)
 	i = 0;
 	while (copy_env[i].key != NULL)
 	{
-        if (ft_strcmp(copy_env[i].key, "_") != 0)
+		if (ft_strcmp(copy_env[i].key, "_") != 0)
 		{
 			ft_putstr_fd("declare -x ", STDOUT_FILENO);
 			ft_putstr_fd(copy_env[i].key, STDOUT_FILENO);

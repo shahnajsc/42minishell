@@ -6,26 +6,23 @@
 /*   By: shachowd <shachowd@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 20:55:42 by shachowd          #+#    #+#             */
-/*   Updated: 2025/04/03 16:56:12 by shachowd         ###   ########.fr       */
+/*   Updated: 2025/04/05 15:11:26 by shachowd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-
-
 static void	handle_heredoc_signals(int sig)
 {
-	// (void)sig;
 	if (sig == SIGINT)
 	{
-		g_heredoc = SIGINT;
+		g_store_sigint = SIGINT;
 	}
 }
 
 int	heredoc_event_hook(void)
 {
-	if (g_heredoc)
+	if (g_store_sigint)
 	{
 		rl_done = 1;
 		return (1);

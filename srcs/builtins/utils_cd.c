@@ -6,11 +6,12 @@
 /*   By: shachowd <shachowd@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 20:50:15 by shachowd          #+#    #+#             */
-/*   Updated: 2025/04/03 13:39:42 by shachowd         ###   ########.fr       */
+/*   Updated: 2025/04/05 15:49:11 by shachowd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
 void	update_cd(t_env **env, const char *key, const char *set_path)
 {
 	t_env	*variable;

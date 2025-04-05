@@ -6,7 +6,7 @@
 /*   By: shachowd <shachowd@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 20:53:15 by shachowd          #+#    #+#             */
-/*   Updated: 2025/04/03 09:40:40 by shachowd         ###   ########.fr       */
+/*   Updated: 2025/04/05 16:42:01 by shachowd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,11 +53,6 @@ static char	**create_splitted_cmd(char **splitted_cmd, t_token *token_list)
 		current_token = current_token->next;
 	}
 	splitted_cmd[i] = NULL;
-	// if (splitted_cmd[0] == NULL)
-	// {
-	// 	ft_free_grid((void **)splitted_cmd);
-	// 	return (NULL);
-	// }
 	return (splitted_cmd);
 }
 
@@ -75,7 +70,7 @@ char	**splitted_cmd(t_mshell *mshell, int i)
 	if (!splitted_cmd)
 		return (NULL);
 	splitted_cmd = create_splitted_cmd(splitted_cmd, token_list);
-	if (!splitted_cmd || !splitted_cmd[0]) // check
+	if (!splitted_cmd || !splitted_cmd[0])
 	{
 		ft_free_grid((void **)splitted_cmd);
 		return (NULL);

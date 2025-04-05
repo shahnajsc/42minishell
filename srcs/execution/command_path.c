@@ -6,31 +6,11 @@
 /*   By: shachowd <shachowd@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 20:51:30 by shachowd          #+#    #+#             */
-/*   Updated: 2025/04/04 15:11:11 by shachowd         ###   ########.fr       */
+/*   Updated: 2025/04/05 16:46:45 by shachowd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-static void	error_return_path(t_mshell *mshell, char *err_in, char *msg, int status)
-{
-	ft_putstr_fd("minishell: ", 2);
-	if (*err_in != '\0')
-		ft_putstr_fd(err_in, 2);
-	if (*msg == '\0' || !msg)
-	{
-		ft_putstr_fd(": ", 2);
-		perror("");
-	}
-	else
-	{
-		ft_putstr_fd(": ", 2);
-		ft_putstr_fd(msg, 2);
-		ft_putstr_fd("\n", 2);
-	}
-	cleanup_mshell(mshell);
-	exit(status);
-}
 
 static char	**get_envp_paths(t_mshell *mshell, int i)
 {
@@ -97,7 +77,7 @@ static char	*get_path_cmd(char **env_paths, char *cmd_name)
 	return (NULL);
 }
 
-static int validate_command(t_mshell *mshell, t_cmd *cmd)
+static int	validate_command(t_mshell *mshell, t_cmd *cmd)
 {
 	struct stat	sb;
 
@@ -114,8 +94,8 @@ static int validate_command(t_mshell *mshell, t_cmd *cmd)
 
 char	*get_command_path(t_mshell *mshell, t_cmd *cmd)
 {
-	char		*cmd_path;
-	char		**env_paths;
+	char	*cmd_path;
+	char	**env_paths;
 
 	if (cmd->cmd_name && ft_strchr(cmd->cmd_name, '/'))
 	{

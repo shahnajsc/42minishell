@@ -6,7 +6,7 @@
 /*   By: shachowd <shachowd@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 20:46:33 by shachowd          #+#    #+#             */
-/*   Updated: 2025/04/04 15:15:31 by shachowd         ###   ########.fr       */
+/*   Updated: 2025/04/05 16:51:07 by shachowd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,20 +49,19 @@ typedef struct s_mshell
 	int		flag_path;
 }	t_mshell;
 
-extern volatile sig_atomic_t	g_heredoc;
+extern volatile sig_atomic_t	g_store_sigint;
 
 int		minishell(t_mshell *mshell);
 void	cleanup_mshell(t_mshell *mshell);
 
 //........DEFAULT MINISHELL SIGNALS..........//
-void	setup_signal_handlers();
+void	setup_signal_handlers(void);
 void	ignore_parent_signals(void);
 
 //........ HEREDOC SIGNALS..........//
 void	setup_heredoc_signals(struct sigaction *sa_old);
 int		heredoc_event_hook(void);
-int 	interrupt_input(t_mshell *mshell);
-
+int		interrupt_input(t_mshell *mshell);
 
 //........CHILD SIGNALS..........//
 void	setup_child_signals(void);

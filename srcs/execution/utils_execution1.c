@@ -6,7 +6,7 @@
 /*   By: shachowd <shachowd@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 20:52:05 by shachowd          #+#    #+#             */
-/*   Updated: 2025/04/04 11:48:22 by shachowd         ###   ########.fr       */
+/*   Updated: 2025/04/05 16:46:59 by shachowd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,14 +62,14 @@ void	parent_process(t_mshell *mshell)
 
 void	update_env_underscore(t_mshell *mshell)
 {
-	int i;
-	char *cmd_value;
-	int	len;
+	int		i;
+	char	*cmd_value;
+	int		len;
 
 	i = 0;
 	len = ft_grid_rows(mshell->cmds[0].splitted_cmd);
 	if (&mshell->cmds[0] && mshell->cmds[0].splitted_cmd && len > 0)
-		cmd_value = ft_strdup(mshell->cmds[0].splitted_cmd[len -1]);
+		cmd_value = ft_strdup(mshell->cmds[0].splitted_cmd[len - 1]);
 	else
 		cmd_value = ft_strdup("");
 	while (mshell->env[i].key != NULL)
@@ -78,8 +78,28 @@ void	update_env_underscore(t_mshell *mshell)
 		{
 			if (mshell->env[i].value)
 				free(mshell->env[i].value);
-			mshell->env[i].value  = cmd_value;
+			mshell->env[i].value = cmd_value;
 		}
 		i++;
 	}
+}
+
+void	error_return_path(t_mshell *mshell, char *err_in, char *msg, int status)
+{
+	ft_putstr_fd("minishell: ", 2);
+	if (*err_in != '\0')
+		ft_putstr_fd(err_in, 2);
+	if (*msg == '\0' || !msg)
+	{
+		ft_putstr_fd(": ", 2);
+		perror("");
+	}
+	else
+	{
+		ft_putstr_fd(": ", 2);
+		ft_putstr_fd(msg, 2);
+		ft_putstr_fd("\n", 2);
+	}
+	cleanup_mshell(mshell);
+	exit(status);
 }

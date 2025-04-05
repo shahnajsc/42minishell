@@ -6,7 +6,7 @@
 /*   By: shachowd <shachowd@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 20:46:22 by shachowd          #+#    #+#             */
-/*   Updated: 2025/04/04 11:57:41 by shachowd         ###   ########.fr       */
+/*   Updated: 2025/04/05 16:49:20 by shachowd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ int			is_invalid_identifier(char *identifier);
 void		free_env(t_env *env);
 int			exit_mshell(t_mshell *mshell, int *status);
 int			cd_error(char **args, t_cd_error err);
-void		mshell_lvl_error(t_env **env, char *new_lvl, t_env *shlvl);
+void		mshell_lvl_error(char *new_lvl, t_env *shlvl);
 int			builtins_error(char *arg, char *err_msg, char *free_str);
 
 #endif

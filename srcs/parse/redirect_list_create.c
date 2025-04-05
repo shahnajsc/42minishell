@@ -6,7 +6,7 @@
 /*   By: shachowd <shachowd@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 20:53:00 by shachowd          #+#    #+#             */
-/*   Updated: 2025/04/03 13:42:58 by shachowd         ###   ########.fr       */
+/*   Updated: 2025/04/05 16:46:33 by shachowd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,8 @@ static t_redirect	*get_redirect_list(t_token *token, int rd_len, int i)
 			temp = temp->next;
 			while (temp && temp->tok_type == EMPTY)
 				temp = temp->next;
-			if (temp && (temp->tok_type == DELIMETER || temp->tok_type == FILENAME))
+			if (temp && (temp->tok_type == DELIMETER
+					|| temp->tok_type == FILENAME))
 				rd_list[i].file_deli = ft_strdup(temp->tok_value);
 			i++;
 		}

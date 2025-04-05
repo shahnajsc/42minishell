@@ -6,7 +6,7 @@
 /*   By: shachowd <shachowd@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 20:48:28 by shachowd          #+#    #+#             */
-/*   Updated: 2025/04/01 20:48:30 by shachowd         ###   ########.fr       */
+/*   Updated: 2025/04/05 15:44:22 by shachowd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ static void	mshell_level(t_env **env)
 		free(new_lvl);
 	}
 	else
-		mshell_lvl_error(env, new_lvl, shlvl);
+		mshell_lvl_error(new_lvl, shlvl);
 }
 
 t_env	*init_env(char **envp)

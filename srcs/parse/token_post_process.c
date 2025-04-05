@@ -6,7 +6,7 @@
 /*   By: shachowd <shachowd@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 20:53:58 by shachowd          #+#    #+#             */
-/*   Updated: 2025/04/04 19:44:03 by shachowd         ###   ########.fr       */
+/*   Updated: 2025/04/05 16:31:05 by shachowd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,10 +61,9 @@ t_token	*post_process_token(t_mshell *mshell, t_token *head_token, int cmd_id)
 	head_token = assign_file_deli_tokens(head_token);
 	head_token = merge_consequtive_token(head_token);
 	head_token = expand_token_values(mshell, head_token);
-	head_token = delete_empty_token(head_token);
-	//head_token = remove_token_quotes(mshell, head_token, cmd_id);
-	// head_token = merge_consequtive_token(head_token);
-	printf("printing freom post process%d\n", mshell->cmds[cmd_id].is_hd_quote);
+	if (head_token)
+		head_token = delete_empty_token(head_token);
+	head_token = remove_deli_quotes(mshell, head_token, cmd_id);
 	if (!head_token)
 		return (NULL);
 	return (head_token);

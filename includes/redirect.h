@@ -6,7 +6,7 @@
 /*   By: shachowd <shachowd@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 20:46:48 by shachowd          #+#    #+#             */
-/*   Updated: 2025/04/03 23:31:45 by shachowd         ###   ########.fr       */
+/*   Updated: 2025/04/05 16:23:00 by shachowd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,6 @@ char							*expand_heredoc(t_mshell *mshell,
 									char *hd_lines, int is_quote);
 
 //...........UTILS..........//
-// int								mem_alloc_failed(char **joined_lines,
-// 									char *line);
 int								heredoc_join(char **joined_lines, char *line);
 
 #endif

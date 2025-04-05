@@ -6,7 +6,7 @@
 /*   By: shachowd <shachowd@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 20:55:10 by shachowd          #+#    #+#             */
-/*   Updated: 2025/04/04 14:38:55 by shachowd         ###   ########.fr       */
+/*   Updated: 2025/04/05 16:44:28 by shachowd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,8 +48,8 @@ static int	heredoc_input(char **joined_lines, char *delimeter)
 	return (0);
 }
 
-static int	get_hd_lines(t_mshell *mshell, t_redirect *rd_list,
-	int i, int is_quote)
+static int	get_hd_lines(t_mshell *mshell, t_redirect *rd_list, int i,
+		int is_quote)
 {
 	struct sigaction	sa_old;
 	char				*joined_lines;
@@ -62,13 +62,13 @@ static int	get_hd_lines(t_mshell *mshell, t_redirect *rd_list,
 	joined_lines = ft_strdup("");
 	if (!joined_lines)
 		return (1);
-	while (!g_heredoc)
+	while (!g_store_sigint)
 	{
 		if (heredoc_input(&joined_lines, rd_list[i].file_deli))
 			break ;
 	}
 	restore_signals(&sa_old);
-	if (!g_heredoc)
+	if (!g_store_sigint)
 		rd_list[i].hd_lines = expand_heredoc(mshell, joined_lines, is_quote);
 	else
 		free(joined_lines);
@@ -91,7 +91,7 @@ int	heredoc_handle(t_mshell *mshell, int *status)
 			if (mshell->cmds[i].redirects[j].rd_type == RD_HEREDOC)
 			{
 				*status = get_hd_lines(mshell, mshell->cmds[i].redirects, j,
-					mshell->cmds[i].is_hd_quote);
+						mshell->cmds[i].is_hd_quote);
 			}
 			j++;
 		}

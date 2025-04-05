@@ -6,7 +6,7 @@
 /*   By: shachowd <shachowd@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 20:51:49 by shachowd          #+#    #+#             */
-/*   Updated: 2025/04/03 19:06:40 by shachowd         ###   ########.fr       */
+/*   Updated: 2025/04/05 17:01:01 by shachowd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,11 +52,11 @@ static int	check_command_exec(t_mshell *mshell, int i, int *status)
 
 	copy_env = NULL;
 	if (!mshell->cmds[i].splitted_cmd && mshell->cmds[i].redirects)
-		clean_and_exit(mshell, "test\n", 0);
+		clean_and_exit(mshell, NULL, 0);
+	if (mshell->cmds[i].splitted_cmd && !mshell->cmds[i].splitted_cmd[0][0])
+		clean_and_exit(mshell, "Command '' not found\n", 127);
 	if (!mshell->cmds[i].splitted_cmd)
-		clean_and_exit(mshell, "empty cmd\n", 0);
-	if  (mshell->cmds[i].splitted_cmd && !mshell->cmds[i].splitted_cmd[0][0])
-		clean_and_exit(mshell, "command 'abc' not found\n", 127);
+		clean_and_exit(mshell, "empty cmd", 0);
 	if (check_is_builtin(&mshell->cmds[i]))
 	{
 		if (builtins_in_child(mshell, &mshell->cmds[i], status) == EXIT_FAILURE)

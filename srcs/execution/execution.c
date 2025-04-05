@@ -6,7 +6,7 @@
 /*   By: shachowd <shachowd@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 20:51:57 by shachowd          #+#    #+#             */
-/*   Updated: 2025/04/04 15:22:46 by shachowd         ###   ########.fr       */
+/*   Updated: 2025/04/05 15:41:34 by shachowd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@ static int	execute_child_cmds(t_mshell *mshell, int i, int *status)
 			return (EXIT_FAILURE);
 		if (mshell->p_id[i] == 0)
 		{
-			// update_env_cmd(mshell, i);
 			setup_child_signals();
 			child_process(mshell, i, status);
 		}
@@ -104,42 +103,6 @@ static int	builtins_in_parent(t_mshell *mshell, t_cmd *cmd, int *status)
 	return (EXIT_SUCCESS);
 }
 
-
-// void	execute_cmds(t_mshell *mshell)
-// {
-// 	int	status;
-
-// 	status = mshell->exit_code;
-// 	if (!mshell->cmds || mshell->count_cmds == 0)
-// 		return ;
-// 	g_heredoc = 0;
-// 	status = heredoc_handle(mshell, &status);
-// //	printf("heredoc satus: %d", status);
-// 	if (g_heredoc == SIGINT)
-// 	{
-// 		g_heredoc = 0;
-// 		//printf("heredoc erro\n");
-// 		mshell->exit_code =  130;
-// 		return ;
-// 	}
-// 	else if (status == 1)
-// 		return ;
-// 	update_env_underscore(mshell);
-// 	if (check_is_builtin(&mshell->cmds[0]) && mshell->count_cmds == 1)
-// 	{
-
-// 		if (builtins_in_parent(mshell, &mshell->cmds[0],
-// 				&status) == EXIT_FAILURE)
-// 		{
-// 			mshell->exit_code = status;
-// 			return ;
-// 		}
-// 	}
-// 	else
-// 		execute_child_cmds(mshell, 0, &status);
-// 	mshell->exit_code = status;
-// }
-
 void	execute_cmds(t_mshell *mshell)
 {
 	int	status;
@@ -147,14 +110,13 @@ void	execute_cmds(t_mshell *mshell)
 	status = mshell->exit_code;
 	if (!mshell->cmds || mshell->count_cmds == 0)
 		return ;
-	g_heredoc = 0;
+	g_store_sigint = 0;
 	heredoc_handle(mshell, &status);
 	if (interrupt_input(mshell))
 		return ;
-	update_env_underscore(mshell);
 	if (check_is_builtin(&mshell->cmds[0]) && mshell->count_cmds == 1)
 	{
-
+		update_env_underscore(mshell);
 		if (builtins_in_parent(mshell, &mshell->cmds[0],
 				&status) == EXIT_FAILURE)
 		{

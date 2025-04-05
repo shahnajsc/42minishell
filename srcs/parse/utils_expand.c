@@ -6,7 +6,7 @@
 /*   By: shachowd <shachowd@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 20:54:23 by shachowd          #+#    #+#             */
-/*   Updated: 2025/04/02 17:23:42 by shachowd         ###   ########.fr       */
+/*   Updated: 2025/04/05 16:11:18 by shachowd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ char	*get_token_envkey(char *tok_val, int i)
 	key_end = 0;
 	env_key = NULL;
 	while (tok_val[i + key_end] && !check_char_whitespaces(tok_val[i + key_end])
-		&& !ft_strchr("$?\"'/\\\n", tok_val[i + key_end]))
+		&& !ft_strchr("$?\"'/\\n", tok_val[i + key_end]))
 	{
 		key_end++;
 	}
@@ -87,3 +87,6 @@ char	*replace_var(char *token, int *i)
 	free(token);
 	return (new_token);
 }
+
+// while (tok_val[i + key_end] && !check_char_whitespaces(tok_val[i + key_end])
+// && !ft_strchr("$?\"'/\\\n", tok_val[i + key_end]))

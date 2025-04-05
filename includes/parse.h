@@ -6,7 +6,7 @@
 /*   By: shachowd <shachowd@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 20:46:41 by shachowd          #+#    #+#             */
-/*   Updated: 2025/04/04 19:38:34 by shachowd         ###   ########.fr       */
+/*   Updated: 2025/04/05 16:50:15 by shachowd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,12 +96,14 @@ t_token			*create_tokens_list(t_mshell *mshell, char *cmd_str,
 t_token			*post_process_token(t_mshell *mshell, t_token *head_token,
 					int cmd_id);
 t_token			*expand_token_values(t_mshell *mshell, t_token *head_token);
-t_token			*remove_token_quotes(t_mshell *mshell,
+t_token			*remove_deli_quotes(t_mshell *mshell,
 					t_token *head_token, int cmd_id);
 t_token			*merge_consequtive_token(t_token *head_token);
 char			*expand_text_token(t_mshell *mshell, char *tok_val, int i);
-char			*get_var_expanded(char *token, char *env_value, char *env_key, int *i);
-char			*get_expanded_token(t_mshell *mshell, char *token_value, int *i);
+char			*get_var_expanded(char *token, char *env_value, char *env_key,
+					int *i);
+char			*get_expanded_token(t_mshell *mshell, char *token_value,
+					int *i);
 char			*replace_var(char *token, int *i);
 t_token			*delete_empty_token(t_token *head_token);
 char			*expand_quoted_token(t_mshell *mshell, char *tok_val, int *i);
@@ -125,12 +127,12 @@ int				check_char_is_redirect(char c);
 char			*get_token_envkey(char *token_value, int i);
 char			*get_env_key_value(t_mshell *mshell, char *env_key);
 void			clean_free_str(char *cmd_str);
+int				quote_skip(const char *input, char quote, int i);
+char			*remove_quote(char *tok_val, int start, int end);
 
 //......TEST FUNCTIONS.......///
 void			print_token_list(t_token *token_list);
 void			print_splitted_cmds(char **cmds);
 void			print_command_list(t_mshell *mshell);
-
-void  print_command_list(t_mshell *mshell);
 
 #endif

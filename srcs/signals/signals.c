@@ -6,7 +6,7 @@
 /*   By: shachowd <shachowd@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 20:55:34 by shachowd          #+#    #+#             */
-/*   Updated: 2025/04/04 15:10:01 by shachowd         ###   ########.fr       */
+/*   Updated: 2025/04/05 16:44:07 by shachowd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ static void	reset_prompt(int sigint)
 {
 	if (sigint == SIGINT)
 	{
-		g_heredoc = SIGINT;
+		g_store_sigint = SIGINT;
 		ft_putchar_fd('\n', STDOUT_FILENO);
 		rl_replace_line("", 0);
 		rl_on_new_line();
@@ -24,7 +24,7 @@ static void	reset_prompt(int sigint)
 	}
 }
 
-static void	reset_sigint()
+static void	reset_sigint(void)
 {
 	struct sigaction	sa;
 
@@ -46,7 +46,7 @@ static void	ignore_sigquit(void)
 		return ;
 }
 
-void	setup_signal_handlers()
+void	setup_signal_handlers(void)
 {
 	ignore_sigquit();
 	reset_sigint();

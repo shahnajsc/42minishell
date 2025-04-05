@@ -6,7 +6,7 @@
 /*   By: shachowd <shachowd@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 20:55:23 by shachowd          #+#    #+#             */
-/*   Updated: 2025/04/03 19:16:23 by shachowd         ###   ########.fr       */
+/*   Updated: 2025/04/05 15:54:36 by shachowd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,8 @@ int	redirect_fd(int from_fd, int to_fd)
 	return (EXIT_SUCCESS);
 }
 
-static int	set_rd_fds(t_mshell *mshell, t_cmd *cmd, int new_in_fd, int new_out_fd)
+static int	set_rd_fds(t_mshell *mshell, t_cmd *cmd, int new_in_fd,
+		int new_out_fd)
 {
 	if (new_in_fd != -2)
 	{

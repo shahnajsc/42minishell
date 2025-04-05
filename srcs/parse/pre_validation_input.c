@@ -6,13 +6,13 @@
 /*   By: shachowd <shachowd@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 20:52:52 by shachowd          #+#    #+#             */
-/*   Updated: 2025/04/03 13:42:28 by shachowd         ###   ########.fr       */
+/*   Updated: 2025/04/05 16:41:15 by shachowd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static  int	check_backslash(t_mshell *mshell, char *input_str)
+static int	check_backslash(t_mshell *mshell, char *input_str)
 {
 	while (*input_str != '\0')
 	{

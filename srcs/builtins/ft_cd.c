@@ -6,7 +6,7 @@
 /*   By: shachowd <shachowd@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 20:48:49 by shachowd          #+#    #+#             */
-/*   Updated: 2025/04/03 13:15:07 by shachowd         ###   ########.fr       */
+/*   Updated: 2025/04/05 16:43:41 by shachowd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static char	*home_directory(t_env **env, char **dir, int *status, int i)
 			*status = 1;
 		else
 			*status = 0;
-		return  (NULL);
+		return (NULL);
 	}
 	*dir = ft_strdup(variable->value);
 	if (!*dir)
@@ -49,7 +49,7 @@ static char	*get_target_directory(t_env **env, char **args, int *status)
 	}
 	else
 	{
-		target =  ft_strdup(args[1]);
+		target = ft_strdup(args[1]);
 		if (!target)
 		{
 			*status = 1;
@@ -58,7 +58,6 @@ static char	*get_target_directory(t_env **env, char **args, int *status)
 	}
 	return (target);
 }
-
 
 static int	is_invalid_directory(char **args, char *file)
 {

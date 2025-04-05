@@ -6,11 +6,20 @@
 /*   By: shachowd <shachowd@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 20:53:47 by shachowd          #+#    #+#             */
-/*   Updated: 2025/04/03 13:48:25 by shachowd         ###   ########.fr       */
+/*   Updated: 2025/04/05 16:32:42 by shachowd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	free_extra_token(t_token *token)
+{
+	if (token)
+	{
+		free(token->tok_value);
+		free(token);
+	}
+}
 
 t_token	*delete_empty_token(t_token *head_token)
 {
@@ -18,8 +27,6 @@ t_token	*delete_empty_token(t_token *head_token)
 	t_token	*prev_token;
 	t_token	*temp;
 
-	if (!head_token)
-		return (NULL);
 	prev_token = NULL;
 	current_token = head_token;
 	while (current_token)
@@ -32,8 +39,7 @@ t_token	*delete_empty_token(t_token *head_token)
 			else
 				prev_token->next = current_token->next;
 			current_token = current_token->next;
-			free(temp->tok_value); //make a function
-			free(temp);
+			free_extra_token(temp);
 		}
 		else
 		{
