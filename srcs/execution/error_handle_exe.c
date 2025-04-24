@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   error_handle_exe.c                                 :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: shachowd <shachowd@student.hive.fi>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/04/01 20:51:38 by shachowd          #+#    #+#             */
+/*   Updated: 2025/04/03 19:06:03 by shachowd         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 int	clean_and_exit(t_mshell *mshell, char *msg, int status)
@@ -10,6 +22,7 @@ int	clean_and_exit(t_mshell *mshell, char *msg, int status)
 	cleanup_mshell(mshell);
 	exit(status);
 }
+
 int	allocate_pid(t_mshell *mshell)
 {
 	mshell->p_id = ft_calloc(mshell->count_cmds + 1, sizeof(pid_t));

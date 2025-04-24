@@ -1,12 +1,27 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   signals.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: shachowd <shachowd@student.hive.fi>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/04/01 20:55:34 by shachowd          #+#    #+#             */
+/*   Updated: 2025/04/05 16:44:07 by shachowd         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 static void	reset_prompt(int sigint)
 {
-	(void)sigint;
-	ft_putchar_fd('\n', STDERR_FILENO);
-	rl_replace_line("", 0);
-	rl_on_new_line();
-	rl_redisplay();
+	if (sigint == SIGINT)
+	{
+		g_store_sigint = SIGINT;
+		ft_putchar_fd('\n', STDOUT_FILENO);
+		rl_replace_line("", 0);
+		rl_on_new_line();
+		rl_redisplay();
+	}
 }
 
 static void	reset_sigint(void)
@@ -31,22 +46,8 @@ static void	ignore_sigquit(void)
 		return ;
 }
 
-static void	setup_terminal(void)
-{
-	int				fd;
-	struct termios	terminal;
-
-	fd = STDIN_FILENO;
-	if (tcgetattr(fd, &terminal) == -1)
-		return ;
-	terminal.c_lflag &= ~ECHOCTL;
-	if (tcsetattr(fd, TCSANOW, &terminal) == -1)
-		return ;
-}
-
 void	setup_signal_handlers(void)
 {
-	setup_terminal();
 	ignore_sigquit();
 	reset_sigint();
 }

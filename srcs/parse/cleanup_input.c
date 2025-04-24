@@ -1,4 +1,16 @@
-#include  "minishell.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   cleanup_input.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: shachowd <shachowd@student.hive.fi>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/04/01 20:52:26 by shachowd          #+#    #+#             */
+/*   Updated: 2025/04/06 16:38:17 by shachowd         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "minishell.h"
 
 static void	free_redirects(t_redirect *redirects, t_token *token)
 {
@@ -7,7 +19,7 @@ static void	free_redirects(t_redirect *redirects, t_token *token)
 
 	if (!redirects || !token)
 		return ;
-	i =  0;
+	i = 0;
 	len = get_rd_list_len(token);
 	while (i < len)
 	{
@@ -38,14 +50,18 @@ static void	free_tokens(t_token *token)
 	while (cur_token)
 	{
 		temp = cur_token;
-		free(temp->tok_value);
-		temp->tok_value  = NULL;
+		if (temp->tok_value)
+		{
+			free(temp->tok_value);
+			temp->tok_value = NULL;
+		}
 		cur_token = cur_token->next;
 		free(temp);
 	}
 	token = NULL;
 }
-void	close_free_pipe(t_mshell *mshell)
+
+static void	close_free_pipe(t_mshell *mshell)
 {
 	if (!mshell)
 		return ;
@@ -60,7 +76,7 @@ void	close_free_pipe(t_mshell *mshell)
 	}
 }
 
-void	close_cmd_fds(t_cmd *cmd)
+static void	close_cmd_fds(t_cmd *cmd)
 {
 	if (cmd->std_fd[0] > -1)
 		close(cmd->std_fd[0]);
@@ -75,21 +91,14 @@ void	close_cmd_fds(t_cmd *cmd)
 void	cleanup_on_loop(t_mshell *mshell)
 {
 	int	i;
+
 	if (!mshell || !mshell->cmds)
 		return ;
 	i = 0;
 	while (i < mshell->count_cmds)
 	{
-		if (mshell->cmds[i].cmd_str)
-		{
-			free(mshell->cmds[i].cmd_str);
-			mshell->cmds[i].cmd_str = NULL;
-		}
-		if (mshell->cmds[i].cmd_name)
-		{
-			free(mshell->cmds[i].cmd_name);
-			mshell->cmds[i].cmd_name = NULL;
-		}
+		clean_free_str(mshell->cmds[i].cmd_str);
+		clean_free_str(mshell->cmds[i].cmd_name);
 		ft_free_grid((void **)mshell->cmds[i].splitted_cmd);
 		free_redirects(mshell->cmds[i].redirects, mshell->cmds[i].token);
 		free_tokens(mshell->cmds[i].token);

@@ -1,35 +1,16 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_export.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: shachowd <shachowd@student.hive.fi>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/04/01 20:49:38 by shachowd          #+#    #+#             */
+/*   Updated: 2025/04/05 16:43:48 by shachowd         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
-
-void	swap_env(t_env *a, t_env *b)
-{
-	t_env	temp;
-
-	temp = *a;
-	*a = *b;
-	*b = temp;
-}
-
-void	sort_env(t_env *env)
-{
-	int	swapped;
-	int	i;
-
-	swapped = 1;
-	while (swapped)
-	{
-		swapped = 0;
-		i = 0;
-		while (env[i].key != NULL && env[i + 1].key != NULL)
-		{
-			if (compare_keys(env[i].key, env[i + 1].key) > 0)
-			{
-				swap_env(&env[i], &env[i + 1]);
-				swapped = 1;
-			}
-			i++;
-		}
-	}
-}
 
 static void	set_env_var(t_mshell *mshell, char **args, int *status_code)
 {
@@ -53,25 +34,58 @@ static void	set_env_var(t_mshell *mshell, char **args, int *status_code)
 	}
 }
 
-static void	print_export(t_env *env)
+static int	export_duplicate(t_env **copy_env, t_env *env)
 {
+	int	count;
 	int	i;
 
-	sort_env(env);
+	count = 0;
+	while (env[count].key != NULL)
+		count++;
+	*copy_env = malloc(sizeof(t_env) * (count + 1));
+	if (!*copy_env)
+		return (EXIT_FAILURE);
 	i = 0;
-	while (env[i].key != NULL)
+	while (i < count)
 	{
-		ft_putstr_fd("declare -x ", 1);
-		ft_putstr_fd(env[i].key, 1);
-		if (env[i].value)
+		if (export_copy(&(*copy_env)[i], &env[i]))
 		{
-			ft_putstr_fd("=\"", 1);
-			ft_putstr_fd(env[i].value, 1);
-			ft_putstr_fd("\"", 1);
+			free_env(*copy_env);
+			return (EXIT_FAILURE);
 		}
-		ft_putstr_fd("\n", 1);
 		i++;
 	}
+	(*copy_env)[count].key = NULL;
+	(*copy_env)[count].value = NULL;
+	return (EXIT_SUCCESS);
+}
+
+static void	print_export(t_env *env)
+{
+	t_env	*copy_env;
+	int		i;
+
+	if (export_duplicate(&copy_env, env) != EXIT_SUCCESS)
+		return ;
+	sort_env(copy_env);
+	i = 0;
+	while (copy_env[i].key != NULL)
+	{
+		if (ft_strcmp(copy_env[i].key, "_") != 0)
+		{
+			ft_putstr_fd("declare -x ", STDOUT_FILENO);
+			ft_putstr_fd(copy_env[i].key, STDOUT_FILENO);
+			if (copy_env[i].value)
+			{
+				ft_putstr_fd("=\"", STDOUT_FILENO);
+				ft_putstr_fd(copy_env[i].value, STDOUT_FILENO);
+				ft_putstr_fd("\"", STDOUT_FILENO);
+			}
+			ft_putstr_fd("\n", STDOUT_FILENO);
+		}
+		i++;
+	}
+	free_env(copy_env);
 }
 
 int	ft_export(t_mshell *mshell, char **args)

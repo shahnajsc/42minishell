@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   utils_tokenize.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: shachowd <shachowd@student.hive.fi>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/04/01 20:54:46 by shachowd          #+#    #+#             */
+/*   Updated: 2025/04/01 21:22:31 by shachowd         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 int	check_char_is_redirect(char c)
@@ -18,7 +30,7 @@ int	count_pipes(char *input_str)
 			input_str++;
 		if (*input_str && check_char_is_quote(*input_str))
 			input_str = skip_quoted_part(input_str);
-		else if (*input_str &&  *input_str == '|')
+		else if (*input_str && *input_str == '|')
 		{
 			count++;
 			input_str++;
@@ -37,4 +49,13 @@ t_token_type	get_token_type(char *cmd_str, int i)
 		return (EMPTY);
 	else
 		return (CMD);
+}
+
+void	clean_free_str(char *cmd_str)
+{
+	if (cmd_str)
+	{
+		free(cmd_str);
+		cmd_str = NULL;
+	}
 }

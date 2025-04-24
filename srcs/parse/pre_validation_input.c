@@ -1,6 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   pre_validation_input.c                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: shachowd <shachowd@student.hive.fi>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/04/01 20:52:52 by shachowd          #+#    #+#             */
+/*   Updated: 2025/04/05 16:41:15 by shachowd         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
-int	check_backslash(t_mshell *mshell, char *input_str)
+static int	check_backslash(t_mshell *mshell, char *input_str)
 {
 	while (*input_str != '\0')
 	{
@@ -14,7 +26,7 @@ int	check_backslash(t_mshell *mshell, char *input_str)
 	return (EXIT_SUCCESS);
 }
 
-int	check_invalid_redirection(t_mshell *mshell, char *input)
+static int	check_invalid_redirection(t_mshell *mshell, char *input)
 {
 	char	rd_current;
 	int		rd_count;
@@ -42,7 +54,7 @@ int	check_invalid_redirection(t_mshell *mshell, char *input)
 	return (EXIT_SUCCESS);
 }
 
-int	check_invalid_pipe(t_mshell *mshell, char *input_str)
+static int	check_invalid_pipe(t_mshell *mshell, char *input_str)
 {
 	while (*input_str && check_char_whitespaces(*input_str))
 		input_str++;
@@ -70,7 +82,7 @@ int	check_invalid_pipe(t_mshell *mshell, char *input_str)
 	return (EXIT_SUCCESS);
 }
 
-int	check_missing_quotes(t_mshell *mshell, char *input_str)
+static int	check_missing_quotes(t_mshell *mshell, char *input_str)
 {
 	char	quote;
 
@@ -94,7 +106,7 @@ int	check_missing_quotes(t_mshell *mshell, char *input_str)
 int	pre_validation_input(t_mshell *mshell, char *input_str)
 {
 	if (check_str_whitespaces(input_str))
-		return (EXIT_FAILURE); // check for actual error mg
+		return (EXIT_FAILURE);
 	if (check_missing_quotes(mshell, input_str))
 		return (EXIT_FAILURE);
 	if (check_invalid_pipe(mshell, input_str))
@@ -105,9 +117,3 @@ int	pre_validation_input(t_mshell *mshell, char *input_str)
 		return (EXIT_FAILURE);
 	return (EXIT_SUCCESS);
 }
-
-//************************************** */
-// why |> fdf is working???
-
-
-//printf("after inside unquoted part str: %c \n", *input_str);

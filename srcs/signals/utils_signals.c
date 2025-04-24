@@ -1,16 +1,28 @@
-#include "minishell.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   utils_signals.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: shachowd <shachowd@student.hive.fi>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/04/01 20:55:42 by shachowd          #+#    #+#             */
+/*   Updated: 2025/04/05 15:11:26 by shachowd         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-volatile sig_atomic_t	g_heredoc = 0;
+#include "minishell.h"
 
 static void	handle_heredoc_signals(int sig)
 {
-	(void)sig;
-	g_heredoc = 1;
+	if (sig == SIGINT)
+	{
+		g_store_sigint = SIGINT;
+	}
 }
 
 int	heredoc_event_hook(void)
 {
-	if (g_heredoc)
+	if (g_store_sigint)
 	{
 		rl_done = 1;
 		return (1);
@@ -45,7 +57,7 @@ void	ignore_parent_signals(void)
 
 void	setup_child_signals(void)
 {
-	struct sigaction sa;
+	struct sigaction	sa;
 
 	sa.sa_handler = SIG_DFL;
 	sigemptyset(&sa.sa_mask);

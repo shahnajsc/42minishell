@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   utils_pre_validation.c                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: shachowd <shachowd@student.hive.fi>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/04/01 20:54:32 by shachowd          #+#    #+#             */
+/*   Updated: 2025/04/01 20:54:33 by shachowd         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 int	check_char_whitespaces(char c)
@@ -23,7 +35,7 @@ char	*skip_quoted_part(char *input_str)
 char	*skip_unquoted_part(char *input_str)
 {
 	while (*input_str && (*input_str != '\'' && *input_str != '"'
-		&& *input_str != '|'))
+			&& *input_str != '|'))
 		input_str++;
 	return (input_str);
 }

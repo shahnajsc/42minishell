@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   builtins_error_handle.c                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: shachowd <shachowd@student.hive.fi>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/04/01 20:48:14 by shachowd          #+#    #+#             */
+/*   Updated: 2025/04/05 15:43:57 by shachowd         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 int	cd_error(char **args, t_cd_error err)
@@ -27,6 +39,7 @@ int	cd_error(char **args, t_cd_error err)
 	}
 	return (EXIT_FAILURE);
 }
+
 int	builtins_error(char *arg, char *err_msg, char *free_str)
 {
 	ft_putstr_fd("minishell: ", STDERR_FILENO);
@@ -64,9 +77,8 @@ int	is_invalid_identifier(char *identifier)
 	return (EXIT_SUCCESS);
 }
 
-void	mshell_lvl_error(t_env **env, char *new_lvl, t_env *shlvl)
+void	mshell_lvl_error(char *new_lvl, t_env *shlvl)
 {
-	(void)env;
 	ft_putstr_fd("minishell: warning: shell level (", STDERR_FILENO);
 	ft_putstr_fd(new_lvl, STDERR_FILENO);
 	ft_putendl_fd(") too high, resetting to 1", STDERR_FILENO);
@@ -76,6 +88,7 @@ void	mshell_lvl_error(t_env **env, char *new_lvl, t_env *shlvl)
 	if (!shlvl->value)
 		return ;
 }
+
 void	free_env(t_env *env)
 {
 	int	i;

@@ -1,7 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_exit.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: shachowd <shachowd@student.hive.fi>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/04/01 20:49:10 by shachowd          #+#    #+#             */
+/*   Updated: 2025/04/05 15:46:08 by shachowd         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
-
-static void convert_status (long long exit_nbr, int *exit_status)
+static void	convert_status(long long exit_nbr, int *exit_status)
 {
 	if (exit_nbr < 0)
 		exit_nbr = (exit_nbr % 256 + 256) % 256;
@@ -9,6 +20,7 @@ static void convert_status (long long exit_nbr, int *exit_status)
 		exit_nbr = exit_nbr % 256;
 	*exit_status = (int)exit_nbr;
 }
+
 static int	process_exit_code(char *arg, int *exit_status)
 {
 	long long	exit_nbr;
@@ -44,16 +56,16 @@ static void	handle_exit(char **args, int *exit_status)
 		*exit_status = 0;
 	else if (!is_invalid_digit(args[1]) && args[2])
 	{
-		ft_putstr_fd("minishell: exit: ", 2);
-		ft_putstr_fd("too many arguments\n", 2);
+		ft_putstr_fd("minishell: exit: ", STDERR_FILENO);
+		ft_putstr_fd("too many arguments\n", STDERR_FILENO);
 		*exit_status = -1;
 	}
 	else if (!*args[1] || is_invalid_digit(args[1])
 		|| process_exit_code(args[1], exit_status))
 	{
-		ft_putstr_fd("minishell: exit: ", 2);
-		ft_putstr_fd(args[1], 2);
-		ft_putstr_fd(": numeric argument required\n", 2);
+		ft_putstr_fd("minishell: exit: ", STDERR_FILENO);
+		ft_putstr_fd(args[1], STDERR_FILENO);
+		ft_putstr_fd(": numeric argument required\n", STDERR_FILENO);
 		*exit_status = 2;
 	}
 }

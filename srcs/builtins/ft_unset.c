@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_unset.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: shachowd <shachowd@student.hive.fi>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/04/01 20:49:56 by shachowd          #+#    #+#             */
+/*   Updated: 2025/04/01 21:00:15 by shachowd         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 static t_env	*allocate_env_size(int env_size, int key_len)
@@ -41,6 +53,7 @@ static int	count_keys(t_env *env, char **keys)
 	}
 	return (count);
 }
+
 static int	copy_variable(t_env *src_var, t_env *dest_var)
 {
 	dest_var->key = ft_strdup(src_var->key);
