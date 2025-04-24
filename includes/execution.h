@@ -6,7 +6,7 @@
 /*   By: shachowd <shachowd@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 19:22:29 by shachowd          #+#    #+#             */
-/*   Updated: 2025/04/05 16:46:10 by shachowd         ###   ########.fr       */
+/*   Updated: 2025/04/06 16:43:21 by shachowd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ void		error_return_path(t_mshell *mshell, char *err_in, char *msg,
 void		close_fds(t_mshell *mshell);
 int			setup_pipe(t_mshell *mshell);
 int			allocate_pid(t_mshell *mshell);
+int			execution_error(t_mshell *mshell, t_cmd *cmd, int status);
 int			create_child_process(t_mshell *mshell, pid_t p_id);
 int			clean_and_exit(t_mshell *mshell, char *msg, int status);
 

@@ -6,7 +6,7 @@
 /*   By: shachowd <shachowd@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 20:53:47 by shachowd          #+#    #+#             */
-/*   Updated: 2025/04/05 16:32:42 by shachowd         ###   ########.fr       */
+/*   Updated: 2025/04/06 16:14:29 by shachowd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,8 @@ static t_token	*merge_tokens(t_token *main_tok, t_token *to_merge)
 	main_tok->tok_value = ft_strjoin(main_tok->tok_value, to_merge->tok_value);
 	if (!main_tok->tok_value)
 		return (NULL);
+	if (main_tok->is_quote == 1 || to_merge->is_quote == 1)
+		main_tok->is_quote = 1;
 	main_tok->next = to_merge->next;
 	free(temp_main_value);
 	free(to_merge->tok_value);

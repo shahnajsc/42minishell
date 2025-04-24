@@ -6,7 +6,7 @@
 /*   By: shachowd <shachowd@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 20:52:05 by shachowd          #+#    #+#             */
-/*   Updated: 2025/04/05 16:46:59 by shachowd         ###   ########.fr       */
+/*   Updated: 2025/04/06 16:28:10 by shachowd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,8 +70,6 @@ void	update_env_underscore(t_mshell *mshell)
 	len = ft_grid_rows(mshell->cmds[0].splitted_cmd);
 	if (&mshell->cmds[0] && mshell->cmds[0].splitted_cmd && len > 0)
 		cmd_value = ft_strdup(mshell->cmds[0].splitted_cmd[len - 1]);
-	else
-		cmd_value = ft_strdup("");
 	while (mshell->env[i].key != NULL)
 	{
 		if (ft_strcmp(mshell->env[i].key, "_") == 0)
@@ -79,9 +77,11 @@ void	update_env_underscore(t_mshell *mshell)
 			if (mshell->env[i].value)
 				free(mshell->env[i].value);
 			mshell->env[i].value = cmd_value;
+			return ;
 		}
 		i++;
 	}
+	free(cmd_value);
 }
 
 void	error_return_path(t_mshell *mshell, char *err_in, char *msg, int status)

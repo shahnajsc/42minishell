@@ -6,7 +6,7 @@
 /*   By: shachowd <shachowd@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 20:53:23 by shachowd          #+#    #+#             */
-/*   Updated: 2025/04/03 13:43:59 by shachowd         ###   ########.fr       */
+/*   Updated: 2025/04/06 16:13:00 by shachowd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,9 +83,15 @@ static t_token	*create_str_token(char *cmd_str, int *i, t_token_type t_type)
 	if (!new_token)
 		return (NULL);
 	if (check_char_is_quote(cmd_str[*i]))
+	{
 		new_token->tok_value = get_quoted_token_value(cmd_str, i);
+		new_token->is_quote = 1;
+	}
 	else
+	{
 		new_token->tok_value = get_unquoted_token_value(cmd_str, i);
+		new_token->is_quote = 0;
+	}
 	if (!new_token->tok_value)
 		return (NULL);
 	new_token->tok_type = t_type;

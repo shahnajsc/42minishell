@@ -6,7 +6,7 @@
 /*   By: shachowd <shachowd@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 20:53:32 by shachowd          #+#    #+#             */
-/*   Updated: 2025/04/05 16:40:08 by shachowd         ###   ########.fr       */
+/*   Updated: 2025/04/06 16:15:37 by shachowd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,8 +51,6 @@ char	*get_expanded_token(t_mshell *mshell, char *token_value, int *i)
 		return (token_value);
 	}
 	env_key_value = get_env_key_value(mshell, env_key);
-	if (!env_key_value)
-		return (free(env_key), NULL);
 	expanded_token = get_var_expanded(token_value, env_key_value, env_key, i);
 	if (!expanded_token)
 		return (token_value);
@@ -112,7 +110,7 @@ t_token	*expand_token_values(t_mshell *mshell, t_token *head_token)
 		if ((cur_tok->tok_type == CMD || cur_tok->tok_type == FILENAME))
 		{
 			temp_value = expand_text_token(mshell, cur_tok->tok_value, 0);
-			if (temp_value && !*temp_value)
+			if (temp_value && !*temp_value && cur_tok->is_quote == 0)
 			{
 				free(temp_value);
 				cur_tok->tok_value = NULL;

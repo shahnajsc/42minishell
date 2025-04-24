@@ -1,3 +1,0 @@
-minishell>> /bin/env | grep "_="
-_=.//minishell
-minishell>> exit

@@ -6,7 +6,7 @@
 /*   By: shachowd <shachowd@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 21:12:16 by shachowd          #+#    #+#             */
-/*   Updated: 2025/04/05 16:47:08 by shachowd         ###   ########.fr       */
+/*   Updated: 2025/04/06 16:43:00 by shachowd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,6 @@ static int	wait_process(t_mshell *mshell, pid_t p_id)
 	exit_status = EXIT_SUCCESS;
 	if (ft_wait(mshell, p_id, &wstatus) == -1)
 		exit_status = EXIT_FAILURE;
-	setup_signal_handlers();
 	if (WIFEXITED(wstatus))
 		exit_status = WEXITSTATUS(wstatus);
 	else if (WIFSIGNALED(wstatus))
@@ -71,4 +70,12 @@ int	wait_all(t_mshell *mshell, int i)
 		mshell->p_id = NULL;
 	}
 	return (last_status);
+}
+
+int	execution_error(t_mshell *mshell, t_cmd *cmd, int status)
+{
+	ft_putstr_fd(cmd->cmd_name, STDERR_FILENO);
+	ft_putstr_fd(": command not found\n", STDERR_FILENO);
+	cleanup_mshell(mshell);
+	exit(status);
 }

@@ -6,7 +6,7 @@
 /*   By: shachowd <shachowd@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 20:51:49 by shachowd          #+#    #+#             */
-/*   Updated: 2025/04/05 17:01:01 by shachowd         ###   ########.fr       */
+/*   Updated: 2025/04/06 16:44:13 by shachowd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,12 +20,12 @@ static void	external_in_child(t_mshell *mshell, t_cmd *cmd, char ***copy_env)
 		clean_and_exit(mshell, ": filename argument required\n", 2);
 	cmd_path = get_command_path(mshell, cmd);
 	if (!cmd_path || ft_strcmp(cmd->cmd_name, "..") == 0)
+		execution_error(mshell, cmd, 127);
+	if (access(cmd_path, X_OK) != 0 && access(cmd_path, F_OK) == 0)
 	{
-		ft_putstr_fd(cmd->cmd_name, STDERR_FILENO);
-		ft_putstr_fd(": command not found\n", STDERR_FILENO);
-		cleanup_mshell(mshell);
-		mshell->exit_code = 127;
-		exit(mshell->exit_code);
+		if (cmd_path)
+			free(cmd_path);
+		clean_and_exit(mshell, ": Permission denied\n", 126);
 	}
 	convert_env(mshell->env, copy_env);
 	execve(cmd_path, cmd->splitted_cmd, *copy_env);
@@ -51,12 +51,14 @@ static int	check_command_exec(t_mshell *mshell, int i, int *status)
 	char	**copy_env;
 
 	copy_env = NULL;
-	if (!mshell->cmds[i].splitted_cmd && mshell->cmds[i].redirects)
+	if (!mshell->cmds[i].splitted_cmd)
 		clean_and_exit(mshell, NULL, 0);
 	if (mshell->cmds[i].splitted_cmd && !mshell->cmds[i].splitted_cmd[0][0])
-		clean_and_exit(mshell, "Command '' not found\n", 127);
-	if (!mshell->cmds[i].splitted_cmd)
-		clean_and_exit(mshell, "empty cmd", 0);
+	{
+		ft_putstr_fd("Command '' not found\n", STDERR_FILENO);
+		cleanup_mshell(mshell);
+		exit(127);
+	}
 	if (check_is_builtin(&mshell->cmds[i]))
 	{
 		if (builtins_in_child(mshell, &mshell->cmds[i], status) == EXIT_FAILURE)

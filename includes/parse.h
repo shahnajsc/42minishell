@@ -6,7 +6,7 @@
 /*   By: shachowd <shachowd@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 20:46:41 by shachowd          #+#    #+#             */
-/*   Updated: 2025/04/05 16:50:15 by shachowd         ###   ########.fr       */
+/*   Updated: 2025/04/06 16:11:54 by shachowd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ typedef struct s_token
 {
 	t_token_type	tok_type;
 	char			*tok_value;
+	int				is_quote;
 	struct s_token	*next;
 }	t_token;
 

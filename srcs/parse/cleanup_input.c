@@ -6,7 +6,7 @@
 /*   By: shachowd <shachowd@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 20:52:26 by shachowd          #+#    #+#             */
-/*   Updated: 2025/04/03 13:40:49 by shachowd         ###   ########.fr       */
+/*   Updated: 2025/04/06 16:38:17 by shachowd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,8 +50,11 @@ static void	free_tokens(t_token *token)
 	while (cur_token)
 	{
 		temp = cur_token;
-		free(temp->tok_value);
-		temp->tok_value = NULL;
+		if (temp->tok_value)
+		{
+			free(temp->tok_value);
+			temp->tok_value = NULL;
+		}
 		cur_token = cur_token->next;
 		free(temp);
 	}

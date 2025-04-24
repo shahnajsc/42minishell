@@ -29,11 +29,6 @@ void print_token_list(t_token *token_list)
 	int i;
 	t_token *temp;
 
-	if (!token_list)
-	{
-		printf("NO TOKEN LIST\n");
-		return ;
-	}
 	i = 0;
 	temp = token_list;
 	while (temp)
@@ -51,11 +46,6 @@ void print_redirect_list(t_redirect *rd_list, t_token *token)
 	int count;
 	t_token	*temp;
 
-	if (!rd_list)
-	{
-		printf("NO RDLIST\n");
-		return ;
-	}
 	temp = token;
 	count = 0;
 	i = 0;
@@ -77,13 +67,8 @@ void print_splitted_cmd_list(char **cmds, char *name)
 {
 	int i;
 
-	if (!cmds)
-	{
-		printf("NO CMDS\n");
-		return ;
-	}
 	i = 0;
-	printf("::cmd_name:[%s]  splitted_cmds", name);
+	printf("::cmd_name:[%s]  cmds", name);
 	while (cmds[i])
 	{
 		printf("[%s] ", cmds[i]);
@@ -98,7 +83,6 @@ void print_command_list(t_mshell *mshell)
 
 	i = 0;
 	// printf("....COMMANDS SPLITTED BY PIPE....\n");
-	printf("CMD COUNTS: %d\n", mshell->count_cmds);
 	while (i < mshell->count_cmds)
 	{
 		printf("____________________________\n");

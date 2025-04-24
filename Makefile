@@ -3,7 +3,7 @@ NAME 			= minishell
 
 # Compiler and flags
 CC 				= cc
-CFLAGS 			= -Wall -Wextra -Werror -g
+CFLAGS 			= -Wall -Wextra -Werror
 LDFLAGS			 = -lreadline -L /opt/homebrew/opt/readline/lib -I /opt/homebrew/opt/readline/include
 INCLUDES 		= -I./includes -I./libft/includes
 RM 				= rm -f
@@ -46,18 +46,6 @@ MAN_BUILT  		= srcs/builtins/ft_pwd.c \
 # Source path
 
 MAN_SRCS		= main.c $(MAN_BUILT) $(DIR_PAR) $(DIR_REDI) $(DIR_EXE)
-
-#.....................
-# valgrind:
-# 		valgrind --leak-check=full --show-reachable=yes --show-leak-kinds=all \
-# 		--track-origins=yes --track-fds=yes --trace-children=yes \
-# 		--suppressions=/home/shachowd/42minishell/readline.supp -s ./minishell
-
-# valgrind:
-# 		valgrind --leak-check=full --show-reachable=yes --show-leak-kinds=all \
-# 		--track-origins=yes --track-fds=yes --trace-children=yes \
-# 		--suppressions=/home/shachowd/42minishell/readline.supp -s ./minishell
-
 
 all: mandatory
 
