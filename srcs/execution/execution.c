@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: shachowd <shachowd@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: hahamdan <hahamdan@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 20:51:57 by shachowd          #+#    #+#             */
-/*   Updated: 2025/04/06 16:42:22 by shachowd         ###   ########.fr       */
+/*   Updated: 2025/04/25 13:55:33 by hahamdan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ static int	execute_child_cmds(t_mshell *mshell, int i, int *status)
 	}
 	close_fds(mshell);
 	*status = wait_all(mshell, 0);
+	setup_signal_handlers();
 	return (*status);
 }
 

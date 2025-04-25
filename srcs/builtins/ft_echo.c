@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_echo.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: shachowd <shachowd@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: hahamdan <hahamdan@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 20:48:57 by shachowd          #+#    #+#             */
-/*   Updated: 2025/04/03 21:44:00 by shachowd         ###   ########.fr       */
+/*   Updated: 2025/04/25 14:04:47 by hahamdan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ int	ft_echo(t_mshell *mshell, char **args)
 		while (args[i] && args[i][0] == '-' && is_n(args[i]))
 			i++;
 	}
-	while (args[i] != NULL && *args[i])
+	while (args[i] != NULL)
 	{
 		ft_putstr_fd(args[i], STDOUT_FILENO);
 		if (args[i + 1] != NULL)
