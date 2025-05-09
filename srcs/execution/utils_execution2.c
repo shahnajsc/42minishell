@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_execution2.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: shachowd <shachowd@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: hahamdan <hahamdan@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 21:12:16 by shachowd          #+#    #+#             */
-/*   Updated: 2025/04/06 16:43:00 by shachowd         ###   ########.fr       */
+/*   Updated: 2025/04/25 13:59:21 by hahamdan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,23 +47,22 @@ static int	wait_process(t_mshell *mshell, pid_t p_id)
 
 int	wait_all(t_mshell *mshell, int i)
 {
-	int	child_status;
 	int	last_status;
 
-	child_status = EXIT_SUCCESS;
 	last_status = EXIT_SUCCESS;
 	if (!mshell->p_id)
 		return (EXIT_FAILURE);
 	while (mshell->cmds && i < mshell->count_cmds)
 	{
-		child_status = wait_process(mshell, mshell->p_id[i]);
-		if (child_status == -1)
-			child_status = 1;
-		last_status = child_status;
+		last_status = wait_process(mshell, mshell->p_id[i]);
+		if (last_status == -1)
+			last_status = 1;
 		i++;
 	}
-	if (child_status == 131)
+	if (last_status == 131)
 		ft_putstr_fd("Quit (core dumped)\n", STDERR_FILENO);
+	else if (last_status == 130)
+		ft_putchar_fd('\n', STDOUT_FILENO);
 	if (mshell->p_id)
 	{
 		free(mshell->p_id);

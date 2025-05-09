@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   ft_echo.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: shachowd <shachowd@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: hahamdan <hahamdan@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 20:48:57 by shachowd          #+#    #+#             */
 /*   Updated: 2025/05/06 12:20:20 by shachowd         ###   ########.fr       */
