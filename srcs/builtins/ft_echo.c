@@ -6,7 +6,7 @@
 /*   By: hahamdan <hahamdan@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 20:48:57 by shachowd          #+#    #+#             */
-/*   Updated: 2025/04/25 14:04:47 by hahamdan         ###   ########.fr       */
+/*   Updated: 2025/05/06 12:20:20 by shachowd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ static int	is_newline(char *str, int *nl)
 {
 	if (!str || !nl || !*nl)
 		return (0);
-	if ((str[0] == '-' && is_n(str)))
+	if ((str[0] == '-' && str[1] == 'n' && is_n(str)))
 	{
 		*nl = 0;
 		return (1);
