@@ -27,11 +27,22 @@ The **Minishell** project that developed in C, is a simplified shell that emulat
 - ✅ Exit codes per POSIX standards
 - ✅ Error handling and cleanup
 
-  ## 🛠️ Technical Details
+## 🛠️ Technical Details
 
 - **Language:** C
 - **Tools:** `readline`, `termios`, POSIX APIs
 - **Platform:** Unix/Linux (macOS and Linux compliant)
+
+## 🧠 Learning Goals
+Understand how shells work under the hood
+
+Practice managing processes and signals
+
+Implement a tokenizer and parser
+
+Handle memory management manually
+
+Learn to structure a medium-scale C project
 
 ## 📦 Installation
 
@@ -40,6 +51,15 @@ git clone https://github.com/shahnajsc/42minishell.git
 cd minishell
 make
 ```
+## 🧪 Usage
+```
+./minishell
+minishell$ echo "Hello, World!"
+Hello, World!
+
+minishell$ ls -l | grep .c > files.txt
+```
+
 ## 🤝 Contributors
 [Shahnaj](https://github.com/shahnajsc)
 
