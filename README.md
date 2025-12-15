@@ -7,15 +7,15 @@ The **Minishell** project that developed in C, is a simplified shell that emulat
 - Signal handling
 - Built-in commands implementation
 
-## 🚀 Features
+## Features
 
-- ✅ Prompt display and command line input
-- ✅ Lexical analysis and parsing
-- ✅ Word splitting and quote removal
-- ✅ Environment variable expansion (`$VAR`)
-- ✅ Redirections: `>`, `>>`, `<`, `<<`
-- ✅ Pipes (`|`)
-- ✅ Built-in commands:
+- Prompt display and command line input
+- Lexical analysis and parsing
+- Word splitting and quote removal
+- Environment variable expansion (`$VAR`)
+- Redirections: `>`, `>>`, `<`, `<<`
+- Pipes (`|`)
+- Built-in commands:
   - `echo`
   - `cd`
   - `pwd`
@@ -23,17 +23,17 @@ The **Minishell** project that developed in C, is a simplified shell that emulat
   - `unset`
   - `env`
   - `exit`
-- ✅ Signal handling (`Ctrl+C`, `Ctrl+D`, `Ctrl+\`)
-- ✅ Exit codes per POSIX standards
-- ✅ Error handling and cleanup
+- Signal handling (`Ctrl+C`, `Ctrl+D`, `Ctrl+\`)
+- Exit codes per POSIX standards
+- Error handling and cleanup
 
-## 🛠️ Technical Details
+## Technical Details
 
 - **Language:** C
 - **Tools:** `readline`, `termios`, POSIX APIs
 - **Platform:** Unix/Linux (macOS and Linux compliant)
 
-## 🧠 Learning Goals
+## Learning Goals
 Understand how shells work under the hood
 
 Practice managing processes and signals
@@ -44,14 +44,14 @@ Handle memory management manually
 
 Learn to structure a medium-scale C project
 
-## 📦 Installation
+## Installation
 
 ```bash
 git clone https://github.com/shahnajsc/42minishell.git
 cd minishell
 make
 ```
-## 🧪 Usage
+## Usage
 ```
 ./minishell
 minishell$ echo "Hello, World!"
@@ -60,7 +60,7 @@ Hello, World!
 minishell$ ls -l | grep .c > files.txt
 ```
 
-## 🤝 Contributors
+## Contributors
 [Shahnaj](https://github.com/shahnajsc)
 
 [Hager](https://github.com/imhaqer)
